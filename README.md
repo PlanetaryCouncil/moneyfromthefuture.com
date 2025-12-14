@@ -1,5 +1,6 @@
 Original high resolution images in the `images` folder:
 
+```
 01 The Boss.jpg
 02 Peace Planetary Council.jpg
 03 Infinity.jpg
@@ -24,12 +25,13 @@ Original high resolution images in the `images` folder:
 22 Halving.jpg
 23 Burn banks.jpg
 24 Ultra magic hands massage.jpg
+```
 
 Below are low resolution for faster loading / saving limited mobile data.
 
-###
 
-![]("images/01 The Boss - small.jpg")
+![](images/01 The Boss - small.jpg)
+
 ![]("images/02 Peace Planetary Council - small.jpg")
 ![]("images/03 Infinity - small.jpg")
 ![]("images/04 Poseidon - small.jpg")
@@ -52,7 +54,7 @@ Below are low resolution for faster loading / saving limited mobile data.
 ![]("images/21-Pizza-sm.jpg")
 ![]("images/22-Halving-sm.jpg")
 ![]("images/23-Burn-banks-sm.jpg")
-![]("images/24-Ultra-magic-hands-massage-sm.jpg")
+![](images/24-Ultra-magic-hands-massage-sm.jpg)
 
 
 ### Note to self, future self, other self
