@@ -36,7 +36,7 @@ Below are low resolution for faster loading / saving limited mobile data.
 ![](images/04%20Poseidon%20-%20small.jpg)
 ![](images/05%20Pyramid%20-%20small.jpg)
 ![](images/06%20Berry%20pounds%20-%20small.jpg)
-![](images/07%202140%20small.jpg)
+![](images/07%202140%20-%20small.jpg)
 ![](images/08%20Super%20cyber%20genius%20-%20small.jpg)
 ![](images/09%20Astral%20Pirate%20-%20small.jpg)
 ![](images/10%20Amanita%20-%20small.jpg)
