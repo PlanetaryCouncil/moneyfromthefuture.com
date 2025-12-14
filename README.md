@@ -1,8 +1,58 @@
-Original high resolution images in the `images` folder
+Original high resolution images in the `images` folder:
+
+01 The Boss.jpg
+02 Peace Planetary Council.jpg
+03 Infinity.jpg
+04 Poseidon.jpg
+05 Pyramid.jpg
+06 Berry pounds.jpg
+07 2140.jpg
+08 Super cyber genius.jpg
+09 Astral Pirate.jpg
+10 Amanita.jpg
+11 Buddha Infinite Love.jpg
+12 Flotilla.jpg
+13 Immigration Climate.jpg
+14 Cannabis.jpg
+15 Palestine.jpg
+16 Duality.jpg
+17 One life.jpg
+18 Kali.jpg
+19 Love police.jpg
+20 White Rabbit.jpg
+21 Pizza.jpg
+22 Halving.jpg
+23 Burn banks.jpg
+24 Ultra magic hands massage.jpg
+
+Below are low resolution for faster loading / saving limited mobile data.
 
 ###
 
-
+![]("images/01 The Boss - small.jpg")
+![]("images/02 Peace Planetary Council - small.jpg")
+![]("images/03 Infinity - small.jpg")
+![]("images/04 Poseidon - small.jpg")
+![]("images/05 Pyramid - small.jpg")
+![]("images/06 Berry pounds - small.jpg")
+![]("images/07 2140 small.jpg")
+![]("images/08 Super cyber genius - small.jpg")
+![]("images/09 Astral Pirate - small.jpg")
+![]("images/10 Amanita - small.jpg")
+![]("images/11 Buddha Infinite Love - small.jpg")
+![]("images/12 Flotilla - small.jpg")
+![]("images/13 Immigration Climate - small.jpg")
+![]("images/14-Cannabis-small.jpg")
+![]("images/15-Palestine-sm.jpg")
+![]("images/16-Duality-sm.jpg")
+![]("images/17-One-life-sm.jpg")
+![]("images/18-Kali-sm.jpg")
+![]("images/19-Love-police-sm.jpg")
+![]("images/20-White-Rabbit-sm.jpg")
+![]("images/21-Pizza-sm.jpg")
+![]("images/22-Halving-sm.jpg")
+![]("images/23-Burn-banks-sm.jpg")
+![]("images/24-Ultra-magic-hands-massage-sm.jpg")
 
 
 ### Note to self, future self, other self
@@ -14,5 +64,9 @@ Naming convention:
 
 Then realised it is faster to introduce a new convention:
 - `bg` (same as resized)
-- `sm` (sama as small)
+- `sm` (same as small)
 - `-` dashes in the name because less hassle with adding spaces
+
+Some files are not watermarked: the marketing / promo / advertisement is the integral part.
+
+The order is not so random. So thought were put into ordering the initial set of 24. Any further additions are likely be in chronological order.
