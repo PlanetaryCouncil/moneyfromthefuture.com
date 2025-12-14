@@ -1,6 +1,6 @@
-Original high resolution images in the `images` folder:
+Original high resolution images in the [`images`](images) folder.
 
-Below are low resolution for faster loading / saving limited mobile data
+Below are low resolution (`800px` wide) for faster loading / saving limited mobile data:
 
 ![](images/01%20The%20Boss%20-%20small.jpg)
 ![](images/02%20Peace%20Planetary%20Council%20-%20small.jpg)
