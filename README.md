@@ -1,4 +1,4 @@
-Original high resolution images in the [`images`](images) folder.
+Original high resolution images in the [`images`](https://github.com/PlanetaryCouncil/moneyfromthefuture.com/tree/main/images) folder.
 
 Below are low resolution (`800px` wide) for faster loading / saving limited mobile data:
 
