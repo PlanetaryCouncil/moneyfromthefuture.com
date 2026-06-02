@@ -13,13 +13,13 @@
 <body>
   <header class="shell">
     <div class="topbar">
-      <a class="brand" href="index.html">
+      <a class="brand" href="../index.html">
         <span class="brand-mark">MF</span>
         <span>Money From The Future</span>
       </a>
       <nav>
-        <a href="index.html">All Works</a>
-        <a href="index.html#how">How To Buy</a>
+        <a href="../index.html">All Works</a>
+        <a href="basket.html">Basket <span data-basket-count>0</span></a>
       </nav>
     </div>
   </header>
@@ -46,49 +46,23 @@
           </div>
         </div>
         <div class="product-actions">
-          <a class="button button-primary" href="#checkout">Buy This Piece</a>
+          <button
+            class="button button-primary"
+            type="button"
+            data-add-to-basket
+            data-id="08"
+            data-slug="08-super-cyber-genius"
+            data-title="Super Cyber Genius"
+            data-image="../images/08 Super cyber genius 21.png"
+          >Add To Basket</button>
+          <a class="button button-secondary" href="basket.html">View Basket (<span data-basket-count>0</span>)</a>
           <a class="button button-secondary" href="../images/08 Super cyber genius 21.png">Open Original File</a>
         </div>
       </div>
     </section>
-
     <section class="shell">
       <div class="product-note reveal">
-        <p>One design per family. No variants in the customer flow. Less decision fatigue, cleaner selling.</p>
-      </div>
-    </section>
-
-    <section class="shell checkout-section" id="checkout">
-      <div class="checkout-card reveal">
-        <span class="eyebrow checkout-eyebrow">Checkout</span>
-        <h2>Pay With PayPal, Then Forward The Order.</h2>
-        <p>Use PayPal for payment, then send the email and full shipping address in one field.</p>
-        <div class="checkout-grid">
-          <div class="field">
-            <label for="artwork">Selected artwork</label>
-            <input id="artwork" name="artwork" type="text" value="Super Cyber Genius" readonly>
-          </div>
-          <div class="field">
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" placeholder="you@example.com" required>
-          </div>
-          <div class="field">
-            <label for="address">Address</label>
-            <textarea id="address" name="address" placeholder="Full shipping address" required></textarea>
-          </div>
-          <div class="checkout-summary">
-            <div>
-              <strong class="summary-title">Super Cyber Genius</strong>
-              <span class="checkout-note">One canvas print. One fixed price.</span>
-            </div>
-            <div class="checkout-price">EUR 100</div>
-          </div>
-          <div class="checkout-actions">
-            <a id="paypal-link" class="button paypal-button" href="https://www.paypal.com/paypalme/moneyfromthefuture/100EUR" target="_blank" rel="noreferrer">Pay EUR 100 With PayPal</a>
-            <a id="email-link" class="button button-secondary" href="mailto:hello@moneyfromthefuture.com?subject=Canvas%20order&body=Artwork:%20Super%20Cyber%20Genius">Forward Order Details</a>
-          </div>
-          <p class="checkout-note" id="checkout-note">After payment, use the second button to forward the order details.</p>
-        </div>
+        <p data-basket-status>One design per family. No variants in the customer flow. Less decision fatigue, cleaner selling.</p>
       </div>
     </section>
   </main>

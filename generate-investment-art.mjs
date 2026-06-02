@@ -50,7 +50,7 @@ const artworks = [
 
 const overview = "One design per family. No variants in the customer flow. Less decision fatigue, cleaner selling.";
 
-function layout({ title, content, pageTitle, description, assetPrefix = "" }) {
+function layout({ title, content, pageTitle, description, assetPrefix = "", homeHref = "index.html", basketHref = "investment-art/basket.html" }) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -66,13 +66,13 @@ function layout({ title, content, pageTitle, description, assetPrefix = "" }) {
 <body>
   <header class="shell">
     <div class="topbar">
-      <a class="brand" href="index.html">
+      <a class="brand" href="${homeHref}">
         <span class="brand-mark">MF</span>
         <span>Money From The Future</span>
       </a>
       <nav>
-        <a href="index.html">All Works</a>
-        <a href="index.html#how">How To Buy</a>
+        <a href="${homeHref}">All Works</a>
+        <a href="${basketHref}">Basket <span data-basket-count>0</span></a>
       </nav>
     </div>
   </header>
@@ -163,6 +163,7 @@ nav { display: flex; align-items: center; gap: 1.3rem; color: var(--muted); font
   min-height: 3rem;
   padding: 0 1.15rem;
   border: 1px solid transparent;
+  font: inherit;
   font-weight: 700;
   transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
   cursor: pointer;
@@ -267,6 +268,74 @@ input::placeholder, textarea::placeholder { color: rgba(255, 247, 234, 0.52); }
 }
 .checkout-price { font-size: 3rem; }
 .paypal-button { background: #ffc439; color: #111111; border-color: #ffc439; }
+.basket-section { padding-bottom: 4rem; }
+.basket-layout {
+  display: grid;
+  grid-template-columns: 1fr 0.85fr;
+  gap: 1rem;
+  align-items: start;
+}
+.basket-panel {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  padding: 1.2rem;
+}
+.basket-items { display: grid; gap: 0.8rem; margin-top: 1rem; }
+.basket-item {
+  display: grid;
+  grid-template-columns: minmax(7rem, 12rem) 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.42);
+  padding: 0.75rem;
+}
+.basket-thumb {
+  aspect-ratio: 2 / 1;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid var(--line);
+}
+.basket-copy { display: grid; gap: 0.35rem; }
+.basket-copy h3 { font-size: 1rem; line-height: 1.2; }
+.basket-copy span { color: var(--muted); }
+.basket-remove {
+  min-height: 2.5rem;
+  padding: 0 0.8rem;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+.basket-empty {
+  border: 1px solid var(--line);
+  color: var(--muted);
+  padding: 1rem;
+  line-height: 1.6;
+}
+.basket-total {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: end;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+.basket-total strong {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 3rem;
+  line-height: 0.9;
+  letter-spacing: 0.03em;
+}
+.basket-status { color: var(--muted); line-height: 1.6; }
+.button-quiet {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--ink);
+}
 .footer-bar {
   display: flex;
   justify-content: space-between;
@@ -285,7 +354,7 @@ input::placeholder, textarea::placeholder { color: rgba(255, 247, 234, 0.52); }
 .delay-5 { animation-delay: 500ms; }
 @keyframes rise { to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 980px) {
-  .hero, .product-hero, .info-grid { grid-template-columns: 1fr; }
+  .hero, .product-hero, .info-grid, .basket-layout { grid-template-columns: 1fr; }
   .section-head { flex-direction: column; align-items: start; }
 }
 @media (max-width: 760px) {
@@ -293,33 +362,194 @@ input::placeholder, textarea::placeholder { color: rgba(255, 247, 234, 0.52); }
   nav { width: 100%; justify-content: space-between; overflow-x: auto; }
   .catalog-grid, .info-grid { grid-template-columns: 1fr; }
   h1 { font-size: clamp(3.6rem, 18vw, 5.8rem); }
-  .checkout-summary, .catalog-row, .product-meta { flex-direction: column; align-items: start; }
+  .checkout-summary, .catalog-row, .product-meta, .basket-total { flex-direction: column; align-items: start; }
+  .basket-item { grid-template-columns: 1fr; }
   .footer-bar { flex-direction: column; }
 }`;
 
-const shopJs = `const artworkInput = document.getElementById("artwork");
-const emailInput = document.getElementById("email");
-const addressInput = document.getElementById("address");
-const emailLink = document.getElementById("email-link");
-function updateEmailLink() {
-  if (!artworkInput || !emailInput || !addressInput || !emailLink) return;
-  const artwork = artworkInput.value.trim() || "Canvas order";
-  const email = emailInput.value.trim() || "[buyer email]";
-  const address = addressInput.value.trim() || "[shipping address]";
-  const subject = encodeURIComponent("Canvas order - " + artwork);
-  const body = encodeURIComponent(
-    "Artwork: " + artwork + "\\n" +
-    "Buyer email: " + email + "\\n" +
-    "Shipping address:\\n" + address + "\\n\\n" +
-    "Payment status: Paid via PayPal"
-  );
-  emailLink.href = "mailto:hello@moneyfromthefuture.com?subject=" + subject + "&body=" + body;
+const shopJs = `const BASKET_KEY = "mftf:investment-art:basket:v1";
+const UNIT_PRICE = 100;
+const CURRENCY = "EUR";
+
+function readBasket() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(BASKET_KEY) || "[]");
+    return Array.isArray(parsed) ? parsed.filter(function(item) {
+      return item && item.slug && item.title;
+    }) : [];
+  } catch (error) {
+    return [];
+  }
 }
-if (artworkInput && emailInput && addressInput && emailLink) {
-  updateEmailLink();
-  emailInput.addEventListener("input", updateEmailLink);
-  addressInput.addEventListener("input", updateEmailLink);
-}`;
+
+function writeBasket(items) {
+  localStorage.setItem(BASKET_KEY, JSON.stringify(items));
+  updateBasketCount();
+}
+
+function totalFor(items) {
+  return items.length * UNIT_PRICE;
+}
+
+function updateBasketCount() {
+  const count = readBasket().length;
+  document.querySelectorAll("[data-basket-count]").forEach(function(node) {
+    node.textContent = String(count);
+  });
+}
+
+function addToBasket(item) {
+  const items = readBasket();
+  const exists = items.some(function(existing) {
+    return existing.slug === item.slug;
+  });
+  if (!exists) {
+    items.push(item);
+    writeBasket(items);
+  }
+  return !exists;
+}
+
+function removeFromBasket(slug) {
+  writeBasket(readBasket().filter(function(item) {
+    return item.slug !== slug;
+  }));
+  renderBasketPage();
+}
+
+function buildOrderBody(items) {
+  const email = document.getElementById("email");
+  const address = document.getElementById("address");
+  const itemLines = items.map(function(item, index) {
+    return String(index + 1) + ". " + item.title + " - " + CURRENCY + " " + UNIT_PRICE;
+  }).join("\\n");
+
+  return "Artworks:\\n" + itemLines + "\\n\\n" +
+    "Total: " + CURRENCY + " " + totalFor(items) + "\\n" +
+    "Buyer email: " + ((email && email.value.trim()) || "[buyer email]") + "\\n" +
+    "Shipping address:\\n" + ((address && address.value.trim()) || "[shipping address]") + "\\n\\n" +
+    "Payment status: Paid via PayPal";
+}
+
+function updateCheckoutLinks(items) {
+  const paypalLink = document.getElementById("paypal-link");
+  const emailLink = document.getElementById("email-link");
+  const total = totalFor(items);
+
+  if (paypalLink) {
+    paypalLink.href = items.length > 0
+      ? "https://www.paypal.com/paypalme/moneyfromthefuture/" + total + CURRENCY
+      : "#";
+    paypalLink.textContent = items.length > 0
+      ? "Pay " + CURRENCY + " " + total + " With PayPal"
+      : "Basket Is Empty";
+  }
+
+  if (emailLink) {
+    if (items.length === 0) {
+      emailLink.href = "#";
+      emailLink.textContent = "Add Designs First";
+    } else {
+      const subject = encodeURIComponent("Canvas order - " + items.length + " design" + (items.length === 1 ? "" : "s"));
+      const body = encodeURIComponent(buildOrderBody(items));
+      emailLink.href = "mailto:hello@moneyfromthefuture.com?subject=" + subject + "&body=" + body;
+      emailLink.textContent = "Forward Order Details";
+    }
+  }
+}
+
+function renderBasketPage() {
+  const basketItems = document.getElementById("basket-items");
+  if (!basketItems) return;
+
+  const items = readBasket();
+  const totalNode = document.getElementById("basket-total");
+  const summaryNode = document.getElementById("basket-summary");
+
+  basketItems.textContent = "";
+
+  if (items.length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "basket-empty";
+    empty.textContent = "Your basket is empty. Add a design from any artwork page.";
+    basketItems.append(empty);
+  } else {
+    items.forEach(function(item) {
+      const row = document.createElement("article");
+      row.className = "basket-item";
+
+      const thumb = document.createElement("div");
+      thumb.className = "basket-thumb";
+      thumb.style.backgroundImage = "url('" + item.image + "')";
+
+      const copy = document.createElement("div");
+      copy.className = "basket-copy";
+
+      const title = document.createElement("h3");
+      title.textContent = item.title;
+
+      const price = document.createElement("span");
+      price.textContent = CURRENCY + " " + UNIT_PRICE;
+
+      const remove = document.createElement("button");
+      remove.className = "basket-remove";
+      remove.type = "button";
+      remove.textContent = "Remove";
+      remove.addEventListener("click", function() {
+        removeFromBasket(item.slug);
+      });
+
+      copy.append(title, price);
+      row.append(thumb, copy, remove);
+      basketItems.append(row);
+    });
+  }
+
+  if (totalNode) totalNode.textContent = CURRENCY + " " + totalFor(items);
+  if (summaryNode) {
+    summaryNode.textContent = items.length + " design" + (items.length === 1 ? "" : "s") + " in basket";
+  }
+  updateCheckoutLinks(items);
+}
+
+document.querySelectorAll("[data-add-to-basket]").forEach(function(button) {
+  button.addEventListener("click", function() {
+    const item = {
+      id: button.dataset.id,
+      slug: button.dataset.slug,
+      title: button.dataset.title,
+      image: button.dataset.image,
+      price: UNIT_PRICE
+    };
+    const added = addToBasket(item);
+    const status = document.querySelector("[data-basket-status]");
+    if (status) {
+      status.textContent = added
+        ? item.title + " added to basket."
+        : item.title + " is already in the basket.";
+    }
+  });
+});
+
+const clearBasketButton = document.getElementById("clear-basket");
+if (clearBasketButton) {
+  clearBasketButton.addEventListener("click", function() {
+    writeBasket([]);
+    renderBasketPage();
+  });
+}
+
+["email", "address"].forEach(function(id) {
+  const field = document.getElementById(id);
+  if (field) {
+    field.addEventListener("input", function() {
+      updateCheckoutLinks(readBasket());
+    });
+  }
+});
+
+updateBasketCount();
+renderBasketPage();`;
 
 for (const artwork of artworks) {
   await fs.access(path.join(imageDir, artwork.image));
@@ -381,21 +611,21 @@ ${indexCards}
       <div class="section-head">
         <div>
           <span class="eyebrow">How To Buy</span>
-          <h2>Open The Work. Pay With PayPal. Send The Address.</h2>
+          <h2>Open The Work. Add Designs. Checkout Once.</h2>
         </div>
       </div>
       <div class="info-grid">
         <article class="info-card reveal">
           <h3>1. Choose the artwork family</h3>
-          <p>Each piece gets one product page and one price.</p>
+          <p>Each piece gets one product page and one basket action.</p>
         </article>
         <article class="info-card reveal delay-1">
           <h3>2. Pay EUR 100</h3>
-          <p>Use the PayPal button on the artwork page.</p>
+          <p>The basket persists across artwork pages with local storage.</p>
         </article>
         <article class="info-card reveal delay-2">
           <h3>3. Forward your details</h3>
-          <p>Use the email and address form to send fulfillment info after payment.</p>
+          <p>Pay for all selected designs and forward one order email.</p>
         </article>
       </div>
     </section>
@@ -404,11 +634,76 @@ ${indexCards}
 
 await fs.writeFile(path.join(repoDir, "index.html"), indexHtml);
 
+const basketHtml = layout({
+  title: "Basket",
+  pageTitle: "Basket | Money From The Future",
+  description: "Review selected Money From The Future canvas designs and checkout with PayPal.",
+  homeHref: "../index.html",
+  basketHref: "basket.html",
+  content: `
+  <main>
+    <section class="shell hero">
+      <div>
+        <span class="eyebrow reveal">Basket</span>
+        <h1 class="reveal delay-1">Checkout Multiple Designs Together.</h1>
+        <p class="lead reveal delay-2">
+          Your selected canvas designs are saved in this browser. Review the basket, pay the total with PayPal, then forward the order details.
+        </p>
+        <div class="hero-actions reveal delay-3">
+          <a class="button button-primary" href="../index.html">Add More Designs</a>
+          <button class="button button-secondary" type="button" id="clear-basket">Clear Basket</button>
+        </div>
+      </div>
+      <div class="hero-panel reveal delay-2">
+        <div class="hero-panel-art" style="background-image: url('../images/36-future-is-ours.png');"></div>
+      </div>
+    </section>
+
+    <section class="shell basket-section">
+      <div class="basket-layout">
+        <div class="basket-panel reveal">
+          <span class="eyebrow">Selected Works</span>
+          <div id="basket-items" class="basket-items"></div>
+          <div class="basket-total">
+            <span id="basket-summary">0 designs in basket</span>
+            <strong id="basket-total">EUR 0</strong>
+          </div>
+        </div>
+
+        <div class="checkout-card reveal delay-1">
+          <span class="eyebrow checkout-eyebrow">Checkout</span>
+          <h2>Pay With PayPal, Then Forward The Order.</h2>
+          <p>Use PayPal for the basket total, then send the email and full shipping address in one field.</p>
+          <div class="checkout-grid">
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="text" inputmode="email" placeholder="you@example.com" required>
+            </div>
+            <div class="field">
+              <label for="address">Address</label>
+              <textarea id="address" name="address" placeholder="Full shipping address" required></textarea>
+            </div>
+            <div class="checkout-actions">
+              <a id="paypal-link" class="button paypal-button" href="#">Basket Is Empty</a>
+              <a id="email-link" class="button button-secondary" href="mailto:hello@moneyfromthefuture.com">Forward Order Details</a>
+            </div>
+            <p class="checkout-note">After payment, use the second button to forward the selected designs, buyer email, shipping address, and total.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>`
+});
+
+await fs.writeFile(path.join(outputDir, "basket.html"), basketHtml);
+
 for (const artwork of artworks) {
   const pageHtml = layout({
     title: artwork.title,
     pageTitle: `${artwork.title} | Money From The Future`,
     description: `${artwork.title} canvas print from Money From The Future. 100 euro per piece.`,
+    homeHref: "../index.html",
+    basketHref: "basket.html",
     content: `
   <main>
     <section class="shell product-hero">
@@ -432,47 +727,23 @@ for (const artwork of artworks) {
           </div>
         </div>
         <div class="product-actions">
-          <a class="button button-primary" href="#checkout">Buy This Piece</a>
+          <button
+            class="button button-primary"
+            type="button"
+            data-add-to-basket
+            data-id="${artwork.id}"
+            data-slug="${artwork.slug}"
+            data-title="${artwork.title}"
+            data-image="../images/${artwork.image.replace(/"/g, "&quot;")}"
+          >Add To Basket</button>
+          <a class="button button-secondary" href="basket.html">View Basket (<span data-basket-count>0</span>)</a>
           <a class="button button-secondary" href="../images/${artwork.image.replace(/"/g, "&quot;")}">Open Original File</a>
         </div>
       </div>
     </section>
     <section class="shell">
       <div class="product-note reveal">
-        <p>${overview}</p>
-      </div>
-    </section>
-    <section class="shell checkout-section" id="checkout">
-      <div class="checkout-card reveal">
-        <span class="eyebrow checkout-eyebrow">Checkout</span>
-        <h2>Pay With PayPal, Then Forward The Order.</h2>
-        <p>Use PayPal for payment, then send the email and full shipping address in one field.</p>
-        <div class="checkout-grid">
-          <div class="field">
-            <label for="artwork">Selected artwork</label>
-            <input id="artwork" name="artwork" type="text" value="${artwork.title}" readonly>
-          </div>
-          <div class="field">
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" placeholder="you@example.com" required>
-          </div>
-          <div class="field">
-            <label for="address">Address</label>
-            <textarea id="address" name="address" placeholder="Full shipping address" required></textarea>
-          </div>
-          <div class="checkout-summary">
-            <div>
-              <strong class="summary-title">${artwork.title}</strong>
-              <span class="checkout-note">One canvas print. One fixed price.</span>
-            </div>
-            <div class="checkout-price">EUR 100</div>
-          </div>
-          <div class="checkout-actions">
-            <a id="paypal-link" class="button paypal-button" href="https://www.paypal.com/paypalme/moneyfromthefuture/100EUR" target="_blank" rel="noreferrer">Pay EUR 100 With PayPal</a>
-            <a id="email-link" class="button button-secondary" href="mailto:hello@moneyfromthefuture.com?subject=Canvas%20order&body=Artwork:%20${encodeURIComponent(artwork.title)}">Forward Order Details</a>
-          </div>
-          <p class="checkout-note" id="checkout-note">After payment, use the second button to forward the order details.</p>
-        </div>
+        <p data-basket-status>${overview}</p>
       </div>
     </section>
   </main>`
