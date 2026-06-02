@@ -1,488 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Money From The Future Canvas Shop</title>
-  <meta name="description" content="Money From The Future canvas catalog. One artwork page per family, 100 euro per piece.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="investment-art/shop.css">
-</head>
-<body>
-  <header class="shell">
-    <div class="topbar">
-      <a class="brand" href="index.html">
-        <span class="brand-mark">MF</span>
-        <span>Money From The Future</span>
-      </a>
-      <nav>
-        <a href="index.html">All Works</a>
-        <a href="investment-art/basket.html">Basket <span data-basket-count>0</span></a>
-      </nav>
-    </div>
-  </header>
-  
-  <main id="top">
-    <section class="shell hero hero-home">
-      <div>
-        <span class="eyebrow reveal">40 Artwork Families</span>
-        <h1 class="reveal delay-1">One Design Per Family. Less Decision Fatigue.</h1>
-        <p class="lead reveal delay-2">
-          One design per family. No variants in the customer flow. Less decision fatigue, cleaner selling. Browse the catalog, open an artwork page, and buy the piece you want for <strong>EUR 100</strong>.
-        </p>
-        <div class="hero-actions reveal delay-3">
-          <a class="button button-primary" href="#catalog">Browse Catalog</a>
-        </div>
-      </div>
-      <div class="hero-panel reveal delay-2">
-        <div class="hero-panel-art" style="background-image: url('images/36-future-is-ours.png');"></div>
-      </div>
-    </section>
-    <section class="shell" id="catalog">
-      <div class="section-head">
-        <div>
-          <span class="eyebrow">Catalog</span>
-          <h2>Pick The Work, Then Open The Product Page.</h2>
-        </div>
-        <div class="section-copy">
-          Every card leads to a dedicated page for that artwork family. No variants, no branching choices, no clutter.
-        </div>
-      </div>
-      <div class="catalog-grid">
+---
+layout: default
+title: Canvas Shop
+description: Money From The Future canvas catalog. One artwork page per family, 100 euro per piece.
+footer_title: Money From The Future Canvas Shop
+---
+{% assign artworks = site.artworks | sort: 'order' %}
 
-      <a class="catalog-card reveal delay-0" href="investment-art/01-the-boss.html">
-        <div class="catalog-image" style="background-image: url('images/01 The Boss.jpg');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">01</span>
-          <div class="catalog-row">
-            <h3>The Boss</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-1" href="investment-art/02-peace-planetary-council.html">
-        <div class="catalog-image" style="background-image: url('images/02 Peace Planetary Council 21.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">02</span>
-          <div class="catalog-row">
-            <h3>Peace Planetary Council</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-2" href="investment-art/03-infinity.html">
-        <div class="catalog-image" style="background-image: url('images/03 Infinity 21 signed.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">03</span>
-          <div class="catalog-row">
-            <h3>Infinity</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-3" href="investment-art/04-poseidon.html">
-        <div class="catalog-image" style="background-image: url('images/04 Poseidon 21.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">04</span>
-          <div class="catalog-row">
-            <h3>Poseidon</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-4" href="investment-art/05-pyramid.html">
-        <div class="catalog-image" style="background-image: url('images/05 Pyramid.jpg');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">05</span>
-          <div class="catalog-row">
-            <h3>Pyramid</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-5" href="investment-art/06-berry-pounds.html">
-        <div class="catalog-image" style="background-image: url('images/06 Berry pounds 21.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">06</span>
-          <div class="catalog-row">
-            <h3>Berry Pounds</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-0" href="investment-art/07-2140.html">
-        <div class="catalog-image" style="background-image: url('images/07 2140 21.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">07</span>
-          <div class="catalog-row">
-            <h3>2140</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-1" href="investment-art/08-super-cyber-genius.html">
-        <div class="catalog-image" style="background-image: url('images/08 Super cyber genius 21.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">08</span>
-          <div class="catalog-row">
-            <h3>Super Cyber Genius</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-2" href="investment-art/09-astral-pirate.html">
-        <div class="catalog-image" style="background-image: url('images/09 Astral Pirate 21.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">09</span>
-          <div class="catalog-row">
-            <h3>Astral Pirate</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-3" href="investment-art/10-amanita.html">
-        <div class="catalog-image" style="background-image: url('images/10 Amanita 21.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">10</span>
-          <div class="catalog-row">
-            <h3>Amanita</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-4" href="investment-art/11-buddha-infinite-love.html">
-        <div class="catalog-image" style="background-image: url('images/11 Buddha Infinite Love 2026 21.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">11</span>
-          <div class="catalog-row">
-            <h3>Buddha Infinite Love</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-5" href="investment-art/12-flotilla.html">
-        <div class="catalog-image" style="background-image: url('images/12 Flotilla 21.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">12</span>
-          <div class="catalog-row">
-            <h3>Flotilla</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-0" href="investment-art/13-immigration-climate.html">
-        <div class="catalog-image" style="background-image: url('images/13 Immigration Climate 21.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">13</span>
-          <div class="catalog-row">
-            <h3>Immigration Climate</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-1" href="investment-art/14-cannabis.html">
-        <div class="catalog-image" style="background-image: url('images/14 Cannabis 21 signed symmetrical v2 (slightly better).png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">14</span>
-          <div class="catalog-row">
-            <h3>Cannabis</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-2" href="investment-art/15-palestine.html">
-        <div class="catalog-image" style="background-image: url('images/15 Palestine 21.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">15</span>
-          <div class="catalog-row">
-            <h3>Palestine</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-3" href="investment-art/16-duality.html">
-        <div class="catalog-image" style="background-image: url('images/16 Duality 21.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">16</span>
-          <div class="catalog-row">
-            <h3>Duality</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-4" href="investment-art/17-one-life.html">
-        <div class="catalog-image" style="background-image: url('images/17 One life 21 signed.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">17</span>
-          <div class="catalog-row">
-            <h3>One Life</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-5" href="investment-art/18-kali.html">
-        <div class="catalog-image" style="background-image: url('images/18 Kali.jpg');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">18</span>
-          <div class="catalog-row">
-            <h3>Kali</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-0" href="investment-art/19-love-police.html">
-        <div class="catalog-image" style="background-image: url('images/19 Love police.jpg');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">19</span>
-          <div class="catalog-row">
-            <h3>Love Police</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-1" href="investment-art/20-white-rabbit.html">
-        <div class="catalog-image" style="background-image: url('images/20 White Rabbit.jpg');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">20</span>
-          <div class="catalog-row">
-            <h3>White Rabbit</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-2" href="investment-art/21-pizza.html">
-        <div class="catalog-image" style="background-image: url('images/21 Pizza.jpg');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">21</span>
-          <div class="catalog-row">
-            <h3>Pizza</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-3" href="investment-art/22-halving.html">
-        <div class="catalog-image" style="background-image: url('images/22 Halving.jpg');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">22</span>
-          <div class="catalog-row">
-            <h3>Halving</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-4" href="investment-art/23-burn-banks.html">
-        <div class="catalog-image" style="background-image: url('images/23 Burn banks.jpg');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">23</span>
-          <div class="catalog-row">
-            <h3>Burn Banks</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-5" href="investment-art/24-ultra-magic-hands-massage.html">
-        <div class="catalog-image" style="background-image: url('images/24 Ultra magic hands massage 21.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">24</span>
-          <div class="catalog-row">
-            <h3>Ultra Magic Hands Massage</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-0" href="investment-art/25-gathering.html">
-        <div class="catalog-image" style="background-image: url('images/25-Gathering.jpg');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">25</span>
-          <div class="catalog-row">
-            <h3>Gathering</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-1" href="investment-art/26-stonehenge.html">
-        <div class="catalog-image" style="background-image: url('images/26-Stonehenge.jpg');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">26</span>
-          <div class="catalog-row">
-            <h3>Stonehenge</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-2" href="investment-art/27-ladies.html">
-        <div class="catalog-image" style="background-image: url('images/27-ladies-21.jpg');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">27</span>
-          <div class="catalog-row">
-            <h3>Ladies</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-3" href="investment-art/28-breaking-free.html">
-        <div class="catalog-image" style="background-image: url('images/28-breaking-free.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">28</span>
-          <div class="catalog-row">
-            <h3>Breaking Free</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-4" href="investment-art/29-hyperweavers.html">
-        <div class="catalog-image" style="background-image: url('images/29-hyperweavers.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">29</span>
-          <div class="catalog-row">
-            <h3>Hyperweavers</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-5" href="investment-art/30-polska-better.html">
-        <div class="catalog-image" style="background-image: url('images/30-polska-better.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">30</span>
-          <div class="catalog-row">
-            <h3>Polska Better</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-0" href="investment-art/31-cyber-shepherd.html">
-        <div class="catalog-image" style="background-image: url('images/31-cyber-shepherd.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">31</span>
-          <div class="catalog-row">
-            <h3>Cyber Shepherd</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-1" href="investment-art/32-extra-life.html">
-        <div class="catalog-image" style="background-image: url('images/32-extra-life-better-nooro-COOL.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">32</span>
-          <div class="catalog-row">
-            <h3>Extra Life</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-2" href="investment-art/33-bitcoin-film-fest.html">
-        <div class="catalog-image" style="background-image: url('images/33-bitcoin-film-fest.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">33</span>
-          <div class="catalog-row">
-            <h3>Bitcoin Film Fest</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-3" href="investment-art/34-gaia-aura.html">
-        <div class="catalog-image" style="background-image: url('images/34-gaia-aura.jpg');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">34</span>
-          <div class="catalog-row">
-            <h3>Gaia Aura</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-4" href="investment-art/35-2140-westminster.html">
-        <div class="catalog-image" style="background-image: url('images/35-2140-westminster.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">35</span>
-          <div class="catalog-row">
-            <h3>2140 Westminster</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-5" href="investment-art/36-future-is-ours.html">
-        <div class="catalog-image" style="background-image: url('images/36-future-is-ours.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">36</span>
-          <div class="catalog-row">
-            <h3>Future Is Ours</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-0" href="investment-art/37-pizza-new.html">
-        <div class="catalog-image" style="background-image: url('images/37-pizza-new.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">37</span>
-          <div class="catalog-row">
-            <h3>Pizza New</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-1" href="investment-art/38-metacrisis.html">
-        <div class="catalog-image" style="background-image: url('images/38-metacrisis.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">38</span>
-          <div class="catalog-row">
-            <h3>Metacrisis</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-2" href="investment-art/39-krakow.html">
-        <div class="catalog-image" style="background-image: url('images/39-krakow.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">39</span>
-          <div class="catalog-row">
-            <h3>Krakow</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
-      <a class="catalog-card reveal delay-3" href="investment-art/40-narrative-control.html">
-        <div class="catalog-image" style="background-image: url('images/40-narrative-control-FRESH-v4.png');"></div>
-        <div class="catalog-copy">
-          <span class="catalog-id">40</span>
-          <div class="catalog-row">
-            <h3>Narrative Control</h3>
-            <span class="price-tag">EUR 100</span>
-          </div>
-        </div>
-      </a>
+<main id="top">
+  <section class="shell hero hero-home">
+    <div>
+      <span class="eyebrow reveal">{{ artworks.size }} Artwork Families</span>
+      <h1 class="reveal delay-1">One Design Per Family. Less Decision Fatigue.</h1>
+      <p class="lead reveal delay-2">
+        One design per family. No variants in the customer flow. Less decision fatigue, cleaner selling. Browse the catalog, open an artwork page, and buy the piece you want for <strong>EUR 100</strong>.
+      </p>
+      <div class="hero-actions reveal delay-3">
+        <a class="button button-primary" href="#catalog">Browse Catalog</a>
       </div>
-    </section>
-    <section class="shell" id="how">
-      <div class="section-head">
-        <div>
-          <span class="eyebrow">How To Buy</span>
-          <h2>Open The Work. Add Designs. Checkout Once.</h2>
-        </div>
-      </div>
-      <div class="info-grid">
-        <article class="info-card reveal">
-          <h3>1. Choose the artwork family</h3>
-          <p>Each piece gets one product page and one basket action.</p>
-        </article>
-        <article class="info-card reveal delay-1">
-          <h3>2. Pay EUR 100</h3>
-          <p>The basket persists across artwork pages with local storage.</p>
-        </article>
-        <article class="info-card reveal delay-2">
-          <h3>3. Forward your details</h3>
-          <p>Pay for all selected designs and forward one order email.</p>
-        </article>
-      </div>
-    </section>
-  </main>
-  <footer class="shell">
-    <div class="footer-bar">
-      <span>Money From The Future Canvas Shop</span>
-      <span>Canvas only. EUR 100. One design per family.</span>
     </div>
-  </footer>
-  <script src="investment-art/shop.js"></script>
-</body>
-</html>
+    <div class="hero-panel reveal delay-2">
+      <div class="hero-panel-art" style="background-image: url('{{ '/images/36-future-is-ours.png' | relative_url }}');"></div>
+    </div>
+  </section>
+
+  <section class="shell" id="catalog">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Catalog</span>
+        <h2>Pick The Work, Then Open The Product Page.</h2>
+      </div>
+      <div class="section-copy">
+        Every card leads to a dedicated page for that artwork family. No variants, no branching choices, no clutter.
+      </div>
+    </div>
+    <div class="catalog-grid">
+      {% for artwork in artworks %}
+        <a class="catalog-card reveal delay-{{ forloop.index0 | modulo: 6 }}" href="{{ artwork.url | relative_url }}">
+          <div class="catalog-image" style="background-image: url('{{ '/images/' | append: artwork.image | relative_url }}');"></div>
+          <div class="catalog-copy">
+            <span class="catalog-id">{{ artwork.id }}</span>
+            <div class="catalog-row">
+              <h3>{{ artwork.title }}</h3>
+              <span class="price-tag">EUR {{ artwork.price }}</span>
+            </div>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="shell" id="how">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">How To Buy</span>
+        <h2>Open The Work. Add Designs. Checkout Once.</h2>
+      </div>
+    </div>
+    <div class="info-grid">
+      <article class="info-card reveal">
+        <h3>1. Choose the artwork family</h3>
+        <p>Each piece gets one product page and one basket action.</p>
+      </article>
+      <article class="info-card reveal delay-1">
+        <h3>2. Pay EUR 100</h3>
+        <p>The basket persists across artwork pages with local storage.</p>
+      </article>
+      <article class="info-card reveal delay-2">
+        <h3>3. Forward your details</h3>
+        <p>Pay for all selected designs and forward one order email.</p>
+      </article>
+    </div>
+  </section>
+</main>

@@ -1,0 +1,8 @@
+---
+id: "09"
+order: 9
+slug: 09-astral-pirate
+title: "Astral Pirate"
+image: "09 Astral Pirate 21.png"
+description: "Astral Pirate canvas print from Money From The Future. 100 euro per piece."
+---

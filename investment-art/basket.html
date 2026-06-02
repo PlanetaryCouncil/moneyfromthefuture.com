@@ -1,87 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Basket | Money From The Future</title>
-  <meta name="description" content="Review selected Money From The Future canvas designs and checkout with PayPal.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="shop.css">
-</head>
-<body>
-  <header class="shell">
-    <div class="topbar">
-      <a class="brand" href="../index.html">
-        <span class="brand-mark">MF</span>
-        <span>Money From The Future</span>
-      </a>
-      <nav>
-        <a href="../index.html">All Works</a>
-        <a href="basket.html">Basket <span data-basket-count>0</span></a>
-      </nav>
+---
+layout: default
+title: Basket
+description: Review selected Money From The Future canvas designs and checkout with PayPal.
+permalink: /investment-art/basket.html
+footer_title: Basket
+---
+<main>
+  <section class="shell hero">
+    <div>
+      <span class="eyebrow reveal">Basket</span>
+      <h1 class="reveal delay-1">Checkout Multiple Designs Together.</h1>
+      <p class="lead reveal delay-2">
+        Your selected canvas designs are saved in this browser. Review the basket, pay the total with PayPal, then forward the order details.
+      </p>
+      <div class="hero-actions reveal delay-3">
+        <a class="button button-primary" href="{{ '/' | relative_url }}">Add More Designs</a>
+        <button class="button button-secondary" type="button" id="clear-basket">Clear Basket</button>
+      </div>
     </div>
-  </header>
-  
-  <main>
-    <section class="shell hero">
-      <div>
-        <span class="eyebrow reveal">Basket</span>
-        <h1 class="reveal delay-1">Checkout Multiple Designs Together.</h1>
-        <p class="lead reveal delay-2">
-          Your selected canvas designs are saved in this browser. Review the basket, pay the total with PayPal, then forward the order details.
-        </p>
-        <div class="hero-actions reveal delay-3">
-          <a class="button button-primary" href="../index.html">Add More Designs</a>
-          <button class="button button-secondary" type="button" id="clear-basket">Clear Basket</button>
-        </div>
-      </div>
-      <div class="hero-panel reveal delay-2">
-        <div class="hero-panel-art" style="background-image: url('../images/36-future-is-ours.png');"></div>
-      </div>
-    </section>
-
-    <section class="shell basket-section">
-      <div class="basket-layout">
-        <div class="basket-panel reveal">
-          <span class="eyebrow">Selected Works</span>
-          <div id="basket-items" class="basket-items"></div>
-          <div class="basket-total">
-            <span id="basket-summary">0 designs in basket</span>
-            <strong id="basket-total">EUR 0</strong>
-          </div>
-        </div>
-
-        <div class="checkout-card reveal delay-1">
-          <span class="eyebrow checkout-eyebrow">Checkout</span>
-          <h2>Pay With PayPal, Then Forward The Order.</h2>
-          <p>Use PayPal for the basket total, then send the email and full shipping address in one field.</p>
-          <div class="checkout-grid">
-            <div class="field">
-              <label for="email">Email</label>
-              <input id="email" name="email" type="text" inputmode="email" placeholder="you@example.com" required>
-            </div>
-            <div class="field">
-              <label for="address">Address</label>
-              <textarea id="address" name="address" placeholder="Full shipping address" required></textarea>
-            </div>
-            <div class="checkout-actions">
-              <a id="paypal-link" class="button paypal-button" href="#">Basket Is Empty</a>
-              <a id="email-link" class="button button-secondary" href="mailto:hello@moneyfromthefuture.com">Forward Order Details</a>
-            </div>
-            <p class="checkout-note">After payment, use the second button to forward the selected designs, buyer email, shipping address, and total.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-  <footer class="shell">
-    <div class="footer-bar">
-      <span>Basket</span>
-      <span>Canvas only. EUR 100. One design per family.</span>
+    <div class="hero-panel reveal delay-2">
+      <div class="hero-panel-art" style="background-image: url('{{ '/images/36-future-is-ours.png' | relative_url }}');"></div>
     </div>
-  </footer>
-  <script src="shop.js"></script>
-</body>
-</html>
+  </section>
+
+  <section class="shell basket-section">
+    <div class="basket-layout">
+      <div class="basket-panel reveal">
+        <span class="eyebrow">Selected Works</span>
+        <div id="basket-items" class="basket-items"></div>
+        <div class="basket-total">
+          <span id="basket-summary">0 prints in basket</span>
+          <strong id="basket-total">EUR 0</strong>
+        </div>
+      </div>
+
+      <div class="checkout-card reveal delay-1">
+        <span class="eyebrow checkout-eyebrow">Checkout</span>
+        <h2>Pay With PayPal, Then Forward The Order.</h2>
+        <p>Use PayPal for the basket total, then send the email and full shipping address in one field.</p>
+        <div class="checkout-grid">
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="text" inputmode="email" placeholder="you@example.com" required>
+          </div>
+          <div class="field">
+            <label for="address">Address</label>
+            <textarea id="address" name="address" placeholder="Full shipping address" required></textarea>
+          </div>
+          <div class="checkout-actions">
+            <a id="paypal-link" class="button paypal-button" href="#">Basket Is Empty</a>
+            <a id="email-link" class="button button-secondary" href="mailto:hello@moneyfromthefuture.com">Forward Order Details</a>
+          </div>
+          <p class="checkout-note">After payment, use the second button to forward the selected designs, buyer email, shipping address, and total.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

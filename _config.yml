@@ -1,0 +1,33 @@
+title: Money From The Future
+description: Investment art canvas prints from Money From The Future.
+url: "https://moneyfromthefuture.com"
+baseurl: ""
+timezone: Europe/Warsaw
+
+collections:
+  artworks:
+    output: true
+    sort_by: order
+    permalink: /investment-art/:name.html
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+  - scope:
+      path: ""
+      type: artworks
+    values:
+      layout: artwork
+      price: 100
+      format: Canvas Print
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - readme-developer.md
+  - changelog-promptlog.md
+  - generate-investment-art.mjs
+  - vendor
+  - node_modules
