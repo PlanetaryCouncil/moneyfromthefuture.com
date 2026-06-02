@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Money From The Future Canvas Shop</title>
+  <meta
+    name="description"
+    content="Money From The Future canvas prints. Selected artwork on canvas for 100 euro per item."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Bebas+Neue&display=swap"
+    rel="stylesheet"
+  >
+  <style>
+    :root {
+      --bg: #f4ecde;
+      --paper: rgba(255, 250, 242, 0.88);
+      --ink: #151515;
+      --muted: #675d52;
+      --accent: #cf5c36;
+      --accent-2: #0c7b67;
+      --line: rgba(21, 21, 21, 0.1);
+      --shadow: 0 24px 80px rgba(49, 33, 18, 0.14);
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(207, 92, 54, 0.12), transparent 28%),
+        radial-gradient(circle at 85% 12%, rgba(12, 123, 103, 0.14), transparent 22%),
+        linear-gradient(180deg, #fbf6ef 0%, var(--bg) 45%, #ede0cb 100%);
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.18;
+      background-image:
+        linear-gradient(rgba(21, 21, 21, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(21, 21, 21, 0.04) 1px, transparent 1px);
+      background-size: 24px 24px;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.9), transparent 88%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .shell {
+      width: min(calc(100% - 2rem), var(--max));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      width: 2.5rem;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--ink);
+      color: #fff7ea;
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 1.3rem;
+      box-shadow: var(--shadow);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 1.3rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 3rem;
+      padding: 0 1.15rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 700;
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+      cursor: pointer;
+    }
+
+    .button:hover { transform: translateY(-2px); }
+
+    .button-primary {
+      background: var(--ink);
+      color: #fff7ea;
+      box-shadow: 0 16px 40px rgba(21, 21, 21, 0.18);
+    }
+
+    .button-secondary {
+      background: rgba(255, 255, 255, 0.54);
+      border-color: var(--line);
+    }
+
+    .eyebrow,
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.45rem 0.8rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 251, 245, 0.72);
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 2rem;
+      align-items: center;
+      padding: 3.4rem 0 4rem;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      margin-top: 1rem;
+      font-family: "Bebas Neue", sans-serif;
+      font-size: clamp(4.6rem, 11vw, 8.8rem);
+      line-height: 0.92;
+      letter-spacing: 0.02em;
+      text-wrap: balance;
+    }
+
+    h2 {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      line-height: 0.94;
+      letter-spacing: 0.03em;
+    }
+
+    .lead,
+    .section-copy,
+    .card p,
+    .faq-item p,
+    .price-note,
+    .cta-panel p {
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .lead {
+      font-size: 1.1rem;
+      max-width: 40rem;
+      margin: 1rem 0 1.6rem;
+    }
+
+    .hero-actions,
+    .hero-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+    }
+
+    .hero-pills {
+      margin-top: 1rem;
+    }
+
+    .hero-card {
+      background: linear-gradient(145deg, rgba(255, 249, 240, 0.96), rgba(239, 226, 201, 0.92));
+      border: 1px solid rgba(21, 21, 21, 0.08);
+      border-radius: 2rem;
+      box-shadow: var(--shadow);
+      padding: 1.1rem;
+    }
+
+    .hero-art {
+      position: relative;
+      min-height: 34rem;
+      border-radius: 1.5rem;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, transparent 0%, rgba(21, 21, 21, 0.66) 100%),
+        url("images/36-future-is-ours.png") center/cover no-repeat;
+      display: flex;
+      align-items: end;
+      padding: 1.2rem;
+      color: #fff7ea;
+    }
+
+    .hero-art::before {
+      content: "";
+      position: absolute;
+      inset: 1rem;
+      border: 1px solid rgba(255, 247, 234, 0.25);
+      border-radius: 1.2rem;
+      pointer-events: none;
+    }
+
+    .hero-art strong,
+    .stat strong,
+    .price-tag {
+      font-family: "Bebas Neue", sans-serif;
+      line-height: 0.9;
+      letter-spacing: 0.03em;
+    }
+
+    .hero-art strong {
+      display: block;
+      font-size: 3rem;
+      max-width: 14rem;
+    }
+
+    .hero-art span {
+      display: inline-block;
+      font-size: 0.86rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    section {
+      padding: 2rem 0 4rem;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-copy {
+      max-width: 38rem;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .product-card,
+    .card,
+    .faq-item,
+    .stat,
+    .cta-panel {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 1.6rem;
+      box-shadow: 0 14px 44px rgba(42, 24, 8, 0.08);
+    }
+
+    .product-card {
+      overflow: hidden;
+    }
+
+    .product-image {
+      aspect-ratio: 4 / 5;
+      background-color: #ddd3c4;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .product-info,
+    .card,
+    .faq-item,
+    .stat,
+    .cta-panel {
+      padding: 1.2rem;
+    }
+
+    .product-info {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .product-row {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .product-row h3,
+    .card h3,
+    .faq-item h3 {
+      font-size: 1.06rem;
+      line-height: 1.2;
+    }
+
+    .price-tag {
+      font-size: 2.2rem;
+      white-space: nowrap;
+    }
+
+    .price-note {
+      font-size: 0.94rem;
+    }
+
+    .grid-3,
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .stack {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .cta-panel {
+      background:
+        linear-gradient(135deg, rgba(21, 21, 21, 0.96), rgba(12, 123, 103, 0.88));
+      color: #fff7ea;
+      border-radius: 2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .cta-panel p {
+      max-width: 36rem;
+      color: rgba(255, 247, 234, 0.78);
+      margin-top: 0.9rem;
+    }
+
+    .cta-panel h2 {
+      margin-top: 0.35rem;
+    }
+
+    .contact-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1.2rem;
+    }
+
+    .footer-bar {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.3rem 0 3rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      flex-wrap: wrap;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: rise 700ms ease forwards;
+    }
+
+    .delay-1 { animation-delay: 100ms; }
+    .delay-2 { animation-delay: 200ms; }
+    .delay-3 { animation-delay: 300ms; }
+    .delay-4 { animation-delay: 400ms; }
+    .delay-5 { animation-delay: 500ms; }
+
+    @keyframes rise {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .gallery,
+      .split,
+      .grid-3,
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .section-head {
+        flex-direction: column;
+        align-items: start;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .topbar { flex-wrap: wrap; }
+
+      nav {
+        width: 100%;
+        justify-content: space-between;
+        overflow-x: auto;
+      }
+
+      .hero,
+      .gallery,
+      .split,
+      .grid-3,
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: clamp(4rem, 21vw, 6.2rem);
+      }
+
+      .hero-art {
+        min-height: 24rem;
+      }
+
+      .footer-bar {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="shell">
+    <div class="topbar">
+      <a class="brand" href="#top">
+        <span class="brand-mark">MF</span>
+        <span>Money From The Future</span>
+      </a>
+      <nav>
+        <a href="#shop">Canvas Shop</a>
+        <a href="#about">Why Canvas</a>
+        <a href="#buy">Buy</a>
+        <a href="#buy" class="button button-secondary">Get One</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="shell hero">
+      <div>
+        <span class="eyebrow reveal">Limited Canvas Prints</span>
+        <h1 class="reveal delay-1">Art From The Future. 100 Euro Each.</h1>
+        <p class="lead reveal delay-2">
+          Keeping it simple for now: selected Money From The Future artworks available as canvas
+          prints for <strong>EUR 100 per item</strong>. No crowded catalog, no decision fatigue,
+          just a sharp set of pieces that already carry the world.
+        </p>
+        <div class="hero-actions reveal delay-3">
+          <a class="button button-primary" href="#shop">Browse Canvases</a>
+          <a class="button button-secondary" href="#buy">How To Buy</a>
+        </div>
+        <div class="hero-pills reveal delay-4">
+          <span class="pill">Canvas Only</span>
+          <span class="pill">EUR 100</span>
+          <span class="pill">Direct Order</span>
+        </div>
+      </div>
+
+      <div class="hero-card reveal delay-2">
+        <div class="hero-art">
+          <div>
+            <span>Featured Canvas</span>
+            <strong>Future Is Ours</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell" id="shop">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Selected Works</span>
+          <h2>Choose The Signal You Want On The Wall.</h2>
+        </div>
+        <div class="section-copy">
+          A tighter shop is stronger. Start with a handful of pieces, keep every item priced the
+          same, and let the art do the work.
+        </div>
+      </div>
+
+      <div class="gallery">
+        <article class="product-card reveal">
+          <div class="product-image" style="background-image: url('images/36-future-is-ours.png');"></div>
+          <div class="product-info">
+            <div class="product-row">
+              <h3>Future Is Ours</h3>
+              <span class="price-tag">EUR 100</span>
+            </div>
+            <p class="price-note">Canvas print. Strong opening piece for the collection.</p>
+          </div>
+        </article>
+
+        <article class="product-card reveal delay-1">
+          <div class="product-image" style="background-image: url('images/38-metacrisis.png');"></div>
+          <div class="product-info">
+            <div class="product-row">
+              <h3>Metacrisis</h3>
+              <span class="price-tag">EUR 100</span>
+            </div>
+            <p class="price-note">Bold color, strong concept, easy flagship wall piece.</p>
+          </div>
+        </article>
+
+        <article class="product-card reveal delay-2">
+          <div class="product-image" style="background-image: url('images/39-krakow.png');"></div>
+          <div class="product-info">
+            <div class="product-row">
+              <h3>Krakow</h3>
+              <span class="price-tag">EUR 100</span>
+            </div>
+            <p class="price-note">Clean visual hit with enough edge to feel collectible.</p>
+          </div>
+        </article>
+
+        <article class="product-card reveal delay-1">
+          <div class="product-image" style="background-image: url('images/40-narrative-control-FRESH-v4.png');"></div>
+          <div class="product-info">
+            <div class="product-row">
+              <h3>Narrative Control</h3>
+              <span class="price-tag">EUR 100</span>
+            </div>
+            <p class="price-note">Direct, memetic, and built for attention.</p>
+          </div>
+        </article>
+
+        <article class="product-card reveal delay-2">
+          <div class="product-image" style="background-image: url('images/31-cyber-shepherd.png');"></div>
+          <div class="product-info">
+            <div class="product-row">
+              <h3>Cyber Shepherd</h3>
+              <span class="price-tag">EUR 100</span>
+            </div>
+            <p class="price-note">A good bridge between digital mythology and wall art.</p>
+          </div>
+        </article>
+
+        <article class="product-card reveal delay-3">
+          <div class="product-image" style="background-image: url('images/33-bitcoin-film-fest.png');"></div>
+          <div class="product-info">
+            <div class="product-row">
+              <h3>Bitcoin Film Fest</h3>
+              <span class="price-tag">EUR 100</span>
+            </div>
+            <p class="price-note">Event energy, poster energy, easy limited-edition feel.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="shell" id="about">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Simple Strategy</span>
+          <h2>One Format. One Price. Less Friction.</h2>
+        </div>
+        <div class="section-copy">
+          For now the smartest move is to remove complexity. Canvas makes the offer feel premium,
+          `EUR 100` keeps it legible, and a direct-order workflow is enough to validate demand.
+        </div>
+      </div>
+
+      <div class="stats">
+        <article class="stat reveal">
+          <strong>1</strong>
+          <p>Single product format keeps the store clear and easy to maintain.</p>
+        </article>
+        <article class="stat reveal delay-1">
+          <strong>100</strong>
+          <p>Every selected work is listed at the same price in euro.</p>
+        </article>
+        <article class="stat reveal delay-2">
+          <strong>6</strong>
+          <p>Enough pieces to feel curated, not bloated.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="shell split">
+      <div class="stack">
+        <div>
+          <span class="eyebrow">How To Order</span>
+          <h2>Direct, Personal, Fast Enough.</h2>
+        </div>
+        <article class="card reveal">
+          <h3>1. Pick the artwork</h3>
+          <p>Choose the piece from the canvas grid that you want on your wall.</p>
+        </article>
+        <article class="card reveal delay-1">
+          <h3>2. Send the request</h3>
+          <p>Use email or Instagram DM with the artwork title and your shipping country.</p>
+        </article>
+        <article class="card reveal delay-2">
+          <h3>3. Confirm and fulfill</h3>
+          <p>Reply with payment details and finalize canvas production once the order is confirmed.</p>
+        </article>
+      </div>
+
+      <div class="stack">
+        <article class="card reveal">
+          <span class="pill">Why this works</span>
+          <h3 style="margin-top: 1rem;">You do not need full e-commerce complexity on day one.</h3>
+          <p>
+            A clean landing page plus direct ordering is enough to learn which works get attention,
+            which pieces sell, and what format people actually want before you automate more.
+          </p>
+        </article>
+        <div class="grid-3">
+          <article class="card reveal delay-1">
+            <h3>Premium feel</h3>
+            <p>Canvas reads as deliberate and giftable, not casual merch.</p>
+          </article>
+          <article class="card reveal delay-2">
+            <h3>Easy pricing</h3>
+            <p>One number across the board reduces hesitation and admin.</p>
+          </article>
+          <article class="card reveal delay-3">
+            <h3>Test demand</h3>
+            <p>See what resonates before building a larger shop system.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">FAQ</span>
+          <h2>Keep It Straightforward.</h2>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <article class="faq-item reveal">
+          <h3>Is every canvas really the same price?</h3>
+          <p>Yes. For now each listed canvas is EUR 100 per item.</p>
+        </article>
+        <article class="faq-item reveal delay-1">
+          <h3>Is checkout automated yet?</h3>
+          <p>Not yet. This version is optimized for direct orders and quick validation.</p>
+        </article>
+        <article class="faq-item reveal delay-2">
+          <h3>Can more works be added later?</h3>
+          <p>Yes. This setup is intentionally easy to expand once the first pieces start moving.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="shell" id="buy">
+      <div class="cta-panel reveal">
+        <span class="eyebrow" style="background: rgba(255,255,255,0.08); color: rgba(255,247,234,0.82); border-color: rgba(255,255,255,0.16);">
+          Buy A Canvas
+        </span>
+        <h2>Pick A Piece. Send A Message. Done.</h2>
+        <p>
+          If you want one, send the artwork title and shipping country. This first version is meant
+          to be lean and real, not overengineered.
+        </p>
+        <div class="contact-actions">
+          <a class="button button-primary" href="mailto:hello@moneyfromthefuture.com">Email To Order</a>
+          <a class="button button-secondary" href="https://www.instagram.com/moneyfromthefuture/">Instagram</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell">
+    <div class="footer-bar">
+      <span>Money From The Future Canvas Shop</span>
+      <span>Canvas only. EUR 100. Simple on purpose.</span>
+    </div>
+  </footer>
+</body>
+</html>
