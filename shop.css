@@ -210,6 +210,51 @@ h2 { font-size: clamp(2.6rem, 6vw, 4.8rem); }
 .meta-block { display: grid; gap: 0.25rem; }
 .meta-block strong, .summary-title { color: var(--ink); }
 .product-note { padding: 1rem 1.2rem; }
+.basket-section { padding-bottom: 4rem; }
+.basket-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.72fr);
+  gap: 1rem;
+  align-items: start;
+}
+.basket-panel {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  padding: 1.2rem;
+}
+.basket-items {
+  display: grid;
+  gap: 0.85rem;
+  margin: 1rem 0;
+}
+.basket-empty { color: var(--muted); line-height: 1.6; }
+.basket-item {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr) auto;
+  gap: 0.85rem;
+  align-items: center;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  background: rgba(255, 251, 245, 0.62);
+}
+.basket-item img {
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  object-fit: cover;
+}
+.basket-item-copy {
+  display: grid;
+  gap: 0.25rem;
+}
+.basket-item-copy span { color: var(--muted); }
+.basket-total {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
 .checkout-section { padding-bottom: 4rem; }
 .checkout-card {
   background: linear-gradient(135deg, rgba(17, 17, 17, 0.96), rgba(12, 123, 103, 0.88));
@@ -260,7 +305,7 @@ input::placeholder, textarea::placeholder { color: rgba(255, 247, 234, 0.52); }
 .delay-5 { animation-delay: 500ms; }
 @keyframes rise { to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 980px) {
-  .hero, .product-hero, .info-grid { grid-template-columns: 1fr; }
+  .hero, .product-hero, .info-grid, .basket-layout { grid-template-columns: 1fr; }
   .section-head { flex-direction: column; align-items: start; }
 }
 @media (max-width: 760px) {
@@ -269,5 +314,6 @@ input::placeholder, textarea::placeholder { color: rgba(255, 247, 234, 0.52); }
   .catalog-grid, .info-grid { grid-template-columns: 1fr; }
   h1 { font-size: clamp(3.6rem, 18vw, 5.8rem); }
   .checkout-summary, .catalog-row, .product-meta { flex-direction: column; align-items: start; }
+  .basket-item { grid-template-columns: 1fr; }
   .footer-bar { flex-direction: column; }
 }

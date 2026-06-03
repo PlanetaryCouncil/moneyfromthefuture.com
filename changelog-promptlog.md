@@ -48,6 +48,36 @@ For every feature, add:
 
 ## Changelog
 
+### 2026-06-03 - Restore Basket Behavior After Jekyll Cleanup
+
+Request summary:
+User reported that adding to basket was broken.
+
+Decision:
+Restore the `localStorage` basket behavior in the root `shop.js` used by the Jekyll site.
+
+Files changed:
+- `shop.js`
+- `shop.css`
+
+Acceptance criteria:
+- Product page `Add To Basket` button adds the current artwork.
+- Adding the same artwork more than once increments quantity.
+- Header basket count updates immediately.
+- Basket page renders selected items, quantities, and totals.
+- PayPal link reflects the full basket total.
+- Forward-order email includes the order lines, buyer email, address, and total.
+
+Verification:
+- Ran `bundle exec jekyll build`.
+- Ran `node --check shop.js`.
+- Started local Jekyll with `_config.local.yml`.
+- Added `The Boss` twice from `/investment-art/01-the-boss.html`.
+- Confirmed basket shows `2 x EUR 100`, `2 prints in basket`, `EUR 200`, and `Pay EUR 200 With PayPal`.
+
+Known limits:
+- Basket row quantity controls are not yet inline editable; repeated clicks increment quantity.
+
 ### 2026-06-02 - Initial Static Canvas Shop
 
 Request summary:
