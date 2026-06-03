@@ -13,18 +13,21 @@ layout: default
 {% endif %}
 {% assign previous_artwork = artworks[previous_index] %}
 {% assign next_artwork = artworks[next_index] %}
+{% if jekyll.environment == "production" %}
+  {% assign site_base = "/moneyfromthefuture.com" %}
+{% else %}
+  {% assign site_base = "" %}
+{% endif %}
 
 <main>
   <section class="shell product-hero">
     <div class="product-image-stage reveal">
-      <img class="product-image" src="{{ '/images/' | append: page.image | relative_url }}" alt="{{ page.title | escape }}">
+      <img class="product-image" src="{{ site_base }}/images/{{ page.image }}" alt="{{ page.title | escape }}">
     </div>
     <div class="product-panel reveal delay-1">
-      <span class="eyebrow">{{ page.id }}</span>
+      <span class="eyebrow">{{ page.art_id }}</span>
       <h1>{{ page.title }}</h1>
-      <p class="lead">
-        Canvas print from Money From The Future. One selected design for this artwork family, priced at <strong>EUR {{ page.price }}</strong>.
-      </p>
+      <p class="lead">{{ page.description }}</p>
       <div class="product-meta">
         <div class="meta-block">
           <span class="meta-label">Format</span>
@@ -35,18 +38,18 @@ layout: default
           <strong>EUR {{ page.price }}</strong>
         </div>
       </div>
-      <div class="product-actions">
+        <div class="product-actions">
         <button
           class="button button-primary"
           type="button"
           data-add-to-basket
-          data-id="{{ page.id }}"
+          data-id="{{ page.art_id }}"
           data-slug="{{ page.slug }}"
           data-title="{{ page.title | escape }}"
-          data-image="{{ '/images/' | append: page.image | relative_url }}"
+          data-image="{{ site_base }}/images/{{ page.image }}"
         >Add To Basket</button>
-        <a class="button button-secondary" href="{{ '/investment-art/basket.html' | relative_url }}">View Basket (<span data-basket-count>0</span>)</a>
-        <a class="button button-secondary" href="{{ '/images/' | append: page.image | relative_url }}">Open Original File</a>
+        <a class="button button-secondary" href="{{ site_base }}/investment-art/basket.html">View Basket (<span data-basket-count>0</span>)</a>
+        <a class="button button-secondary" href="{{ site_base }}/images/{{ page.image }}">Open Original File</a>
       </div>
     </div>
   </section>
@@ -56,19 +59,19 @@ layout: default
     </div>
   </section>
   <section class="shell">
-    <nav class="artwork-nav" aria-label="Artwork navigation">
-      <a href="{{ previous_artwork.url | relative_url }}">
-        <span>Previous</span>
-        <strong>{{ previous_artwork.id }}. {{ previous_artwork.title }}</strong>
-      </a>
-      <a href="{{ '/#catalog' | relative_url }}">
-        <span>Catalog</span>
-        <strong>All Works</strong>
-      </a>
-      <a href="{{ next_artwork.url | relative_url }}">
-        <span>Next</span>
-        <strong>{{ next_artwork.id }}. {{ next_artwork.title }}</strong>
-      </a>
+      <nav class="artwork-nav" aria-label="Artwork navigation">
+        <a href="{{ site_base }}{{ previous_artwork.url }}">
+          <span>Previous</span>
+          <strong>{{ previous_artwork.art_id }}. {{ previous_artwork.title }}</strong>
+        </a>
+        <a href="{{ site_base }}/#catalog">
+          <span>Catalog</span>
+          <strong>All Works</strong>
+        </a>
+        <a href="{{ site_base }}{{ next_artwork.url }}">
+          <span>Next</span>
+          <strong>{{ next_artwork.art_id }}. {{ next_artwork.title }}</strong>
+        </a>
     </nav>
   </section>
 </main>

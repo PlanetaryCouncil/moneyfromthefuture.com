@@ -1,0 +1,362 @@
+[
+  {
+    "order": 1,
+    "slug": "01-the-boss",
+    "title": "The Boss",
+    "image": "01 The Boss THIS.jpg",
+    "preview_image": "01 The Boss WEB.jpg",
+    "description": "The Boss canvas print from Money From The Future.",
+    "art_id": "01"
+  },
+  {
+    "order": 2,
+    "slug": "02-peace-planetary-council",
+    "title": "Peace Planetary Council",
+    "image": "02 Peace Planetary Council 21 FRESH THIS.png",
+    "preview_image": "02 Peace Planetary Council 21 FRESH WEB.jpg",
+    "description": "Peace Planetary Council canvas print from Money From The Future.",
+    "art_id": "02"
+  },
+  {
+    "order": 3,
+    "slug": "03-infinity",
+    "title": "Infinity",
+    "image": "03 Infinity 21 signed v3 UPSCALED THIS.png",
+    "preview_image": "03 Infinity 21 signed v3 UPSCALED WEB.jpg",
+    "description": "Infinity canvas print from Money From The Future.",
+    "art_id": "03"
+  },
+  {
+    "order": 4,
+    "slug": "04-poseidon",
+    "title": "Poseidon",
+    "image": "04 Poseidon 21 THIS.png",
+    "preview_image": "04-Poseidon-21-WEB.jpg",
+    "description": "Poseidon canvas print from Money From The Future.",
+    "art_id": "04"
+  },
+  {
+    "order": 5,
+    "slug": "05-pyramid",
+    "title": "Pyramid",
+    "image": "05 Pyramid THIS.jpg",
+    "preview_image": "05 Pyramid WEB.jpg",
+    "description": "Pyramid canvas print from Money From The Future.",
+    "art_id": "05"
+  },
+  {
+    "order": 6,
+    "slug": "06-berry-pounds",
+    "title": "Berry Pounds",
+    "image": "06 Berry pounds THIS.jpg",
+    "preview_image": "06 Berry pounds WEB.jpg",
+    "description": "Berry Pounds canvas print from Money From The Future.",
+    "art_id": "06"
+  },
+  {
+    "order": 7,
+    "slug": "07-2140",
+    "title": "2140",
+    "image": "07 2140 21 THIS.png",
+    "preview_image": "07 2140 21 WEB.jpg",
+    "description": "2140 canvas print from Money From The Future.",
+    "art_id": "07"
+  },
+  {
+    "order": 8,
+    "slug": "08-super-cyber-genius",
+    "title": "Super Cyber Genius",
+    "image": "08 Super cyber genius 21 THIS.png",
+    "preview_image": "08 Super cyber genius 21 WEB.jpg",
+    "description": "Super Cyber Genius canvas print from Money From The Future.",
+    "art_id": "08"
+  },
+  {
+    "order": 9,
+    "slug": "09-astral-pirate",
+    "title": "Astral Pirate",
+    "image": "09 Astral Pirate 21 UPSCALED THIS.png",
+    "preview_image": "09-Astral-Pirate-21-UPSCALED-THIS-WEB.jpg",
+    "description": "Astral Pirate canvas print from Money From The Future.",
+    "art_id": "09"
+  },
+  {
+    "order": 10,
+    "slug": "10-amanita",
+    "title": "Amanita",
+    "image": "10 Amanita 21 UPSCALED THIS.png",
+    "preview_image": "10 Amanita 21 UPSCALED WEB.jpg",
+    "description": "Amanita canvas print from Money From The Future.",
+    "art_id": "10"
+  },
+  {
+    "order": 11,
+    "slug": "11-buddha-infinite-love",
+    "title": "Buddha Infinite Love",
+    "image": "11 Buddha Infinite Love 2026 v2 21 UPSCALED THIS.png",
+    "preview_image": "11 Buddha Infinite Love 2026 v2 21 UPSCALED WEB.jpg",
+    "description": "Buddha Infinite Love canvas print from Money From The Future.",
+    "art_id": "11"
+  },
+  {
+    "order": 12,
+    "slug": "12-flotilla",
+    "title": "Flotilla",
+    "image": "12 Flotilla 21 THIS.jpg",
+    "preview_image": "12 Flotilla 21 WEB.jpg",
+    "description": "Flotilla canvas print from Money From The Future.",
+    "art_id": "12"
+  },
+  {
+    "order": 13,
+    "slug": "13-immigration-climate",
+    "title": "Immigration Climate",
+    "image": "13 Immigration Climate 21 THIS.png",
+    "preview_image": "13 Immigration Climate 21 WEB.jpg",
+    "description": "Immigration Climate canvas print from Money From The Future.",
+    "art_id": "13"
+  },
+  {
+    "order": 14,
+    "slug": "14-cannabis",
+    "title": "Cannabis",
+    "image": "14 Cannabis 21 signed symmetrical v2 THIS.png",
+    "preview_image": "14 Cannabis 21 signed symmetrical v2 WEB.jpg",
+    "description": "Cannabis canvas print from Money From The Future.",
+    "art_id": "14"
+  },
+  {
+    "order": 15,
+    "slug": "15-palestine",
+    "title": "Palestine",
+    "image": "15 Palestine 21 v6 THIS.png",
+    "preview_image": "15-Palestine-21-v6-WEB.jpg",
+    "description": "Palestine canvas print from Money From The Future.",
+    "art_id": "15"
+  },
+  {
+    "order": 16,
+    "slug": "16-duality",
+    "title": "Duality",
+    "image": "16 Duality 21 THIS.png",
+    "preview_image": "16-Duality-21-WEB.jpg",
+    "description": "Duality canvas print from Money From The Future.",
+    "art_id": "16"
+  },
+  {
+    "order": 17,
+    "slug": "17-one-life",
+    "title": "One Life",
+    "image": "17 One life 21 signed WOW UPSCALED THIS.png",
+    "preview_image": "17 One life 21 signed WOW UPSCALED WEB.jpg",
+    "description": "One Life canvas print from Money From The Future.",
+    "art_id": "17"
+  },
+  {
+    "order": 18,
+    "slug": "18-kali",
+    "title": "Kali",
+    "image": "18 Kali THIS.jpg",
+    "preview_image": "18-Kali WEB.jpg",
+    "description": "Kali canvas print from Money From The Future.",
+    "art_id": "18"
+  },
+  {
+    "order": 19,
+    "slug": "19-love-police",
+    "title": "Love Police",
+    "image": "19 Love police THIS.jpg",
+    "preview_image": "19-Love-police-WEB.jpg",
+    "description": "Love Police canvas print from Money From The Future.",
+    "art_id": "19"
+  },
+  {
+    "order": 20,
+    "slug": "20-white-rabbit",
+    "title": "White Rabbit",
+    "image": "20 White Rabbit THIS.jpg",
+    "preview_image": "20-White-Rabbit-WEB.jpg",
+    "description": "White Rabbit canvas print from Money From The Future.",
+    "art_id": "20"
+  },
+  {
+    "order": 21,
+    "slug": "21-pizza",
+    "title": "Pizza",
+    "image": "21 Pizza THIS.jpg",
+    "preview_image": "21-Pizza-WEB.jpg",
+    "description": "Pizza canvas print from Money From The Future.",
+    "art_id": "21"
+  },
+  {
+    "order": 22,
+    "slug": "22-halving",
+    "title": "Halving",
+    "image": "22 Halving THIS.jpg",
+    "preview_image": "22-Halving-WEB.jpg",
+    "description": "Halving canvas print from Money From The Future.",
+    "art_id": "22"
+  },
+  {
+    "order": 23,
+    "slug": "23-burn-banks",
+    "title": "Burn Banks",
+    "image": "23 Burn banks THIS.jpg",
+    "preview_image": "23-Burn-banks-WEB.jpg",
+    "description": "Burn Banks canvas print from Money From The Future.",
+    "art_id": "23"
+  },
+  {
+    "order": 24,
+    "slug": "24-ultra-magic-hands-massage",
+    "title": "Ultra Magic Hands Massage",
+    "image": "24 Ultra magic hands massage 21 THIS.png",
+    "preview_image": "24-Ultra-magic-hands-massage-21-WEB.jpg",
+    "description": "Ultra Magic Hands Massage canvas print from Money From The Future.",
+    "art_id": "24"
+  },
+  {
+    "order": 25,
+    "slug": "25-gathering",
+    "title": "Gathering",
+    "image": "25-Gathering THIS.jpg",
+    "preview_image": "25-Gathering-WEB.jpg",
+    "description": "Gathering canvas print from Money From The Future.",
+    "art_id": "25"
+  },
+  {
+    "order": 26,
+    "slug": "26-stonehenge",
+    "title": "Stonehenge",
+    "image": "26-Stonehenge THIS.jpg",
+    "preview_image": "26-Stonehenge-WEB.jpg",
+    "description": "Stonehenge canvas print from Money From The Future.",
+    "art_id": "26"
+  },
+  {
+    "order": 27,
+    "slug": "27-ladies",
+    "title": "Ladies",
+    "image": "27-ladies-21 UPSCALED THIS.jpeg",
+    "preview_image": "27-ladies-21-UPSCALED-WEB.jpg",
+    "description": "Ladies canvas print from Money From The Future.",
+    "art_id": "27"
+  },
+  {
+    "order": 28,
+    "slug": "28-breaking-free",
+    "title": "Breaking Free",
+    "image": "28-breaking-free UPSCALED THIS.png",
+    "preview_image": "28-breaking-free-UPSCALED-WEB.jpg",
+    "description": "Breaking Free canvas print from Money From The Future.",
+    "art_id": "28"
+  },
+  {
+    "order": 29,
+    "slug": "29-hyperweavers",
+    "title": "Hyperweavers",
+    "image": "29-hyperweavers UPSCALED THIS.png",
+    "preview_image": "29-hyperweavers-UPSCALED-WEB.jpg",
+    "description": "Hyperweavers canvas print from Money From The Future.",
+    "art_id": "29"
+  },
+  {
+    "order": 30,
+    "slug": "30-polska-better",
+    "title": "Polska",
+    "image": "30-polska-better-chyba UPSCALED THIS.png",
+    "preview_image": "30-polska-better-chyba UPSCALED WEB.jpg",
+    "description": "Polska Better canvas print from Money From The Future.",
+    "art_id": "30"
+  },
+  {
+    "order": 31,
+    "slug": "31-cyber-shepherd",
+    "title": "Cyber Shepherd",
+    "image": "31-cyber-shepherd-bright-number UPSCALED THIS.png",
+    "preview_image": "31-cyber-shepherd-bright-number-UPSCALED-WEB.jpg",
+    "description": "Cyber Shepherd canvas print from Money From The Future.",
+    "art_id": "31"
+  },
+  {
+    "order": 32,
+    "slug": "32-extra-life",
+    "title": "Extra Life",
+    "image": "32-extra-life-better-nooro-COOL UPSCALED THIS.png",
+    "preview_image": "32-extra-life-better-nooro-COOL-UPSCALED-WEB.jpg",
+    "description": "Extra Life canvas print from Money From The Future.",
+    "art_id": "32"
+  },
+  {
+    "order": 33,
+    "slug": "33-bitcoin-film-fest",
+    "title": "Bitcoin Film Fest",
+    "image": "33-bitcoin-film-fest UPSCALED THIS.png",
+    "preview_image": "33-bitcoin-film-fest-UPSCALED-WEB.jpg",
+    "description": "Bitcoin Film Fest canvas print from Money From The Future.",
+    "art_id": "33"
+  },
+  {
+    "order": 34,
+    "slug": "34-gaia-aura",
+    "title": "Gaia Aura",
+    "image": "34-gaia-aura UPSCALED THIS.jpeg",
+    "preview_image": "34-gaia-aura-UPSCALED-WEB.jpg",
+    "description": "Gaia Aura canvas print from Money From The Future.",
+    "art_id": "34"
+  },
+  {
+    "order": 35,
+    "slug": "35-2140-westminster",
+    "title": "2140 Westminster",
+    "image": "35-2140 THIS.png",
+    "preview_image": "35-2140-WEB.jpg",
+    "description": "2140 Westminster canvas print from Money From The Future.",
+    "art_id": "35"
+  },
+  {
+    "order": 36,
+    "slug": "36-future-is-ours",
+    "title": "Future Is Ours",
+    "image": "36-future-is-ours THIS.png",
+    "preview_image": "36-future-is-ours-WEB.jpg",
+    "description": "Future Is Ours canvas print from Money From The Future.",
+    "art_id": "36"
+  },
+  {
+    "order": 37,
+    "slug": "37-pizza-new",
+    "title": "Pizza New",
+    "image": "37-pizza-new UPSCALED THIS.png",
+    "preview_image": "37-pizza-new-UPSCALED-WEB.jpg",
+    "description": "Pizza New canvas print from Money From The Future.",
+    "art_id": "37"
+  },
+  {
+    "order": 38,
+    "slug": "38-metacrisis",
+    "title": "Metacrisis",
+    "image": "38-metacrisis UPSCALED THIS.png",
+    "preview_image": "38-metacrisis-UPSCALED-WEB.jpg",
+    "description": "Metacrisis canvas print from Money From The Future.",
+    "art_id": "38"
+  },
+  {
+    "order": 39,
+    "slug": "39-krakow",
+    "title": "Krakow",
+    "image": "39-krakow THIS.png",
+    "preview_image": "39-krakow-WEB.jpg",
+    "description": "Krakow canvas print from Money From The Future.",
+    "art_id": "39"
+  },
+  {
+    "order": 40,
+    "slug": "40-narrative-control",
+    "title": "Narrative Control",
+    "image": "40-narrative-control-FRESH-v7 THIS.png",
+    "preview_image": "40-narrative-control-FRESH-v7-WEB.jpg",
+    "description": "Narrative Control canvas print from Money From The Future.",
+    "art_id": "40"
+  }
+]

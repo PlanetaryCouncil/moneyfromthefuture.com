@@ -1,9 +1,9 @@
 ---
-id: "39"
+art_id: "39"
 order: 39
 slug: 39-krakow
 title: "Krakow"
-image: "39-krakow.png"
+image: "39-krakow THIS.png"
 preview_image: "39-krakow-WEB.jpg"
-description: "Krakow canvas print from Money From The Future. 100 euro per piece."
+description: "Krakow canvas print from Money From The Future."
 ---

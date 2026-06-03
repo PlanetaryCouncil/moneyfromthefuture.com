@@ -1,9 +1,9 @@
 ---
-id: "06"
+art_id: "06"
 order: 6
 slug: 06-berry-pounds
 title: "Berry Pounds"
-image: "06 Berry pounds 21.png"
+image: "06 Berry pounds THIS.jpg"
 preview_image: "06 Berry pounds WEB.jpg"
-description: "Berry Pounds canvas print from Money From The Future. 100 euro per piece."
+description: "Berry Pounds canvas print from Money From The Future."
 ---

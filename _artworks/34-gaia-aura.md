@@ -1,9 +1,9 @@
 ---
-id: "34"
+art_id: "34"
 order: 34
 slug: 34-gaia-aura
 title: "Gaia Aura"
-image: "34-gaia-aura.jpg"
+image: "34-gaia-aura UPSCALED THIS.jpeg"
 preview_image: "34-gaia-aura-UPSCALED-WEB.jpg"
-description: "Gaia Aura canvas print from Money From The Future. 100 euro per piece."
+description: "Gaia Aura canvas print from Money From The Future."
 ---

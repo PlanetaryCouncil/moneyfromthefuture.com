@@ -18,19 +18,19 @@ Use this after Ruby/Jekyll is installed:
 
 ```sh
 cd /Users/m/Code/moneyfromthefuture.com
-bundle exec jekyll serve --livereload --incremental --host 127.0.0.1 --port 4000 --baseurl ""
+bundle exec jekyll serve --livereload --incremental --host 127.0.0.1 --port 4000
 ```
 
 If livereload says its port is already in use, either change the livereload port:
 
 ```sh
-bundle exec jekyll serve --livereload --livereload-port 35730 --incremental --host 127.0.0.1 --port 4000 --baseurl ""
+bundle exec jekyll serve --livereload --livereload-port 35730 --incremental --host 127.0.0.1 --port 4000
 ```
 
 Or run without livereload:
 
 ```sh
-bundle exec jekyll serve --incremental --host 127.0.0.1 --port 4000 --baseurl ""
+bundle exec jekyll serve --incremental --host 127.0.0.1 --port 4000
 ```
 
 Open:
@@ -83,7 +83,8 @@ rvm install 3.3.11
 cd /Users/m/Code/moneyfromthefuture.com
 rvm use 3.3.11
 bundle install
-bundle exec jekyll serve --livereload --incremental --host 127.0.0.1 --port 4000 --baseurl ""
+bundle exec jekyll serve --config _config.yml,_config.local.yml --livereload --incremental --host 127.0.0.1 --port 4000
+bundle exec jekyll serve --livereload --incremental --host 127.0.0.1 --port 4000
 ```
 
 Commit `Gemfile.lock` when dependencies change. That keeps local builds and GitHub Actions builds boringly consistent.

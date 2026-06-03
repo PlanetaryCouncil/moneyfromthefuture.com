@@ -1,9 +1,9 @@
 ---
-id: "22"
+art_id: "22"
 order: 22
 slug: 22-halving
 title: "Halving"
-image: "22 Halving.jpg"
+image: "22 Halving THIS.jpg"
 preview_image: "22-Halving-WEB.jpg"
-description: "Halving canvas print from Money From The Future. 100 euro per piece."
+description: "Halving canvas print from Money From The Future."
 ---

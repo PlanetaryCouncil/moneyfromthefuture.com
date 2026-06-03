@@ -1,15 +1,18 @@
 ---
 layout: default
-title: Canvas Shop
+title: Money From The Future Canvas Shop
 description: Money From The Future canvas catalog. One artwork page per family, 100 euro per piece.
-footer_title: Money From The Future Canvas Shop
 ---
+{% if jekyll.environment == "production" %}
+  {% assign site_base = "/moneyfromthefuture.com" %}
+{% else %}
+  {% assign site_base = "" %}
+{% endif %}
 {% assign artworks = site.artworks | sort: 'order' %}
-
 <main id="top">
   <section class="shell hero hero-home">
     <div>
-      <span class="eyebrow reveal">{{ artworks.size }} Artwork Families</span>
+      <span class="eyebrow reveal">40 Artwork Families</span>
       <h1 class="reveal delay-1">One Design Per Family. Less Decision Fatigue.</h1>
       <p class="lead reveal delay-2">
         One design per family. No variants in the customer flow. Less decision fatigue, cleaner selling. Browse the catalog, open an artwork page, and buy the piece you want for <strong>EUR 100</strong>.
@@ -19,10 +22,9 @@ footer_title: Money From The Future Canvas Shop
       </div>
     </div>
     <div class="hero-panel reveal delay-2">
-      <div class="hero-panel-art" style="background-image: url('{{ '/images/36-future-is-ours-WEB.jpg' | relative_url }}');"></div>
+      <div class="hero-panel-art" style="background-image: url('{{ site_base }}/images/36-future-is-ours-WEB.jpg');"></div>
     </div>
   </section>
-
   <section class="shell" id="catalog">
     <div class="section-head">
       <div>
@@ -35,39 +37,38 @@ footer_title: Money From The Future Canvas Shop
     </div>
     <div class="catalog-grid">
       {% for artwork in artworks %}
-        <a class="catalog-card reveal delay-{{ forloop.index0 | modulo: 6 }}" href="{{ artwork.url | relative_url }}">
-          <div class="catalog-image" style="background-image: url('{{ '/images/' | append: artwork.preview_image | default: artwork.image | relative_url }}');"></div>
-          <div class="catalog-copy">
-            <span class="catalog-id">{{ artwork.id }}</span>
-            <div class="catalog-row">
-              <h3>{{ artwork.title }}</h3>
-              <span class="price-tag">EUR {{ artwork.price }}</span>
-            </div>
+      <a class="catalog-card reveal delay-{{ forloop.index0 | modulo: 6 }}" href="{{ site_base }}/investment-art/{{ artwork.slug }}.html">
+        <div class="catalog-image" style="background-image: url('{{ site_base }}/images/{{ artwork.preview_image | default: artwork.image }}');"></div>
+        <div class="catalog-copy">
+          <span class="catalog-id">{{ artwork.art_id }}</span>
+          <div class="catalog-row">
+            <h3>{{ artwork.title }}</h3>
+            <span class="price-tag">EUR 100</span>
           </div>
-        </a>
+        </div>
+      </a>
       {% endfor %}
     </div>
   </section>
-
   <section class="shell" id="how">
     <div class="section-head">
       <div>
         <span class="eyebrow">How To Buy</span>
-        <h2>Open The Work. Add Designs. Checkout Once.</h2>
+        <h2>Open The Work. Pay With PayPal. Send The Address.</h2>
       </div>
     </div>
     <div class="info-grid">
       <article class="info-card reveal">
         <h3>1. Choose the artwork family</h3>
-        <p>Each piece gets one product page and one basket action.</p>
+        <p>Each piece gets one product page and one price.</p>
       </article>
       <article class="info-card reveal delay-1">
         <h3>2. Pay EUR 100</h3>
-        <p>The basket persists across artwork pages with local storage.</p>
+        <p>Use the PayPal button on the artwork page.</p>
       </article>
       <article class="info-card reveal delay-2">
         <h3>3. Forward your details</h3>
-        <p>Pay for all selected designs and forward one order email.</p>
+        <p>Use the email and address form to send fulfillment info after payment.</p>
       </article>
     </div>
   </section>
