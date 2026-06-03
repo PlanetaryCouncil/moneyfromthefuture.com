@@ -5,11 +5,6 @@ description: About Money From The Future and the people behind the artwork.
 permalink: /about.html
 footer_title: About Us
 ---
-{% if jekyll.environment == "production" %}
-  {% assign site_base = "/moneyfromthefuture.com" %}
-{% else %}
-  {% assign site_base = "" %}
-{% endif %}
 <main>
   <section class="shell hero">
     <div>
@@ -20,7 +15,7 @@ footer_title: About Us
       </p>
     </div>
     <div class="hero-panel reveal delay-2">
-      <div class="hero-panel-art" style="background-image: url('{{ site_base }}/images/36-future-is-ours-WEB.jpg');"></div>
+      <div class="hero-panel-art" style="background-image: url('{{ '/images/36-future-is-ours-WEB.jpg' | relative_url }}');"></div>
     </div>
   </section>
   <section class="shell">

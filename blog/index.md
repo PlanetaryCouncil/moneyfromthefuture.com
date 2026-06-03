@@ -5,11 +5,6 @@ description: Notes, updates, and archive posts from Money From The Future.
 permalink: /blog/
 footer_title: Blog
 ---
-{% if jekyll.environment == "production" %}
-  {% assign site_base = "/moneyfromthefuture.com" %}
-{% else %}
-  {% assign site_base = "" %}
-{% endif %}
 <main>
   <section class="shell hero">
     <div>
@@ -24,7 +19,7 @@ footer_title: Blog
     <div class="info-grid">
       {% for post in site.posts %}
       <article class="info-card reveal delay-{{ forloop.index0 | modulo: 3 }}">
-        <h3><a href="{{ site_base }}{{ post.url }}">{{ post.title }}</a></h3>
+        <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
         <p>{{ post.excerpt | strip_html | truncatewords: 22 }}</p>
       </article>
       {% endfor %}

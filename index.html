@@ -3,11 +3,6 @@ layout: default
 title: Money From The Future Canvas Shop
 description: Money From The Future canvas catalog. One artwork page per family, 100 euro per piece.
 ---
-{% if jekyll.environment == "production" %}
-  {% assign site_base = "/moneyfromthefuture.com" %}
-{% else %}
-  {% assign site_base = "" %}
-{% endif %}
 {% assign artworks = site.artworks | sort: 'order' %}
 <main id="top">
   <section class="shell hero hero-home">
@@ -22,7 +17,7 @@ description: Money From The Future canvas catalog. One artwork page per family, 
       </div>
     </div>
     <div class="hero-panel reveal delay-2">
-      <div class="hero-panel-art" style="background-image: url('{{ site_base }}/images/36-future-is-ours-WEB.jpg');"></div>
+      <div class="hero-panel-art" style="background-image: url('{{ '/images/36-future-is-ours-WEB.jpg' | relative_url }}');"></div>
     </div>
   </section>
   <section class="shell" id="catalog">
@@ -37,8 +32,9 @@ description: Money From The Future canvas catalog. One artwork page per family, 
     </div>
     <div class="catalog-grid">
       {% for artwork in artworks %}
-      <a class="catalog-card reveal delay-{{ forloop.index0 | modulo: 6 }}" href="{{ site_base }}/investment-art/{{ artwork.slug }}.html">
-        <div class="catalog-image" style="background-image: url('{{ site_base }}/images/{{ artwork.preview_image | default: artwork.image }}');"></div>
+      {% assign preview_image = artwork.preview_image | default: artwork.image %}
+      <a class="catalog-card reveal delay-{{ forloop.index0 | modulo: 6 }}" href="{{ '/investment-art/' | append: artwork.slug | append: '.html' | relative_url }}">
+        <div class="catalog-image" style="background-image: url('{{ '/images/' | append: preview_image | relative_url }}');"></div>
         <div class="catalog-copy">
           <span class="catalog-id">{{ artwork.art_id }}</span>
           <div class="catalog-row">
