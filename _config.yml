@@ -1,7 +1,7 @@
 title: Money From The Future
 description: Investment art canvas prints from Money From The Future.
-url: "https://moneyfromthefuture.com"
-baseurl: ""
+url: "https://planetarycouncil.github.io"
+baseurl: "/moneyfromthefuture.com"
 timezone: Europe/Warsaw
 
 collections:

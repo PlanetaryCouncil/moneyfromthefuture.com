@@ -23,6 +23,7 @@ For every feature, add:
 - GitHub Pages deployment uses `.github/workflows/pages.yml`.
 - Artwork/product data lives in `_artworks/*.md`.
 - Jekyll generates individual product pages into `/investment-art/*.html`.
+- Current public target URL is `https://planetarycouncil.github.io/moneyfromthefuture.com/`.
 - One artwork family equals one buyer-facing product page.
 - Buyer-facing catalog avoids variants to reduce decision fatigue.
 - Canvas prints are priced at `EUR 100` per print.
@@ -213,7 +214,6 @@ Files changed:
 - `Gemfile`
 - `.ruby-version`
 - `.gitignore`
-- `CNAME`
 - `.github/workflows/pages.yml`
 - `Gemfile.lock`
 - `_layouts/default.html`
@@ -256,7 +256,7 @@ Verification:
 
 Known limits:
 - GitHub Pages settings must be configured to publish from GitHub Actions.
-- If serving from a `github.io/repository-name` URL instead of the custom domain, `_config.yml` `baseurl` must be adjusted.
+- If switching back to the custom domain later, restore `CNAME` and set `_config.yml` `baseurl` to `""`.
 
 ## Prompt Log
 

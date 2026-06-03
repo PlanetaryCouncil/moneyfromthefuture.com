@@ -165,20 +165,19 @@ Settings -> Pages -> Build and deployment -> Source -> GitHub Actions
 The repo includes:
 
 ```text
-CNAME
 _config.yml
 Gemfile
 Gemfile.lock
 .github/workflows/pages.yml
 ```
 
-If GitHub Pages is configured for the custom domain, the live site should resolve as:
+If GitHub Pages is configured as a project site, the live site should resolve as:
 
 ```text
-https://moneyfromthefuture.com/
+https://planetarycouncil.github.io/moneyfromthefuture.com/
 ```
 
-If the site is temporarily served from a `github.io/repository-name` URL instead of the custom domain, update `baseurl` in `_config.yml` before relying on generated links.
+If you later switch to the custom domain, change `_config.yml` `url` to `https://moneyfromthefuture.com`, set `baseurl` back to `""`, and restore `CNAME`.
 
 ## Acceptance Criteria For Shop Work
 
