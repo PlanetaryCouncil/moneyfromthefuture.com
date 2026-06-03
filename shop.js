@@ -5,28 +5,26 @@ const streetAddressInput = document.getElementById("street-address");
 const cityInput = document.getElementById("city");
 const postcodeInput = document.getElementById("postcode");
 const countryInput = document.getElementById("country");
-const emailLink = document.getElementById("email-link");
+const orderForm = document.getElementById("order-form");
+const orderSubmitButton = document.getElementById("order-submit");
 const BASKET_KEY = "moneyFromTheFutureBasket";
 const DEFAULT_ITEM_PRICE = 100;
 let paypalSdkPromise = null;
 let renderedPayPalTotal = null;
 
 function updateEmailLink() {
-  if (!artworkInput || !emailInput || !streetAddressInput || !emailLink) return;
+  if (!artworkInput || !emailInput || !streetAddressInput || !orderSubmitButton) return;
   const artwork = artworkInput.value.trim() || "Canvas order";
   const email = emailInput.value.trim() || "[buyer email]";
   const address = streetAddressInput.value.trim() || "[shipping address]";
-  const subject = encodeURIComponent("Canvas order - " + artwork);
-  const body = encodeURIComponent(
+  orderSubmitButton.dataset.previewMessage =
     "Artwork: " + artwork + "\n" +
     "Buyer email: " + email + "\n" +
     "Shipping address:\n" + address + "\n\n" +
-    "Payment status: Paid via PayPal"
-  );
-  emailLink.href = "mailto:hello@moneyfromthefuture.com?subject=" + subject + "&body=" + body;
+    "Payment status: Paid via PayPal";
 }
 
-if (artworkInput && emailInput && streetAddressInput && emailLink) {
+if (artworkInput && emailInput && streetAddressInput && orderSubmitButton) {
   updateEmailLink();
   emailInput.addEventListener("input", updateEmailLink);
   streetAddressInput.addEventListener("input", updateEmailLink);
@@ -95,11 +93,31 @@ function getCheckoutDetails() {
 
 function updateCheckoutLinks(basket) {
   const paypalLink = document.getElementById("paypal-link");
-  const basketEmailLink = document.getElementById("email-link");
+  const subjectField = document.getElementById("form-subject");
+  const basketSummaryField = document.getElementById("basket-summary-field");
+  const basketTotalField = document.getElementById("basket-total-field");
+  const basketLinesField = document.getElementById("basket-lines-field");
+  const paymentStatusField = document.getElementById("payment-status-field");
+  const sourcePageField = document.getElementById("source-page-field");
+  const formMessageField = document.getElementById("form-message");
   const total = getBasketTotal(basket);
   const details = getCheckoutDetails();
   const lines = getOrderLines(basket);
   const totalCount = getBasketCount(basket);
+  const basketSummaryText = `${totalCount} ${totalCount === 1 ? "print" : "prints"} - EUR ${total}`;
+  const message =
+    "Basket summary:\n" +
+    (lines.length ? lines.join("\n") : "[empty basket]") +
+    "\n\nBasket situation: " + basketSummaryText +
+    "\n\nBuyer details:\n" +
+    "Name: " + details.name +
+    "\nEmail: " + details.email +
+    "\nStreet address: " + details.streetAddress +
+    "\nCity: " + details.city +
+    "\nPostcode: " + details.postcode +
+    "\nCountry: " + details.country +
+    "\n\nTotal: EUR " + total +
+    "\nPayment status: Paid via PayPal";
 
   if (paypalLink) {
     if (total > 0) {
@@ -115,23 +133,37 @@ function updateCheckoutLinks(basket) {
     }
   }
 
-  if (basketEmailLink) {
-    const subject = encodeURIComponent(`Canvas order - EUR ${total}`);
-    const body = encodeURIComponent(
-      "Basket summary:\n" +
-      (lines.length ? lines.join("\n") : "[empty basket]") +
-      "\n\nBasket situation: " + totalCount + (totalCount === 1 ? " print" : " prints") + " - EUR " + total +
-      "\n\nBuyer details:\n" +
-      "Name: " + details.name +
-      "\nEmail: " + details.email +
-      "\nStreet address: " + details.streetAddress +
-      "\nCity: " + details.city +
-      "\nPostcode: " + details.postcode +
-      "\nCountry: " + details.country +
-      "\n\nTotal: EUR " + total +
-      "\nPayment status: Paid via PayPal"
-    );
-    basketEmailLink.href = `mailto:hello@moneyfromthefuture.com?subject=${subject}&body=${body}`;
+  if (subjectField) {
+    subjectField.value = `Money From The Future order - EUR ${total}`;
+  }
+
+  if (basketSummaryField) {
+    basketSummaryField.value = basketSummaryText;
+  }
+
+  if (basketTotalField) {
+    basketTotalField.value = `EUR ${total}`;
+  }
+
+  if (basketLinesField) {
+    basketLinesField.value = lines.length ? lines.join("\n") : "[empty basket]";
+  }
+
+  if (paymentStatusField) {
+    paymentStatusField.value = "Paid via PayPal";
+  }
+
+  if (sourcePageField) {
+    sourcePageField.value = "basket";
+  }
+
+  if (formMessageField) {
+    formMessageField.value = message;
+  }
+
+  if (orderSubmitButton) {
+    orderSubmitButton.disabled = total === 0;
+    orderSubmitButton.textContent = total > 0 ? "Forward Order Details" : "Basket Is Empty";
   }
 }
 
@@ -316,6 +348,12 @@ function initBasket() {
     .forEach((input) => {
       input.addEventListener("input", () => updateCheckoutLinks(readBasket()));
     });
+
+  if (orderForm) {
+    orderForm.addEventListener("submit", () => {
+      updateCheckoutLinks(readBasket());
+    });
+  }
 
   renderBasket();
 }
