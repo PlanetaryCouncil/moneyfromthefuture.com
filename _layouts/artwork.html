@@ -42,6 +42,7 @@ layout: default
           data-slug="{{ page.slug }}"
           data-title="{{ page.title | escape }}"
           data-image="{{ '/images/' | append: page.image | relative_url }}"
+          data-price="{{ page.price }}"
         >Add To Basket</button>
         <a class="button button-secondary" href="{{ '/investment-art/basket.html' | relative_url }}">View Basket (<span data-basket-count>0</span>)</a>
         <a class="button button-secondary" href="{{ '/images/' | append: page.image | relative_url }}">Open Original File</a>

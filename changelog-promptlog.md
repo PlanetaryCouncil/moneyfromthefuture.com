@@ -48,6 +48,32 @@ For every feature, add:
 
 ## Changelog
 
+### 2026-06-03 - One Euro Test Purchase Page
+
+Request summary:
+User wanted a super simple `test-purchase` page for 1 euro to test real PayPal purchases.
+
+Decision:
+Add a dedicated `/test-purchase.html` page and upgrade basket math so each basket item can carry its own price instead of assuming every item costs `EUR 100`.
+
+Files changed:
+- `test-purchase.html`
+- `shop.js`
+- `_layouts/artwork.html`
+
+Acceptance criteria:
+- `/test-purchase.html` exists.
+- The page adds a dummy item priced at `EUR 1`.
+- Basket totals respect item-level prices.
+- PayPal order creation uses the real basket total and per-item unit amounts.
+
+Verification:
+- Ran `bundle exec jekyll build`.
+- Ran `node --check shop.js`.
+
+Known limits:
+- Test item is intentionally plain and should not be linked prominently in the main customer flow.
+
 ### 2026-06-03 - PayPal Smart Button Integration
 
 Request summary:

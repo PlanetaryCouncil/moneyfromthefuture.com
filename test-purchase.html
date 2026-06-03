@@ -1,0 +1,47 @@
+---
+layout: default
+title: Test Purchase
+description: One euro test purchase page for PayPal checkout validation.
+permalink: /test-purchase.html
+footer_title: Test Purchase
+---
+<main>
+  <section class="shell product-hero">
+    <div class="product-image-stage reveal">
+      <img class="product-image" src="{{ '/images/36-future-is-ours-WEB.jpg' | relative_url }}" alt="Test purchase item">
+    </div>
+    <div class="product-panel reveal delay-1">
+      <span class="eyebrow">Test Purchase</span>
+      <h1>Dummy Item For One Euro.</h1>
+      <p class="lead">This page exists only for real PayPal checkout testing. It adds a single 1 euro item into the basket so we can validate payment behavior without touching the live artwork prices.</p>
+      <div class="product-meta">
+        <div class="meta-block">
+          <span class="meta-label">Type</span>
+          <strong>Payment Test</strong>
+        </div>
+        <div class="meta-block">
+          <span class="meta-label">Price</span>
+          <strong>EUR 1</strong>
+        </div>
+      </div>
+      <div class="product-actions">
+        <button
+          class="button button-primary"
+          type="button"
+          data-add-to-basket
+          data-id="test-purchase"
+          data-slug="test-purchase"
+          data-title="Test Purchase"
+          data-image="{{ '/images/36-future-is-ours-WEB.jpg' | relative_url }}"
+          data-price="1"
+        >Add Test Item</button>
+        <a class="button button-secondary" href="{{ '/investment-art/basket.html' | relative_url }}">View Basket (<span data-basket-count>0</span>)</a>
+      </div>
+    </div>
+  </section>
+  <section class="shell">
+    <div class="product-note reveal">
+      <p data-basket-status>Use this page only to verify the checkout path. It should add a 1 euro item to the basket and nothing else.</p>
+    </div>
+  </section>
+</main>

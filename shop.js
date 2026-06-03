@@ -3,7 +3,7 @@ const emailInput = document.getElementById("email");
 const addressInput = document.getElementById("address");
 const emailLink = document.getElementById("email-link");
 const BASKET_KEY = "moneyFromTheFutureBasket";
-const CANVAS_PRICE = 100;
+const DEFAULT_ITEM_PRICE = 100;
 let paypalSdkPromise = null;
 let renderedPayPalTotal = null;
 
@@ -45,6 +45,11 @@ function getBasketCount(basket = readBasket()) {
   return basket.reduce((total, item) => total + Number(item.quantity || 0), 0);
 }
 
+function getItemPrice(item) {
+  const price = Number(item.price);
+  return Number.isFinite(price) ? price : DEFAULT_ITEM_PRICE;
+}
+
 function updateBasketCount() {
   const count = getBasketCount();
   document.querySelectorAll("[data-basket-count]").forEach((element) => {
@@ -53,11 +58,15 @@ function updateBasketCount() {
 }
 
 function getOrderLines(basket) {
-  return basket.map((item) => `${item.quantity} x ${item.title} (${item.slug})`);
+  return basket.map((item) => {
+    const unitPrice = getItemPrice(item);
+    const subtotal = unitPrice * Number(item.quantity || 0);
+    return `${item.quantity} x ${item.title} (${item.slug}) - EUR ${unitPrice} each - EUR ${subtotal} total`;
+  });
 }
 
 function getBasketTotal(basket) {
-  return getBasketCount(basket) * CANVAS_PRICE;
+  return basket.reduce((total, item) => total + (Number(item.quantity || 0) * getItemPrice(item)), 0);
 }
 
 function escapeHtml(value) {
@@ -184,7 +193,7 @@ function renderPayPalButtons(basket) {
               quantity: String(item.quantity),
               unit_amount: {
                 currency_code: "EUR",
-                value: CANVAS_PRICE.toFixed(2)
+                value: getItemPrice(item).toFixed(2)
               }
             }))
           }]
@@ -209,7 +218,7 @@ function renderBasket() {
   const basketSummary = document.getElementById("basket-summary");
   const basketTotal = document.getElementById("basket-total");
   const totalCount = getBasketCount(basket);
-  const total = totalCount * CANVAS_PRICE;
+  const total = getBasketTotal(basket);
 
   updateBasketCount();
   updateCheckoutLinks(basket);
@@ -235,9 +244,9 @@ function renderBasket() {
       <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}">
       <div class="basket-item-copy">
         <strong>${escapeHtml(item.title)}</strong>
-        <span>${item.quantity} x EUR ${CANVAS_PRICE}</span>
+        <span>${item.quantity} x EUR ${getItemPrice(item)}</span>
       </div>
-      <strong>EUR ${item.quantity * CANVAS_PRICE}</strong>
+      <strong>EUR ${item.quantity * getItemPrice(item)}</strong>
     </article>
   `).join("");
 }
@@ -250,6 +259,7 @@ function initBasket() {
         slug: button.dataset.slug || "",
         title: button.dataset.title || "Canvas print",
         image: button.dataset.image || "",
+        price: Number(button.dataset.price || DEFAULT_ITEM_PRICE),
         quantity: 1
       };
       const basket = readBasket();
