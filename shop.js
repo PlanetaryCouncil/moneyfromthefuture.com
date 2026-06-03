@@ -1,6 +1,10 @@
 const artworkInput = document.getElementById("artwork");
+const nameInput = document.getElementById("name");
 const emailInput = document.getElementById("email");
-const addressInput = document.getElementById("address");
+const streetAddressInput = document.getElementById("street-address");
+const cityInput = document.getElementById("city");
+const postcodeInput = document.getElementById("postcode");
+const countryInput = document.getElementById("country");
 const emailLink = document.getElementById("email-link");
 const BASKET_KEY = "moneyFromTheFutureBasket";
 const DEFAULT_ITEM_PRICE = 100;
@@ -8,10 +12,10 @@ let paypalSdkPromise = null;
 let renderedPayPalTotal = null;
 
 function updateEmailLink() {
-  if (!artworkInput || !emailInput || !addressInput || !emailLink) return;
+  if (!artworkInput || !emailInput || !streetAddressInput || !emailLink) return;
   const artwork = artworkInput.value.trim() || "Canvas order";
   const email = emailInput.value.trim() || "[buyer email]";
-  const address = addressInput.value.trim() || "[shipping address]";
+  const address = streetAddressInput.value.trim() || "[shipping address]";
   const subject = encodeURIComponent("Canvas order - " + artwork);
   const body = encodeURIComponent(
     "Artwork: " + artwork + "\n" +
@@ -22,10 +26,10 @@ function updateEmailLink() {
   emailLink.href = "mailto:hello@moneyfromthefuture.com?subject=" + subject + "&body=" + body;
 }
 
-if (artworkInput && emailInput && addressInput && emailLink) {
+if (artworkInput && emailInput && streetAddressInput && emailLink) {
   updateEmailLink();
   emailInput.addEventListener("input", updateEmailLink);
-  addressInput.addEventListener("input", updateEmailLink);
+  streetAddressInput.addEventListener("input", updateEmailLink);
 }
 
 function readBasket() {
@@ -78,13 +82,24 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
+function getCheckoutDetails() {
+  return {
+    name: nameInput ? nameInput.value.trim() || "[buyer name]" : "[buyer name]",
+    email: emailInput ? emailInput.value.trim() || "[buyer email]" : "[buyer email]",
+    streetAddress: streetAddressInput ? streetAddressInput.value.trim() || "[street address]" : "[street address]",
+    city: cityInput ? cityInput.value.trim() || "[city]" : "[city]",
+    postcode: postcodeInput ? postcodeInput.value.trim() || "[postcode]" : "[postcode]",
+    country: countryInput ? countryInput.value.trim() || "[country]" : "[country]"
+  };
+}
+
 function updateCheckoutLinks(basket) {
   const paypalLink = document.getElementById("paypal-link");
   const basketEmailLink = document.getElementById("email-link");
   const total = getBasketTotal(basket);
-  const email = emailInput ? emailInput.value.trim() || "[buyer email]" : "[buyer email]";
-  const address = addressInput ? addressInput.value.trim() || "[shipping address]" : "[shipping address]";
+  const details = getCheckoutDetails();
   const lines = getOrderLines(basket);
+  const totalCount = getBasketCount(basket);
 
   if (paypalLink) {
     if (total > 0) {
@@ -103,10 +118,16 @@ function updateCheckoutLinks(basket) {
   if (basketEmailLink) {
     const subject = encodeURIComponent(`Canvas order - EUR ${total}`);
     const body = encodeURIComponent(
-      "Order:\n" +
+      "Basket summary:\n" +
       (lines.length ? lines.join("\n") : "[empty basket]") +
-      "\n\nBuyer email: " + email +
-      "\nShipping address:\n" + address +
+      "\n\nBasket situation: " + totalCount + (totalCount === 1 ? " print" : " prints") + " - EUR " + total +
+      "\n\nBuyer details:\n" +
+      "Name: " + details.name +
+      "\nEmail: " + details.email +
+      "\nStreet address: " + details.streetAddress +
+      "\nCity: " + details.city +
+      "\nPostcode: " + details.postcode +
+      "\nCountry: " + details.country +
       "\n\nTotal: EUR " + total +
       "\nPayment status: Paid via PayPal"
     );
@@ -290,8 +311,11 @@ function initBasket() {
     });
   }
 
-  if (emailInput) emailInput.addEventListener("input", () => updateCheckoutLinks(readBasket()));
-  if (addressInput) addressInput.addEventListener("input", () => updateCheckoutLinks(readBasket()));
+  [nameInput, emailInput, streetAddressInput, cityInput, postcodeInput, countryInput]
+    .filter(Boolean)
+    .forEach((input) => {
+      input.addEventListener("input", () => updateCheckoutLinks(readBasket()));
+    });
 
   renderBasket();
 }
