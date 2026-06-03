@@ -3,6 +3,7 @@ description: Investment art canvas prints from Money From The Future.
 url: "https://planetarycouncil.github.io"
 baseurl: "/moneyfromthefuture.com"
 timezone: Europe/Warsaw
+paypal_client_id: "Abm3E2uVwbeiuaRPZJXPLV85Ad-ataW-kAu1beEQAOuj6b480okfvAK8ftwQpPNpI-y8dozo_tNtmpTC"
 
 collections:
   artworks:

@@ -48,6 +48,12 @@ footer_title: Basket
             <textarea id="address" name="address" placeholder="Full shipping address" required></textarea>
           </div>
           <div class="checkout-actions">
+            <div
+              id="paypal-button-container"
+              class="paypal-smart-buttons"
+              data-paypal-client-id="{{ site.paypal_client_id | escape }}"
+            ></div>
+            <p id="paypal-button-status" class="checkout-note"></p>
             <a id="paypal-link" class="button paypal-button" href="#">Basket Is Empty</a>
             <a id="email-link" class="button button-secondary" href="mailto:hello@moneyfromthefuture.com">Forward Order Details</a>
           </div>

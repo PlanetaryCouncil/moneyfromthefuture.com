@@ -4,6 +4,8 @@ const addressInput = document.getElementById("address");
 const emailLink = document.getElementById("email-link");
 const BASKET_KEY = "moneyFromTheFutureBasket";
 const CANVAS_PRICE = 100;
+let paypalSdkPromise = null;
+let renderedPayPalTotal = null;
 
 function updateEmailLink() {
   if (!artworkInput || !emailInput || !addressInput || !emailLink) return;
@@ -54,6 +56,10 @@ function getOrderLines(basket) {
   return basket.map((item) => `${item.quantity} x ${item.title} (${item.slug})`);
 }
 
+function getBasketTotal(basket) {
+  return getBasketCount(basket) * CANVAS_PRICE;
+}
+
 function escapeHtml(value) {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -66,7 +72,7 @@ function escapeHtml(value) {
 function updateCheckoutLinks(basket) {
   const paypalLink = document.getElementById("paypal-link");
   const basketEmailLink = document.getElementById("email-link");
-  const total = getBasketCount(basket) * CANVAS_PRICE;
+  const total = getBasketTotal(basket);
   const email = emailInput ? emailInput.value.trim() || "[buyer email]" : "[buyer email]";
   const address = addressInput ? addressInput.value.trim() || "[shipping address]" : "[shipping address]";
   const lines = getOrderLines(basket);
@@ -99,6 +105,104 @@ function updateCheckoutLinks(basket) {
   }
 }
 
+function loadPayPalSdk(clientId) {
+  if (window.paypal) return Promise.resolve(window.paypal);
+  if (paypalSdkPromise) return paypalSdkPromise;
+
+  paypalSdkPromise = new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    const params = new URLSearchParams({
+      "client-id": clientId,
+      currency: "EUR",
+      intent: "capture",
+      components: "buttons"
+    });
+
+    script.src = `https://www.paypal.com/sdk/js?${params.toString()}`;
+    script.onload = () => resolve(window.paypal);
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+
+  return paypalSdkPromise;
+}
+
+function renderPayPalButtons(basket) {
+  const container = document.getElementById("paypal-button-container");
+  const status = document.getElementById("paypal-button-status");
+  if (!container) return;
+
+  const total = getBasketTotal(basket);
+  const clientId = (container.dataset.paypalClientId || "").trim();
+
+  if (!total) {
+    container.innerHTML = "";
+    renderedPayPalTotal = null;
+    if (status) status.textContent = "Add a canvas print to enable PayPal checkout.";
+    return;
+  }
+
+  if (!clientId) {
+    container.innerHTML = "";
+    renderedPayPalTotal = null;
+    if (status) status.textContent = "PayPal smart button needs paypal_client_id in _config.yml. PayPal.me fallback is active below.";
+    return;
+  }
+
+  if (renderedPayPalTotal === total && container.childElementCount) return;
+
+  container.innerHTML = "";
+  renderedPayPalTotal = total;
+  if (status) status.textContent = "";
+
+  loadPayPalSdk(clientId)
+    .then((paypal) => {
+      if (!paypal || !paypal.Buttons) throw new Error("PayPal SDK did not load buttons.");
+
+      paypal.Buttons({
+        style: {
+          color: "gold",
+          label: "paypal",
+          layout: "vertical",
+          shape: "rect"
+        },
+        createOrder: (data, actions) => actions.order.create({
+          purchase_units: [{
+            description: "Money From The Future canvas prints",
+            amount: {
+              currency_code: "EUR",
+              value: total.toFixed(2),
+              breakdown: {
+                item_total: {
+                  currency_code: "EUR",
+                  value: total.toFixed(2)
+                }
+              }
+            },
+            items: basket.map((item) => ({
+              name: item.title,
+              quantity: String(item.quantity),
+              unit_amount: {
+                currency_code: "EUR",
+                value: CANVAS_PRICE.toFixed(2)
+              }
+            }))
+          }]
+        }),
+        onApprove: (data, actions) => actions.order.capture().then(() => {
+          if (status) status.textContent = "Payment captured. Please forward order details so delivery can be arranged.";
+        }),
+        onError: () => {
+          if (status) status.textContent = "PayPal button had an issue. Use the PayPal.me fallback or try again.";
+        }
+      }).render(container);
+    })
+    .catch(() => {
+      renderedPayPalTotal = null;
+      if (status) status.textContent = "PayPal button could not load. PayPal.me fallback is active below.";
+    });
+}
+
 function renderBasket() {
   const basket = readBasket();
   const basketItems = document.getElementById("basket-items");
@@ -109,6 +213,7 @@ function renderBasket() {
 
   updateBasketCount();
   updateCheckoutLinks(basket);
+  renderPayPalButtons(basket);
 
   if (basketSummary) {
     basketSummary.textContent = `${totalCount} ${totalCount === 1 ? "print" : "prints"} in basket`;

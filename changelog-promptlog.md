@@ -48,6 +48,37 @@ For every feature, add:
 
 ## Changelog
 
+### 2026-06-03 - PayPal Smart Button Integration
+
+Request summary:
+User asked to integrate a PayPal button from the PayPal payment links and buttons flow.
+
+Decision:
+Add PayPal JavaScript SDK smart-button support to the basket page, driven by the current basket total. Keep the PayPal.me link as a fallback until the live PayPal client ID is configured.
+
+Files changed:
+- `_config.yml`
+- `investment-art/basket.html`
+- `shop.js`
+- `shop.css`
+- `readme-developer.md`
+
+Acceptance criteria:
+- Basket page has a PayPal SDK button container.
+- PayPal SDK loads only when `paypal_client_id` is present.
+- PayPal order amount uses `EUR 100 x total print quantity`.
+- PayPal order includes basket line items.
+- If the SDK is not configured or fails to load, the PayPal.me fallback remains available.
+- Developer docs explain where to paste the PayPal client ID.
+
+Verification:
+- Ran `bundle exec jekyll build`.
+- Ran `node --check shop.js`.
+
+Known limits:
+- The static-site integration uses client-side PayPal order creation and capture.
+- For full server-side payment verification later, add a backend or serverless function.
+
 ### 2026-06-03 - Restore Basket Behavior After Jekyll Cleanup
 
 Request summary:

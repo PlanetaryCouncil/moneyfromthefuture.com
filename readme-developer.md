@@ -180,6 +180,18 @@ https://planetarycouncil.github.io/moneyfromthefuture.com/
 
 If you later switch to the custom domain, change `_config.yml` `url` to `https://moneyfromthefuture.com`, set `baseurl` back to `""`, and restore `CNAME`.
 
+## PayPal Smart Button
+
+The basket page can render PayPal's JavaScript SDK smart button. Paste the live PayPal client ID into `_config.yml`:
+
+```yaml
+paypal_client_id: "YOUR_LIVE_PAYPAL_CLIENT_ID"
+```
+
+The client ID is public configuration for the PayPal browser SDK. Do not add PayPal secret keys to this static GitHub Pages repo.
+
+If `paypal_client_id` is blank, the basket keeps using the PayPal.me fallback link.
+
 ## Acceptance Criteria For Shop Work
 
 - Root `/` shows the artwork catalog.
@@ -189,5 +201,5 @@ If you later switch to the custom domain, change `_config.yml` `url` to `https:/
 - Basket persists through `localStorage`.
 - Basket supports multiple artworks and multiple quantities.
 - Checkout total is `EUR 100 x total print quantity`.
-- PayPal and forward-order email links reflect the basket total.
+- PayPal smart button, PayPal.me fallback, and forward-order email links reflect the basket total.
 - UI remains square-edged with no rounded corners.
