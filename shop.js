@@ -207,7 +207,7 @@ function renderPayPalButtons(basket) {
   if (!clientId) {
     container.innerHTML = "";
     renderedPayPalTotal = null;
-    if (status) status.textContent = "PayPal smart button needs paypal_client_id in _config.yml. PayPal.me fallback is active below.";
+    if (status) status.textContent = "PayPal smart button needs paypal_client_id in _config.yml.";
     return;
   }
 
@@ -255,13 +255,13 @@ function renderPayPalButtons(basket) {
           if (status) status.textContent = "Payment captured. Please forward order details so delivery can be arranged.";
         }),
         onError: () => {
-          if (status) status.textContent = "PayPal button had an issue. Use the PayPal.me fallback or try again.";
+          if (status) status.textContent = "PayPal button had an issue. Please try again.";
         }
       }).render(container);
     })
     .catch(() => {
       renderedPayPalTotal = null;
-      if (status) status.textContent = "PayPal button could not load. PayPal.me fallback is active below.";
+      if (status) status.textContent = "PayPal button could not load.";
     });
 }
 
