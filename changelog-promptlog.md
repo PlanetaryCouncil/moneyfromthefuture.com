@@ -28,6 +28,7 @@ For every feature, add:
 - Buyer-facing catalog avoids variants to reduce decision fatigue.
 - Canvas prints are priced at `EUR 100` per print.
 - Basket state uses `localStorage`, not cookies, `sessionStorage`, or backend sessions.
+- Catalog tiles use `preview_image` (`WEB`) while product pages use `image` (`THIS`).
 
 ## Global Acceptance Criteria
 
@@ -197,6 +198,7 @@ Verification:
 - Used `-` to return to `3 / EUR 300`.
 - Confirmed next navigation from `01 The Boss` to `02 Peace Planetary Council`.
 - Cleared test basket after verification.
+- Switched the artwork manifests to `WEB` preview files where available, including `38-metacrisis` now that `38-metacrisis-UPSCALED-WEB.jpg` exists on disk.
 
 Known limits:
 - Quantity controls are currently button-based only; no direct numeric input yet.
@@ -278,6 +280,9 @@ Known limits:
 - User requested support for multiple prints of the same artwork, larger product images, and previous/next navigation.
 - User decided GitHub Pages hosting is the right target and asked for a Jekyll migration.
 - User asked for developer instructions in `readme-developer.md`.
+- User asked to keep the `THIS` file available in `images/` but make the preview use the `WEB` version for `The Boss`.
+- User later renamed the artwork image set so preview assets should use `WEB` versions across the board.
+- User then clarified the final rule: use `WEB` images on the index/catalog pages and `THIS` images on individual product pages.
 
 ### Current User Working Style
 

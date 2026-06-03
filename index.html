@@ -19,7 +19,7 @@ footer_title: Money From The Future Canvas Shop
       </div>
     </div>
     <div class="hero-panel reveal delay-2">
-      <div class="hero-panel-art" style="background-image: url('{{ '/images/36-future-is-ours.png' | relative_url }}');"></div>
+      <div class="hero-panel-art" style="background-image: url('{{ '/images/36-future-is-ours-WEB.jpg' | relative_url }}');"></div>
     </div>
   </section>
 
@@ -36,7 +36,7 @@ footer_title: Money From The Future Canvas Shop
     <div class="catalog-grid">
       {% for artwork in artworks %}
         <a class="catalog-card reveal delay-{{ forloop.index0 | modulo: 6 }}" href="{{ artwork.url | relative_url }}">
-          <div class="catalog-image" style="background-image: url('{{ '/images/' | append: artwork.image | relative_url }}');"></div>
+          <div class="catalog-image" style="background-image: url('{{ '/images/' | append: artwork.preview_image | default: artwork.image | relative_url }}');"></div>
           <div class="catalog-copy">
             <span class="catalog-id">{{ artwork.id }}</span>
             <div class="catalog-row">
