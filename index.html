@@ -17,7 +17,18 @@ description: Money From The Future canvas catalog. One artwork page per family, 
       </div>
     </div>
     <div class="hero-panel reveal delay-2">
-      <div class="hero-panel-art" style="background-image: url('{{ '/images/36-future-is-ours-WEB.jpg' | relative_url }}');"></div>
+      {% assign hero_preview = artworks.first.preview_image | default: artworks.first.image %}
+      <div class="hero-carousel" data-hero-rotate data-hero-interval="5000" data-hero-images="{% for artwork in artworks %}{% assign preview_image = artwork.preview_image | default: artwork.image %}{{ '/images/' | append: preview_image | relative_url }}{% unless forloop.last %}|{% endunless %}{% endfor %}">
+        <div class="hero-panel-art hero-carousel-art" style="background-image: url('{{ '/images/' | append: hero_preview | relative_url }}');"></div>
+        <div class="hero-carousel-controls" aria-label="Artwork carousel controls">
+          <button class="hero-carousel-button" type="button" data-hero-prev aria-label="Previous artwork">&lt;</button>
+          <span class="hero-carousel-counter" data-hero-counter>01 / 40</span>
+          <button class="hero-carousel-button" type="button" data-hero-next aria-label="Next artwork">&gt;</button>
+        </div>
+        <div class="hero-carousel-progress" aria-hidden="true">
+          <span class="hero-carousel-progress-fill" data-hero-progress></span>
+        </div>
+      </div>
     </div>
   </section>
   <section class="shell" id="catalog">

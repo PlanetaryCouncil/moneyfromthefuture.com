@@ -114,7 +114,72 @@ h2 { font-size: clamp(2.6rem, 6vw, 4.8rem); }
   box-shadow: 0 14px 44px rgba(42, 24, 8, 0.08);
 }
 .hero-panel, .product-image-stage { padding: 1rem; box-shadow: var(--shadow); }
+.hero-carousel { display: grid; gap: 0.7rem; }
 .hero-panel-art, .catalog-image { aspect-ratio: 2 / 1; background-size: cover; background-position: center; }
+.hero-panel-art {
+  transition: opacity 420ms ease, transform 420ms ease, filter 420ms ease;
+  will-change: opacity, transform, filter;
+}
+.hero-panel-art.is-fading {
+  opacity: 0;
+  transform: scale(1.015);
+  filter: saturate(0.88) contrast(0.96);
+}
+.hero-carousel-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+.hero-carousel-button,
+.hero-carousel-counter {
+  border: 1px solid rgba(17, 17, 17, 0.14);
+  background: rgba(255, 251, 245, 0.78);
+  color: var(--muted);
+  backdrop-filter: blur(8px);
+}
+.hero-carousel-button {
+  width: 2.35rem;
+  height: 2.35rem;
+  display: grid;
+  place-items: center;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 180ms ease, background 180ms ease, color 180ms ease;
+}
+.hero-carousel-button:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 251, 245, 0.94);
+  color: var(--ink);
+}
+.hero-carousel-counter {
+  flex: 1;
+  text-align: center;
+  padding: 0.48rem 0.75rem;
+  font-size: 0.76rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.hero-carousel-progress {
+  height: 0.25rem;
+  background: rgba(17, 17, 17, 0.12);
+  overflow: hidden;
+}
+.hero-carousel-progress-fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(17, 17, 17, 0.42), rgba(17, 17, 17, 0.86));
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+.hero-carousel-progress-fill.is-running {
+  animation: heroProgress var(--hero-interval, 5000ms) linear forwards;
+}
+@keyframes heroProgress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
 .section-head {
   display: flex;
   justify-content: space-between;
