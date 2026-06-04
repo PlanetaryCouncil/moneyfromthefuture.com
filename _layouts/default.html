@@ -11,10 +11,10 @@
   <link rel="stylesheet" href="{{ '/shop.css' | relative_url }}">
 </head>
 <body>
-  <header class="shell">
-    <div class="topbar">
+  <header class="site-header">
+    <div class="shell topbar">
       <a class="brand" href="{{ '/' | relative_url }}">
-        <span class="brand-mark">MF</span>
+        <span class="brand-mark">MFTF</span>
         <span>{{ site.title }}</span>
       </a>
       <nav>
@@ -23,7 +23,10 @@
         <a href="{{ '/policies.html' | relative_url }}">Policies</a>
         <a href="{{ '/social.html' | relative_url }}">Social</a>
         <a href="{{ '/blog/' | relative_url }}">Blog</a>
-        <a href="{{ '/investment-art/basket.html' | relative_url }}">Basket <span data-basket-count>0</span></a>
+        <a class="basket-nav-link" href="{{ '/investment-art/basket.html' | relative_url }}" aria-label="Shopping cart">
+          <span class="basket-nav-icon" aria-hidden="true">🛒</span>
+          <span data-basket-count>0</span>
+        </a>
       </nav>
     </div>
   </header>

@@ -59,16 +59,31 @@ description: Money From The Future canvas catalog. One artwork page per family, 
     <div class="catalog-grid">
       {% for artwork in artworks %}
       {% assign preview_image = artwork.preview_image | default: artwork.image %}
-      <a class="catalog-card reveal delay-{{ forloop.index0 | modulo: 6 }}" href="{{ '/investment-art/' | append: artwork.slug | append: '.html' | relative_url }}">
-        <div class="catalog-image" style="background-image: url('{{ '/images/' | append: preview_image | relative_url }}');"></div>
+      <article class="catalog-card reveal delay-{{ forloop.index0 | modulo: 6 }}">
+        <a class="catalog-media-link" href="{{ '/investment-art/' | append: artwork.slug | append: '.html' | relative_url }}">
+          <img class="catalog-image" src="{{ '/images/' | append: preview_image | relative_url }}" alt="{{ artwork.title | escape }}">
+        </a>
         <div class="catalog-copy">
           <span class="catalog-id">{{ artwork.art_id }}</span>
           <div class="catalog-row">
-            <h3>{{ artwork.title }}</h3>
+            <h3><a class="catalog-title-link" href="{{ '/investment-art/' | append: artwork.slug | append: '.html' | relative_url }}">{{ artwork.title }}</a></h3>
             <span class="price-tag">EUR 100</span>
           </div>
+          <div class="catalog-actions">
+            <button
+              class="button catalog-add-button"
+              type="button"
+              aria-label="Add {{ artwork.title | escape }} to basket"
+              data-add-to-basket
+              data-id="{{ artwork.art_id }}"
+              data-slug="{{ artwork.slug }}"
+              data-title="{{ artwork.title | escape }}"
+              data-image="{{ '/images/' | append: artwork.image | relative_url }}"
+              data-price="{{ artwork.price | default: 100 }}"
+            >+</button>
+          </div>
         </div>
-      </a>
+      </article>
       {% endfor %}
     </div>
   </section>
