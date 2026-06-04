@@ -6,28 +6,17 @@ const cityInput = document.getElementById("city");
 const postcodeInput = document.getElementById("postcode");
 const countryInput = document.getElementById("country");
 const orderForm = document.getElementById("order-form");
-const successSubmitButton = document.getElementById("success-submit");
 const checkoutCard = document.querySelector(".checkout-card");
-const checkoutFlow = document.getElementById("checkout-flow");
 const paymentSuccessScreen = document.getElementById("payment-success-screen");
 const BASKET_KEY = "moneyFromTheFutureBasket";
+const SIMULATED_SUCCESS_KEY = "moneyFromTheFutureSimulatedSuccess";
+const SUCCESS_SNAPSHOT_KEY = "moneyFromTheFutureSuccessSnapshot";
 const DEFAULT_ITEM_PRICE = 100;
 const SHORTCUT_TIMEOUT_MS = 900;
 let paypalSdkPromise = null;
 let renderedPayPalTotal = null;
 let shortcutBuffer = "";
 let shortcutTimer = null;
-
-const artworkCatalog = (() => {
-  const node = document.getElementById("artwork-catalog-data");
-  if (!node) return [];
-  try {
-    const parsed = JSON.parse(node.textContent || "[]");
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-})();
 
 function readBasket() {
   try {
@@ -160,11 +149,31 @@ function renderPaymentSuccess(basket, captureId) {
     paymentStatusField.value = captureId ? `PayPal captured (${captureId})` : "PayPal captured";
   }
 
-  if (successSubmitButton) {
-    successSubmitButton.disabled = !basket.length;
+  setPaymentSuccessVisible(true);
+}
+
+function showSimulatedPaymentSuccess() {
+  const basket = readBasket();
+  if (!basket.length) {
+    updateBasketStatusMessage("Add at least one item before testing the successful checkout screen.");
+    return;
   }
 
-  setPaymentSuccessVisible(true);
+  try {
+    sessionStorage.setItem(SIMULATED_SUCCESS_KEY, "1");
+    sessionStorage.setItem(SUCCESS_SNAPSHOT_KEY, JSON.stringify(basket));
+  } catch {}
+
+  writeBasket([]);
+  updateBasketCount();
+
+  if (paymentSuccessScreen) {
+    renderPaymentSuccess(basket, "simulated-checkout");
+    updateBasketStatusMessage("Simulated successful checkout shown for UI testing.");
+    return;
+  }
+
+  window.location.href = "/investment-art/basket.html";
 }
 
 function updateCheckoutLinks(basket) {
@@ -220,11 +229,6 @@ function updateCheckoutLinks(basket) {
 
   if (formMessageField) {
     formMessageField.value = message;
-  }
-
-  if (successSubmitButton) {
-    successSubmitButton.disabled = total === 0;
-    successSubmitButton.textContent = total > 0 ? "Send Delivery Details" : "Basket Is Empty";
   }
 }
 
@@ -314,6 +318,12 @@ function renderPayPalButtons(basket) {
         }),
         onApprove: (data, actions) => actions.order.capture().then((details) => {
           const basketAfterPayment = readBasket();
+          try {
+            sessionStorage.removeItem(SIMULATED_SUCCESS_KEY);
+            sessionStorage.setItem(SUCCESS_SNAPSHOT_KEY, JSON.stringify(basketAfterPayment));
+          } catch {}
+          writeBasket([]);
+          updateBasketCount();
           renderPaymentSuccess(basketAfterPayment, details?.id || data?.orderID || "");
           if (status) status.textContent = "";
         }),
@@ -330,6 +340,12 @@ function renderPayPalButtons(basket) {
 
 function renderBasket() {
   const basket = readBasket();
+  let successSnapshot = null;
+  try {
+    if (sessionStorage.getItem(SIMULATED_SUCCESS_KEY) === "1") {
+      successSnapshot = JSON.parse(sessionStorage.getItem(SUCCESS_SNAPSHOT_KEY) || "null");
+    }
+  } catch {}
   const basketItems = document.getElementById("basket-items");
   const basketSummary = document.getElementById("basket-summary");
   const basketTotal = document.getElementById("basket-total");
@@ -356,6 +372,9 @@ function renderBasket() {
 
   if (!basket.length) {
     basketItems.innerHTML = '<p class="basket-empty">No canvas prints selected yet.</p>';
+    if (successSnapshot && Array.isArray(successSnapshot) && successSnapshot.length) {
+      renderPaymentSuccess(successSnapshot, "simulated-checkout");
+    }
     return;
   }
 
@@ -369,40 +388,6 @@ function renderBasket() {
       <strong>EUR ${item.quantity * getItemPrice(item)}</strong>
     </article>
   `).join("");
-}
-
-function getRandomArtwork() {
-  if (!artworkCatalog.length) return null;
-  const index = Math.floor(Math.random() * artworkCatalog.length);
-  return artworkCatalog[index];
-}
-
-function addRandomArtwork(quantity = 1) {
-  const artwork = getRandomArtwork();
-  if (!artwork) return;
-  const basket = addItemToBasket(artwork, quantity);
-  const count = getBasketCount(basket);
-  updateBasketStatusMessage(`${artwork.title} added for testing. Basket now has ${count} ${count === 1 ? "print" : "prints"}.`);
-}
-
-function addMultipleRandomArtworks() {
-  if (!artworkCatalog.length) return;
-  const targetCount = Math.min(artworkCatalog.length, 2 + Math.floor(Math.random() * 4));
-  const pool = [...artworkCatalog];
-
-  for (let i = pool.length - 1; i > 0; i -= 1) {
-    const randomIndex = Math.floor(Math.random() * (i + 1));
-    [pool[i], pool[randomIndex]] = [pool[randomIndex], pool[i]];
-  }
-
-  const chosen = pool.slice(0, targetCount);
-  let basket = readBasket();
-  chosen.forEach((artwork) => {
-    basket = addItemToBasket(artwork, 1);
-  });
-
-  const count = getBasketCount(basket);
-  updateBasketStatusMessage(`${chosen.length} random works added for testing. Basket now has ${count} ${count === 1 ? "print" : "prints"}.`);
 }
 
 function initTestingShortcuts() {
@@ -432,12 +417,7 @@ function initTestingShortcuts() {
 
     if (shortcutBuffer === "ddd") {
       shortcutBuffer = "";
-      addRandomArtwork(1);
-    }
-
-    if (shortcutBuffer === "fff") {
-      shortcutBuffer = "";
-      addMultipleRandomArtworks();
+      showSimulatedPaymentSuccess();
     }
   });
 }
@@ -463,6 +443,10 @@ function initBasket() {
   if (clearBasket) {
     clearBasket.addEventListener("click", () => {
       writeBasket([]);
+      try {
+        sessionStorage.removeItem(SIMULATED_SUCCESS_KEY);
+        sessionStorage.removeItem(SUCCESS_SNAPSHOT_KEY);
+      } catch {}
       setPaymentSuccessVisible(false);
       renderBasket();
     });
@@ -481,6 +465,16 @@ function initBasket() {
   }
 
   renderBasket();
+
+  try {
+    if (paymentSuccessScreen && sessionStorage.getItem(SIMULATED_SUCCESS_KEY) === "1") {
+      const storedSnapshot = JSON.parse(sessionStorage.getItem(SUCCESS_SNAPSHOT_KEY) || "null");
+      if (Array.isArray(storedSnapshot) && storedSnapshot.length) {
+        renderPaymentSuccess(storedSnapshot, "simulated-checkout");
+        updateBasketStatusMessage("Simulated successful checkout shown for UI testing.");
+      }
+    }
+  } catch {}
 }
 
 function initHeroRotation() {
