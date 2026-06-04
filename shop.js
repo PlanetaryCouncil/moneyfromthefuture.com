@@ -6,29 +6,28 @@ const cityInput = document.getElementById("city");
 const postcodeInput = document.getElementById("postcode");
 const countryInput = document.getElementById("country");
 const orderForm = document.getElementById("order-form");
-const orderSubmitButton = document.getElementById("order-submit");
+const successSubmitButton = document.getElementById("success-submit");
+const checkoutCard = document.querySelector(".checkout-card");
+const checkoutFlow = document.getElementById("checkout-flow");
+const paymentSuccessScreen = document.getElementById("payment-success-screen");
 const BASKET_KEY = "moneyFromTheFutureBasket";
 const DEFAULT_ITEM_PRICE = 100;
+const SHORTCUT_TIMEOUT_MS = 900;
 let paypalSdkPromise = null;
 let renderedPayPalTotal = null;
+let shortcutBuffer = "";
+let shortcutTimer = null;
 
-function updateEmailLink() {
-  if (!artworkInput || !emailInput || !streetAddressInput || !orderSubmitButton) return;
-  const artwork = artworkInput.value.trim() || "Canvas order";
-  const email = emailInput.value.trim() || "[buyer email]";
-  const address = streetAddressInput.value.trim() || "[shipping address]";
-  orderSubmitButton.dataset.previewMessage =
-    "Artwork: " + artwork + "\n" +
-    "Buyer email: " + email + "\n" +
-    "Shipping address:\n" + address + "\n\n" +
-    "Payment status: Paid via PayPal";
-}
-
-if (artworkInput && emailInput && streetAddressInput && orderSubmitButton) {
-  updateEmailLink();
-  emailInput.addEventListener("input", updateEmailLink);
-  streetAddressInput.addEventListener("input", updateEmailLink);
-}
+const artworkCatalog = (() => {
+  const node = document.getElementById("artwork-catalog-data");
+  if (!node) return [];
+  try {
+    const parsed = JSON.parse(node.textContent || "[]");
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+})();
 
 function readBasket() {
   try {
@@ -71,6 +70,12 @@ function getBasketTotal(basket) {
   return basket.reduce((total, item) => total + (Number(item.quantity || 0) * getItemPrice(item)), 0);
 }
 
+function setPaymentSuccessVisible(isVisible) {
+  if (!checkoutCard || !paymentSuccessScreen) return;
+  checkoutCard.classList.toggle("is-payment-success", isVisible);
+  paymentSuccessScreen.hidden = !isVisible;
+}
+
 function escapeHtml(value) {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -91,8 +96,78 @@ function getCheckoutDetails() {
   };
 }
 
+function addItemToBasket(item, quantity = 1) {
+  const basket = readBasket();
+  const slug = item.slug || item.id || "";
+  const normalizedItem = {
+    id: item.id || slug,
+    slug,
+    title: item.title || "Canvas print",
+    image: item.image || "",
+    price: Number(item.price || DEFAULT_ITEM_PRICE),
+    quantity: Math.max(1, Number(quantity) || 1)
+  };
+  const existing = basket.find((basketItem) => basketItem.slug === normalizedItem.slug);
+
+  if (existing) {
+    existing.quantity += normalizedItem.quantity;
+  } else {
+    basket.push(normalizedItem);
+  }
+
+  writeBasket(basket);
+  renderBasket();
+  return basket;
+}
+
+function updateBasketStatusMessage(message) {
+  const status = document.querySelector("[data-basket-status]");
+  if (status) {
+    status.textContent = message;
+  }
+}
+
+function renderPaymentSuccess(basket, captureId) {
+  const summary = document.getElementById("payment-success-summary");
+  const totalNode = document.getElementById("payment-success-total");
+  const linesNode = document.getElementById("payment-success-lines");
+  const total = getBasketTotal(basket);
+  const count = getBasketCount(basket);
+
+  if (summary) {
+    summary.textContent = `${count} ${count === 1 ? "print" : "prints"} - EUR ${total}`;
+  }
+
+  if (totalNode) {
+    totalNode.textContent = `EUR ${total}`;
+  }
+
+  if (linesNode) {
+    if (!basket.length) {
+      linesNode.innerHTML = '<div class="payment-success-line"><span>No items recorded</span><strong>EUR 0</strong></div>';
+    } else {
+      linesNode.innerHTML = basket.map((item) => `
+        <div class="payment-success-line">
+          <span>${escapeHtml(item.title)} x ${Number(item.quantity || 0)}</span>
+          <strong>EUR ${Number(item.quantity || 0) * getItemPrice(item)}</strong>
+        </div>
+      `).join("");
+    }
+  }
+
+  const paymentStatusField = document.getElementById("payment-status-field");
+  if (paymentStatusField) {
+    paymentStatusField.value = captureId ? `PayPal captured (${captureId})` : "PayPal captured";
+  }
+
+  if (successSubmitButton) {
+    successSubmitButton.disabled = !basket.length;
+  }
+
+  setPaymentSuccessVisible(true);
+}
+
 function updateCheckoutLinks(basket) {
-  const paypalLink = document.getElementById("paypal-link");
   const subjectField = document.getElementById("form-subject");
   const basketSummaryField = document.getElementById("basket-summary-field");
   const basketTotalField = document.getElementById("basket-total-field");
@@ -118,20 +193,6 @@ function updateCheckoutLinks(basket) {
     "\nCountry: " + details.country +
     "\n\nTotal: EUR " + total +
     "\nPayment status: Paid via PayPal";
-
-  if (paypalLink) {
-    if (total > 0) {
-      paypalLink.href = `https://www.paypal.com/paypalme/moneyfromthefuture/${total}EUR`;
-      paypalLink.textContent = `Pay EUR ${total} With PayPal`;
-      paypalLink.setAttribute("target", "_blank");
-      paypalLink.setAttribute("rel", "noreferrer");
-    } else {
-      paypalLink.href = "#";
-      paypalLink.textContent = "Basket Is Empty";
-      paypalLink.removeAttribute("target");
-      paypalLink.removeAttribute("rel");
-    }
-  }
 
   if (subjectField) {
     subjectField.value = `Money From The Future order - EUR ${total}`;
@@ -161,9 +222,9 @@ function updateCheckoutLinks(basket) {
     formMessageField.value = message;
   }
 
-  if (orderSubmitButton) {
-    orderSubmitButton.disabled = total === 0;
-    orderSubmitButton.textContent = total > 0 ? "Forward Order Details" : "Basket Is Empty";
+  if (successSubmitButton) {
+    successSubmitButton.disabled = total === 0;
+    successSubmitButton.textContent = total > 0 ? "Send Delivery Details" : "Basket Is Empty";
   }
 }
 
@@ -251,8 +312,10 @@ function renderPayPalButtons(basket) {
             }))
           }]
         }),
-        onApprove: (data, actions) => actions.order.capture().then(() => {
-          if (status) status.textContent = "Payment captured. Please forward order details so delivery can be arranged.";
+        onApprove: (data, actions) => actions.order.capture().then((details) => {
+          const basketAfterPayment = readBasket();
+          renderPaymentSuccess(basketAfterPayment, details?.id || data?.orderID || "");
+          if (status) status.textContent = "";
         }),
         onError: () => {
           if (status) status.textContent = "PayPal button had an issue. Please try again.";
@@ -272,6 +335,10 @@ function renderBasket() {
   const basketTotal = document.getElementById("basket-total");
   const totalCount = getBasketCount(basket);
   const total = getBasketTotal(basket);
+
+  if (!total) {
+    setPaymentSuccessVisible(false);
+  }
 
   updateBasketCount();
   updateCheckoutLinks(basket);
@@ -304,6 +371,77 @@ function renderBasket() {
   `).join("");
 }
 
+function getRandomArtwork() {
+  if (!artworkCatalog.length) return null;
+  const index = Math.floor(Math.random() * artworkCatalog.length);
+  return artworkCatalog[index];
+}
+
+function addRandomArtwork(quantity = 1) {
+  const artwork = getRandomArtwork();
+  if (!artwork) return;
+  const basket = addItemToBasket(artwork, quantity);
+  const count = getBasketCount(basket);
+  updateBasketStatusMessage(`${artwork.title} added for testing. Basket now has ${count} ${count === 1 ? "print" : "prints"}.`);
+}
+
+function addMultipleRandomArtworks() {
+  if (!artworkCatalog.length) return;
+  const targetCount = Math.min(artworkCatalog.length, 2 + Math.floor(Math.random() * 4));
+  const pool = [...artworkCatalog];
+
+  for (let i = pool.length - 1; i > 0; i -= 1) {
+    const randomIndex = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[randomIndex]] = [pool[randomIndex], pool[i]];
+  }
+
+  const chosen = pool.slice(0, targetCount);
+  let basket = readBasket();
+  chosen.forEach((artwork) => {
+    basket = addItemToBasket(artwork, 1);
+  });
+
+  const count = getBasketCount(basket);
+  updateBasketStatusMessage(`${chosen.length} random works added for testing. Basket now has ${count} ${count === 1 ? "print" : "prints"}.`);
+}
+
+function initTestingShortcuts() {
+  window.addEventListener("keydown", (event) => {
+    const target = event.target;
+    if (
+      event.metaKey ||
+      event.ctrlKey ||
+      event.altKey ||
+      !event.key ||
+      event.key.length !== 1 ||
+      (target instanceof HTMLElement && (
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.isContentEditable ||
+        target.tagName === "SELECT"
+      ))
+    ) {
+      return;
+    }
+
+    shortcutBuffer = (shortcutBuffer + event.key.toLowerCase()).slice(-3);
+    window.clearTimeout(shortcutTimer);
+    shortcutTimer = window.setTimeout(() => {
+      shortcutBuffer = "";
+    }, SHORTCUT_TIMEOUT_MS);
+
+    if (shortcutBuffer === "ddd") {
+      shortcutBuffer = "";
+      addRandomArtwork(1);
+    }
+
+    if (shortcutBuffer === "fff") {
+      shortcutBuffer = "";
+      addMultipleRandomArtworks();
+    }
+  });
+}
+
 function initBasket() {
   document.querySelectorAll("[data-add-to-basket]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -312,26 +450,12 @@ function initBasket() {
         slug: button.dataset.slug || "",
         title: button.dataset.title || "Canvas print",
         image: button.dataset.image || "",
-        price: Number(button.dataset.price || DEFAULT_ITEM_PRICE),
-        quantity: 1
+        price: Number(button.dataset.price || DEFAULT_ITEM_PRICE)
       };
-      const basket = readBasket();
-      const existing = basket.find((basketItem) => basketItem.slug === item.slug);
+      const basket = addItemToBasket(item, 1);
 
-      if (existing) {
-        existing.quantity += 1;
-      } else {
-        basket.push(item);
-      }
-
-      writeBasket(basket);
-      renderBasket();
-
-      const status = document.querySelector("[data-basket-status]");
-      if (status) {
-        const count = getBasketCount(basket);
-        status.textContent = `${item.title} added. Basket now has ${count} ${count === 1 ? "print" : "prints"}.`;
-      }
+      const count = getBasketCount(basket);
+      updateBasketStatusMessage(`${item.title} added. Basket now has ${count} ${count === 1 ? "print" : "prints"}.`);
     });
   });
 
@@ -339,6 +463,7 @@ function initBasket() {
   if (clearBasket) {
     clearBasket.addEventListener("click", () => {
       writeBasket([]);
+      setPaymentSuccessVisible(false);
       renderBasket();
     });
   }
@@ -443,3 +568,4 @@ function initHeroRotation() {
 
 initHeroRotation();
 initBasket();
+initTestingShortcuts();

@@ -34,6 +34,21 @@
       <span>Canvas only. EUR 100. One design per family.</span>
     </div>
   </footer>
+  <script id="artwork-catalog-data" type="application/json">
+    [
+      {% assign catalog_artworks = site.artworks | sort: 'order' %}
+      {% for artwork in catalog_artworks %}
+      {% assign basket_image = artwork.preview_image | default: artwork.image %}
+      {
+        "id": {{ artwork.art_id | jsonify }},
+        "slug": {{ artwork.slug | jsonify }},
+        "title": {{ artwork.title | jsonify }},
+        "image": {{ '/images/' | append: basket_image | relative_url | jsonify }},
+        "price": {{ artwork.price | default: 100 | jsonify }}
+      }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    ]
+  </script>
   <script src="{{ '/shop.js' | relative_url }}"></script>
 </body>
 </html>

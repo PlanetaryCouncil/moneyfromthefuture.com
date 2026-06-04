@@ -262,6 +262,8 @@ h2 { font-size: clamp(2.6rem, 6vw, 4.8rem); }
   box-shadow: var(--shadow);
   padding: 1.2rem;
 }
+.checkout-card.is-payment-success .checkout-intro,
+.checkout-card.is-payment-success .checkout-actions { display: none; }
 .checkout-card p, .checkout-card label, .checkout-note { color: rgba(255, 247, 234, 0.78); }
 .checkout-eyebrow {
   background: rgba(255, 255, 255, 0.08);
@@ -272,6 +274,54 @@ h2 { font-size: clamp(2.6rem, 6vw, 4.8rem); }
 .checkout-actions { display: grid; grid-template-columns: 1fr; }
 .paypal-smart-buttons { min-height: 0; }
 .paypal-smart-buttons:empty { display: none; }
+.payment-success-screen { display: grid; gap: 1rem; }
+.payment-success-card {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+  border: 1px solid rgba(255, 247, 234, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+}
+.payment-success-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 1rem;
+}
+.payment-success-row span {
+  color: rgba(255, 247, 234, 0.68);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+}
+.payment-success-lines {
+  display: grid;
+  gap: 0.45rem;
+  color: #fff7ea;
+}
+.payment-success-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid rgba(255, 247, 234, 0.1);
+}
+.payment-success-line:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+.payment-success-line span { color: rgba(255, 247, 234, 0.78); }
+.payment-success-total strong {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 2.6rem;
+  line-height: 0.9;
+  letter-spacing: 0.03em;
+}
+.payment-success-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+}
 .field { display: grid; gap: 0.45rem; }
 input, textarea {
   width: 100%;
@@ -318,5 +368,6 @@ input::placeholder, textarea::placeholder { color: rgba(255, 247, 234, 0.52); }
   h1 { font-size: clamp(3.6rem, 18vw, 5.8rem); }
   .checkout-summary, .catalog-row, .product-meta { flex-direction: column; align-items: start; }
   .basket-item { grid-template-columns: 1fr; }
+  .payment-success-row, .payment-success-line { flex-direction: column; }
   .footer-bar { flex-direction: column; }
 }
