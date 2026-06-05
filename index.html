@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Money From The Future Canvas Shop
-description: Money From The Future canvas catalog. One artwork page per family, 100 euro per piece.
+title: Money From The Future
+description: Money From The Future online shop.
 ---
 {% assign artworks = site.artworks | sort: 'order' %}
 <main id="top">
@@ -47,7 +47,7 @@ description: Money From The Future canvas catalog. One artwork page per family, 
     </div>
   </section>
   <section class="shell" id="catalog">
-    <div class="section-head">
+<!--     <div class="section-head">
       <div>
         <span class="eyebrow">Designs that fill the space with energy</span>
         <h2>Pick The Work, Then Open The Product Page.</h2>
@@ -55,7 +55,7 @@ description: Money From The Future canvas catalog. One artwork page per family, 
       <div class="section-copy">
         Every card leads to a dedicated page for that artwork family. No variants, no branching choices, no clutter.
       </div>
-    </div>
+    </div> -->
     <div class="catalog-grid">
       {% for artwork in artworks %}
       {% assign preview_image = artwork.preview_image | default: artwork.image %}
@@ -87,7 +87,7 @@ description: Money From The Future canvas catalog. One artwork page per family, 
       {% endfor %}
     </div>
   </section>
-  <section class="shell" id="how">
+<!--   <section class="shell" id="how">
     <div class="section-head">
       <div>
         <span class="eyebrow">How To Buy</span>
@@ -108,5 +108,5 @@ description: Money From The Future canvas catalog. One artwork page per family, 
         <p>Use the email and address form to send fulfillment info after payment.</p>
       </article>
     </div>
-  </section>
+  </section> -->
 </main>
