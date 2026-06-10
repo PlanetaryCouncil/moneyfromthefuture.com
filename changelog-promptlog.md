@@ -48,6 +48,41 @@ For every feature, add:
 
 ## Changelog
 
+### 2026-06-05 - Basket Success-State Hardening + Local Regression Suite
+
+Request summary:
+User reported that the basket success UI kept appearing by default even after clearing storage, and asked for a more serious hardening pass with automated tests and an explicit fast path for working without tests.
+
+Decision:
+Move basket state rules into a pure shared module, make the success UI render only from an explicit success state via a dormant HTML template, and add a local no-network regression suite using Node's built-in test runner.
+
+Files changed:
+- `shop-state.mjs`
+- `shop.js`
+- `investment-art/basket.html`
+- `_layouts/default.html`
+- `package.json`
+- `tests/shop-state.test.mjs`
+- `tests/template-regressions.test.mjs`
+- `readme-developer.md`
+
+Acceptance criteria:
+- Basket page must not show success UI by default.
+- Success UI renders only after real PayPal capture or explicit `ddd` simulation.
+- Simulated success is one-shot and not sticky across later normal page loads.
+- Real PayPal success clears the live basket and shows a snapshot summary.
+- Hidden Formspree fields use the active checkout snapshot, not an empty basket, after payment success.
+- Local regression suite runs without browser downloads, external APIs, or token usage.
+- Repo documents a fast path that skips tests and a full verification path that runs them.
+
+Verification:
+- Ran `node --check shop.js`.
+- Added `25` local automated tests across basket math, success gating, and template regressions with `node --test`.
+
+Known limits:
+- The automated suite is currently state-logic and template focused rather than full browser E2E.
+- Browser-level checkout automation can be added later if we want end-to-end UI coverage on top of the local fast suite.
+
 ### 2026-06-03 - One Euro Test Purchase Page
 
 Request summary:

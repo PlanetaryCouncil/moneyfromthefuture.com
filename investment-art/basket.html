@@ -88,26 +88,29 @@ footer_title: Basket
             </div>
           </form>
         </div>
-
-        <section id="payment-success-screen" class="payment-success-screen" hidden aria-live="polite">
-          <span class="eyebrow checkout-eyebrow">Payment Received</span>
-          <h2>Payment Successful.</h2>
-          <p>Your PayPal payment went through. Review the order summary below.</p>
-          <div class="payment-success-card">
-            <div class="payment-success-row">
-              <span>Order</span>
-              <strong id="payment-success-summary">0 prints - EUR 0</strong>
+        <div id="payment-success-host" hidden></div>
+        <template id="payment-success-template">
+          <section class="payment-success-screen" aria-live="polite">
+            <span class="eyebrow checkout-eyebrow">Payment Received</span>
+            <h2>Payment Successful.</h2>
+            <p>Your PayPal payment went through. Review the order summary below.</p>
+            <div class="payment-success-card">
+              <div class="payment-success-row">
+                <span>Order</span>
+                <strong data-success-summary></strong>
+              </div>
+              <div data-success-lines class="payment-success-lines"></div>
+              <div class="payment-success-row payment-success-total">
+                <span>Total</span>
+                <strong data-success-total></strong>
+              </div>
             </div>
-            <div id="payment-success-lines" class="payment-success-lines"></div>
-            <div class="payment-success-row payment-success-total">
-              <span>Total</span>
-              <strong id="payment-success-total">EUR 0</strong>
+            <div class="payment-success-actions">
+              <button class="button button-primary" type="submit" form="order-form">Send Delivery Details</button>
+              <a class="button button-secondary" href="{{ '/' | relative_url }}">Keep Browsing</a>
             </div>
-          </div>
-          <div class="payment-success-actions">
-            <a class="button button-primary" href="{{ '/' | relative_url }}">Keep Browsing</a>
-          </div>
-        </section>
+          </section>
+        </template>
       </div>
     </div>
   </section>

@@ -1,0 +1,9 @@
+{
+  "name": "moneyfromthefuture.com",
+  "private": true,
+  "scripts": {
+    "dev": "/opt/homebrew/opt/ruby@3.3/bin/bundle exec jekyll serve --config _config.yml,_config.local.yml --host 127.0.0.1 --port 4000",
+    "test": "node --test tests/*.test.mjs",
+    "verify": "node --test tests/*.test.mjs && /opt/homebrew/opt/ruby@3.3/bin/bundle exec jekyll build"
+  }
+}

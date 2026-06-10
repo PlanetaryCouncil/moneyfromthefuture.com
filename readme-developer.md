@@ -21,6 +21,13 @@ cd /Users/m/Code/moneyfromthefuture.com
 bundle exec jekyll serve --baseurl "" --livereload --incremental --host 127.0.0.1 --port 4000
 ```
 
+If you prefer the repo script and already have the right Ruby in your shell:
+
+```sh
+cd /Users/m/Code/moneyfromthefuture.com
+npm run dev
+```
+
 If livereload says its port is already in use, either change the livereload port:
 
 ```sh
@@ -98,6 +105,42 @@ cd /Users/m/Code/moneyfromthefuture.com
 bundle exec jekyll build
 git status --short
 ```
+
+## Fast Path Vs Full Verification
+
+When you want to move fast and just inspect the UI:
+
+```sh
+cd /Users/m/Code/moneyfromthefuture.com
+npm run dev
+```
+
+That starts Jekyll only. No tests.
+
+When you want the hardening pass:
+
+```sh
+cd /Users/m/Code/moneyfromthefuture.com
+npm test
+```
+
+That runs the lightweight local regression suite with Node's built-in test runner. It does not call external APIs or consume model tokens. It is just local CPU work.
+
+When you want both tests and a full static build:
+
+```sh
+cd /Users/m/Code/moneyfromthefuture.com
+npm run verify
+```
+
+Current test suite focuses on:
+
+- basket math
+- success-state gating
+- template regressions
+- checkout message generation
+
+This is meant to catch the "success screen visible by default" class of bug before browser testing.
 
 Jekyll writes generated output to `_site/`. That folder is ignored and should not be committed.
 
