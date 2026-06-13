@@ -48,3 +48,32 @@ The order is not so random. Some thought were put into ordering the initial set 
 
 * https://www.instagram.com/moneyfromthefuture
 * https://www.tiktok.com/@marsrobertson
+
+### Running the website locally
+
+From your repo terminal:
+
+```sh
+cd /Users/m/Code/moneyfromthefuture.com
+npm run dev
+```
+
+That starts the local Jekyll server.
+
+Then open:
+- `http://localhost:4000/`
+- `http://localhost:4000/test-purchase.html`
+
+Useful commands:
+- fast local dev only: `npm run dev`
+- run tests: `npm test`
+- full verify: `npm run verify`
+
+If `localhost:4000` is busy:
+
+```sh
+lsof -nP -iTCP:4000 -sTCP:LISTEN
+kill PID_HERE
+```
+
+Then run `npm run dev` again.
