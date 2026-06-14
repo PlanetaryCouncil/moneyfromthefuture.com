@@ -13,27 +13,60 @@ layout: default
 {% endif %}
 {% assign previous_artwork = artworks[previous_index] %}
 {% assign next_artwork = artworks[next_index] %}
+{% assign texture_image = page.preview_image | default: page.image %}
+{% assign texture_url = '/images/' | append: texture_image | relative_url %}
 
-<main>
-  <section class="shell product-hero">
-    <div class="product-image-stage reveal">
-      <img class="product-image" src="{{ '/images/' | append: page.image | relative_url }}" alt="{{ page.title | escape }}">
-    </div>
-    <div class="product-panel reveal delay-1">
-      <span class="eyebrow">{{ page.art_id }}</span>
-      <h1>{{ page.title }}</h1>
-      <p class="lead">{{ page.description }}</p>
-      <div class="product-meta">
-        <div class="meta-block">
-          <span class="meta-label">Format</span>
-          <strong>{{ page.format }}</strong>
-        </div>
-        <div class="meta-block">
-          <span class="meta-label">Price</span>
-          <strong>EUR {{ page.price }}</strong>
-        </div>
+<main class="artwork-page">
+  <nav class="breadcrumb shell" aria-label="Breadcrumb">
+    <a href="{{ '/' | relative_url }}">Home</a>
+    <span aria-hidden="true">/</span>
+    <a href="{{ '/' | relative_url }}#catalog">Catalog</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">{{ page.title }}</span>
+  </nav>
+
+  <section class="art-stage-section reveal">
+    <div id="ppc-wrap" class="art-viewer" data-art-texture="{{ texture_url }}">
+      <div id="ppc-stage" tabindex="0"
+           aria-label="3D preview of {{ page.title | escape }} — drag to rotate, scroll to zoom, drag to pan up close">
+        <img class="art-fallback" src="{{ texture_url }}" alt="{{ page.title | escape }}">
+        <div id="ppc-hint">Scroll to zoom · drag to rotate &amp; pan</div>
       </div>
-        <div class="product-actions">
+    </div>
+  </section>
+
+  <section class="shell product-detail">
+    <div class="product-info reveal">
+      <span class="art-badge">Artwork {{ page.art_id }}</span>
+      <h1>{{ page.title }}</h1>
+      <p class="lead">{{ page.story | default: page.description }}</p>
+
+      <dl class="spec-grid">
+        <div class="spec-item">
+          <dt>Dimensions</dt>
+          <dd>{{ page.dimensions | default: '100 × 50 cm' }}</dd>
+        </div>
+        <div class="spec-item">
+          <dt>Material</dt>
+          <dd>{{ page.material | default: page.format | default: 'Canvas Print' }}</dd>
+        </div>
+        <div class="spec-item">
+          <dt>Finish</dt>
+          <dd>{{ page.finish | default: 'Rolled, ready to frame' }}</dd>
+        </div>
+        <div class="spec-item">
+          <dt>Shipping</dt>
+          <dd>{{ page.shipping | default: 'Worldwide · 5–7 days' }}</dd>
+        </div>
+      </dl>
+    </div>
+
+    <aside class="buy-box reveal delay-1">
+      <div class="buy-price">
+        <span class="meta-label">Price</span>
+        <strong>EUR {{ page.price }}</strong>
+      </div>
+      <div class="product-actions">
         <button
           class="button button-primary"
           type="button"
@@ -41,33 +74,36 @@ layout: default
           data-id="{{ page.art_id }}"
           data-slug="{{ page.slug }}"
           data-title="{{ page.title | escape }}"
-          data-image="{{ '/images/' | append: page.image | relative_url }}"
+          data-image="{{ texture_url }}"
           data-price="{{ page.price }}"
         >Add To Basket</button>
         <a class="button button-secondary" href="{{ '/investment-art/basket.html' | relative_url }}">View Basket (<span data-basket-count>0</span>)</a>
-        <a class="button button-secondary" href="{{ '/images/' | append: page.image | relative_url }}">Open Original File</a>
       </div>
-    </div>
+      <p class="buy-status" data-basket-status>One-off design — no variants. Ships worldwide.</p>
+      <p class="pay-line">
+        <span class="pay-label">Pay with</span>
+        <span class="pay-methods">₿ Bitcoin · Card via PayPal</span>
+      </p>
+    </aside>
   </section>
+
   <section class="shell">
-    <div class="product-note reveal">
-      <p data-basket-status>One design per family. No variants in the customer flow. Less decision fatigue, cleaner selling.</p>
-    </div>
-  </section>
-  <section class="shell">
-      <nav class="artwork-nav" aria-label="Artwork navigation">
-        <a href="{{ previous_artwork.url | relative_url }}">
-          <span>Previous</span>
-          <strong>{{ previous_artwork.art_id }}. {{ previous_artwork.title }}</strong>
-        </a>
-        <a href="{{ '/' | relative_url }}#catalog">
-          <span>Catalog</span>
-          <strong>All Works</strong>
-        </a>
-        <a href="{{ next_artwork.url | relative_url }}">
-          <span>Next</span>
-          <strong>{{ next_artwork.art_id }}. {{ next_artwork.title }}</strong>
-        </a>
+    <nav class="artwork-nav" aria-label="Artwork navigation">
+      <a href="{{ previous_artwork.url | relative_url }}">
+        <span>Previous</span>
+        <strong>{{ previous_artwork.art_id }}. {{ previous_artwork.title }}</strong>
+      </a>
+      <a href="{{ '/' | relative_url }}#catalog">
+        <span>Catalog</span>
+        <strong>All Works</strong>
+      </a>
+      <a href="{{ next_artwork.url | relative_url }}">
+        <span>Next</span>
+        <strong>{{ next_artwork.art_id }}. {{ next_artwork.title }}</strong>
+      </a>
     </nav>
   </section>
 </main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="{{ '/art-viewer.js' | relative_url }}"></script>
