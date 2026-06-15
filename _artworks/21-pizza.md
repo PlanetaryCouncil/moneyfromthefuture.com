@@ -6,4 +6,6 @@ title: "Pizza"
 image: "21 Pizza THIS.jpg"
 preview_image: "21-Pizza-WEB.jpg"
 description: "Pizza canvas print from Money From The Future."
+description_author: ""
+description_ai: ""
 ---

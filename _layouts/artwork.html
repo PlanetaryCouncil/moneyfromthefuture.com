@@ -39,7 +39,7 @@ layout: default
     <div class="product-info reveal">
       <span class="art-badge">Artwork {{ page.art_id }}</span>
       <h1>{{ page.title }}</h1>
-      <p class="lead">{{ page.story | default: page.description }}</p>
+      <p class="lead">{{ page.description_author | default: page.description }}</p>
 
       <dl class="spec-grid">
         <div class="spec-item">
@@ -86,6 +86,15 @@ layout: default
       </p>
     </aside>
   </section>
+
+  {% if page.description_ai and page.description_ai != "" %}
+  <section class="shell artwork-story reveal">
+    <h2 class="story-heading">About this work</h2>
+    <div class="story-body">
+      {{ page.description_ai | markdownify }}
+    </div>
+  </section>
+  {% endif %}
 
   <section class="shell">
     <nav class="artwork-nav" aria-label="Artwork navigation">

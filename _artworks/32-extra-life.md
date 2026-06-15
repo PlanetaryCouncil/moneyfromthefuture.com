@@ -6,4 +6,6 @@ title: "Extra Life"
 image: "32-extra-life-better-nooro-COOL UPSCALED THIS.png"
 preview_image: "32-extra-life-better-nooro-COOL-UPSCALED-WEB.jpg"
 description: "Extra Life canvas print from Money From The Future."
+description_author: ""
+description_ai: ""
 ---

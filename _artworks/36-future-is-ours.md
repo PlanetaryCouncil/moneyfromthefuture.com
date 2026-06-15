@@ -6,4 +6,6 @@ title: "Future Is Ours"
 image: "36-future-is-ours THIS.png"
 preview_image: "36-future-is-ours-WEB.jpg"
 description: "Future Is Ours canvas print from Money From The Future."
+description_author: ""
+description_ai: ""
 ---

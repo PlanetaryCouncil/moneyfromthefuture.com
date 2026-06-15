@@ -6,4 +6,6 @@ title: "Hyperweavers"
 image: "29-hyperweavers UPSCALED THIS.png"
 preview_image: "29-hyperweavers-UPSCALED-WEB.jpg"
 description: "Hyperweavers canvas print from Money From The Future."
+description_author: ""
+description_ai: ""
 ---

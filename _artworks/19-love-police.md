@@ -6,4 +6,6 @@ title: "Love Police"
 image: "19 Love police THIS.jpg"
 preview_image: "19-Love-police-WEB.jpg"
 description: "Love Police canvas print from Money From The Future."
+description_author: ""
+description_ai: ""
 ---

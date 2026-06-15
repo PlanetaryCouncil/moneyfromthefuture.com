@@ -6,4 +6,6 @@ title: "Breaking Free"
 image: "28-breaking-free UPSCALED THIS.png"
 preview_image: "28-breaking-free-UPSCALED-WEB.jpg"
 description: "Breaking Free canvas print from Money From The Future."
+description_author: ""
+description_ai: ""
 ---

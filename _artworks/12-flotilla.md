@@ -6,4 +6,6 @@ title: "Flotilla"
 image: "12 Flotilla 21 THIS.jpg"
 preview_image: "12 Flotilla 21 WEB.jpg"
 description: "Flotilla canvas print from Money From The Future."
+description_author: ""
+description_ai: ""
 ---

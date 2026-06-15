@@ -6,4 +6,6 @@ title: "Stonehenge"
 image: "26-Stonehenge THIS.jpg"
 preview_image: "26-Stonehenge-WEB.jpg"
 description: "Stonehenge canvas print from Money From The Future."
+description_author: ""
+description_ai: ""
 ---
