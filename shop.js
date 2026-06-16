@@ -295,6 +295,7 @@ function renderPayPalButtons(basket) {
   const normalizedBasket = normalizeBasket(basket);
   const container = document.getElementById("paypal-button-container");
   const status = document.getElementById("paypal-button-status");
+  const hint = document.querySelector(".checkout-hint");
   if (!container) return;
 
   const total = getBasketTotal(normalizedBasket);
@@ -303,9 +304,12 @@ function renderPayPalButtons(basket) {
   if (!total) {
     container.innerHTML = "";
     renderedPayPalTotal = null;
-    if (status) status.textContent = "Add a canvas print to enable PayPal checkout.";
+    if (hint) hint.hidden = true;
+    if (status) status.textContent = "Your basket is empty — browse the catalogue and add an item to enable checkout.";
     return;
   }
+
+  if (hint) hint.hidden = false;
 
   if (!clientId) {
     container.innerHTML = "";
