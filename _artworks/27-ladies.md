@@ -7,7 +7,9 @@ image: "27-ladies-21 UPSCALED THIS.jpeg"
 preview_image: "27-ladies-21-UPSCALED-WEB.jpg"
 description_author: "Lorem Ipsum"
 description_ai: |
-  **Ladies** celebrates feminine power and presence at the centre of the future economy. From the *Money From The Future* collection, it puts the figures too often left off the currency right in the frame.
+  **Ladies** presents two human figures facing one another across a floating anatomical heart. The figure on the left is rendered in deep blue and the figure on the right in vivid red, each extending an open hand toward the radiant object between them.
 
-  Rendered on museum-grade canvas, the piece carries colour, confidence, and grace. A vibrant, empowering addition to any wall.
+  A large flower-like mandala encloses the encounter, shifting from cool color to warm pink and orange around a brilliant central glow. Botanical engraving, invented symbols, numbered corners and the phrase “Real Money Banknote” give the intimate scene a formal currency structure.
+
+  The composition proposes relationship, vulnerability and mutual recognition as forms of genuine wealth. Neither figure possesses the heart; it remains suspended in shared space, suggesting that emotional value is created through reciprocity rather than ownership.
 ---

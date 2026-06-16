@@ -7,7 +7,9 @@ image: "19 Love police THIS.jpg"
 preview_image: "19-Love-police-WEB.jpg"
 description_author: "Lorem Ipsum"
 description_ai: |
-  **Love Police** flips authority on its head — a force that enforces compassion instead of control. From the *Money From The Future* collection, it is playful subversion with a serious heart.
+  **Love Police** merges a realistic anatomical heart with the body of a turquoise handgun. An exposed muscular hand grips the weapon, while the heart replaces its central mechanism and vivid bands of pink, blue, green and cream radiate from the barrel.
 
-  Printed on canvas, its witty, warm rebellion brings smiles and second looks. A characterful wall piece for optimists and gentle troublemakers.
+  The surreal object sits on a restrained ten-unit banknote whose engraved borders and pale security textures contrast with the saturated central burst. Repeated numerals and the simple label “Love Police” give the impossible device the official appearance of an issued instrument of authority.
+
+  By transforming a gun into a delivery system for color and affection, the image reverses the usual relationship between policing and force. Its visual joke carries a pointed proposal: authority might protect through empathy rather than fear, and power might be measured by its capacity to animate rather than harm.
 ---

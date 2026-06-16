@@ -7,7 +7,9 @@ image: "17 One life 21 signed WOW UPSCALED THIS.png"
 preview_image: "17 One life 21 signed WOW UPSCALED WEB.jpg"
 description_author: "Lorem Ipsum"
 description_ai: |
-  **One Life** is a reminder rendered in colour: a single, irreplaceable existence, and the urgency to spend it well. From the *Money From The Future* collection, it reframes the truest currency as time.
+  **One Life** stages the beginning of existence on a cosmic scale. Sperm-like forms travel from the blue curve of a planet toward an enormous green cell, while that cellular sphere merges with a half-visible Earth surrounded by brilliant light.
 
-  As a heavyweight canvas print, One Life brings a punchy, life-affirming message to a wall. A daily nudge to live like it counts — because it does.
+  The composition shifts from cool blue space and organic green structures on the left to fiery orange energy and streams of digital code on the right. A technological border encloses the scene, with the blunt inscriptions “One Life” above and “Make Use of It” below.
+
+  Biological conception, planetary life and data-driven futurism are compressed into a single moment of possibility. The image treats existence as both an extraordinary chance and a finite resource, turning its motivational message into a reminder that time, attention and action are the currencies that cannot be replaced.
 ---

@@ -7,7 +7,9 @@ image: "01 The Boss THIS.jpg"
 preview_image: "01 The Boss WEB.jpg"
 description_author: "Lorem Ipsum"
 description_ai: |
-  **The Boss** opens the *Money From The Future* collection: a zero-dollar bill where the watching eye of the state is replaced by a luminous brain fused with a deep-sea kraken, set against circuitry and open cosmos. The denomination reads zero — a quiet joke about value in an age when the old money is losing its meaning.
+  **The Boss** presents a colossal octopus suspended above the curve of Earth, staring outward with molten orange eyes. Its exposed brain glows like a small sun, while broad tentacles unfurl across a field of stars, nebulae and electronic circuitry.
 
-  Printed on heavyweight canvas, it hangs as a statement about power and intelligence: who really governs the systems we live inside. A bold centrepiece for collectors building a wall around the post-fiat, Bitcoin-era theme of the series.
+  The creature is enclosed within the elaborate frame of an imaginary zero-denomination banknote. Engraved ornaments, four large zero medallions and pale areas resembling spaces for official inscriptions contrast with the intensely colored central vision, merging the visual languages of currency, science fiction and psychedelic poster art.
+
+  By giving its central intelligence both a planetary reach and a place on money, the image suggests an unseen power presiding over technology, wealth and the future. Electric cyan, violet and fiery orange make that authority feel simultaneously magnificent and threatening: a sovereign mind whose influence extends in every direction.
 ---

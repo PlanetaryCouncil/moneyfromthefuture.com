@@ -7,7 +7,9 @@ image: "38-metacrisis UPSCALED THIS.png"
 preview_image: "38-metacrisis-UPSCALED-WEB.jpg"
 description_author: "Lorem Ipsum"
 description_ai: |
-  **Metacrisis** names the tangle of crises that define our moment — ecological, financial, and existential, all at once. From the *Money From The Future* series, it refuses easy answers while insisting a better path exists.
+  **Metacrisis** centers a pale, expressionless face with brilliant blue eyes, encircled by a many-headed serpent. Several snakes strike outward while a radiant all-seeing eye hovers above the forehead inside concentric webs of geometry.
 
-  This canvas print brings a serious, thought-provoking presence to a wall. Art for those who want to face the whole picture.
+  Enormous human eyes fill the background, overlaid with diagrams, networks, orbital marks and engraved circuitry. The dark banknote border carries alternating two and three denominations and the blunt inscription “Metacrisis Is a Bitch,” injecting frustrated humor into the otherwise ominous symmetry.
+
+  The multiplying snakes visualize crises that are entangled, adaptive and difficult to confront one at a time. Surveillance, cognition and systemic complexity merge into a single overloaded consciousness, suggesting that the defining challenge is not merely the number of emergencies but the feedback loops connecting them.
 ---

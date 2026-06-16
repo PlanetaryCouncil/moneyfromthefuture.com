@@ -7,7 +7,9 @@ image: "26-Stonehenge THIS.jpg"
 preview_image: "26-Stonehenge-WEB.jpg"
 description_author: "Lorem Ipsum"
 description_ai: |
-  **Stonehenge** links the deep past to the far future — an ancient monument to time, alignment, and things built to outlast us. Part of the *Money From The Future* series, it asks what we are building that will still stand.
+  **Stonehenge** places the ancient stone circle in the foreground of an impossible cosmic landscape. Sunlight passes through its central trilithon and casts long shadows toward the viewer, giving the monument the appearance of a precisely aligned gateway.
 
-  This canvas print blends the mystical and the monumental for a striking wall presence. A piece for those who think in millennia.
+  Behind it rise an Egyptian pyramid and several obelisks, while planets, an eclipse and a broad rainbow occupy the star-filled sky. At the center, a spiraling blue tunnel surrounds a narrow beam of light, connecting the terrestrial monuments to a speculative passage through space and time.
+
+  Repeated infinity symbols and zero denominations frame these structures as measures of duration rather than money. By gathering civilizations and astronomical phenomena into one scene, the work treats Stonehenge as part of humanity’s long effort to orient itself within forces far larger and older than any single life.
 ---

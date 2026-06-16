@@ -7,7 +7,9 @@ image: "18 Kali THIS.jpg"
 preview_image: "18-Kali WEB.jpg"
 description_author: "Lorem Ipsum"
 description_ai: |
-  **Kali** channels the fierce goddess of destruction and renewal — the force that clears the old to make room for the new. Part of the *Money From The Future* series, she presides over the death of dying systems.
+  **Kali** arranges two commanding figures within opposing circles of solar light. A dark-armored warrior carrying a tall spear stands before a blazing orange sun on the left, while a blue-skinned, many-armed goddess advances from a cool white-blue halo on the right.
 
-  This canvas print carries mythic intensity and bold colour, commanding the room it hangs in. A powerful piece for those drawn to transformation and sacred fire.
+  The goddess holds a flower, staff and several glowing orbs, combining serenity with supernatural power. Red and blue landscapes mirror the pair beneath them, while blank currency panels, serial numbers, engraved rosettes and repeated zeroes turn the mythic encounter into an otherworldly banknote.
+
+  Fire and water, masculine and feminine, destruction and renewal are held in deliberate tension. Rather than depicting Kali in isolation, the work uses her as one pole of a larger cosmic balance, where transformative force meets disciplined authority and neither side fully overwhelms the other.
 ---

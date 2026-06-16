@@ -7,7 +7,9 @@ image: "35-2140 THIS.png"
 preview_image: "35-2140-WEB.jpg"
 description_author: "Lorem Ipsum"
 description_ai: |
-  **2140 Westminster** sets the year the last bitcoin is mined against the seat of old power — the future arriving at the doorstep of the establishment. From the *Money From The Future* series, it stages a quiet confrontation between eras.
+  **2140 Westminster** places an engraved portrait of Queen Elizabeth II before a solar-powered city of towers, domes and cultivated green space. Orange beams project from her eyes across the landscape, giving the familiar currency figure an exaggerated, futuristic authority.
 
-  As a heavyweight canvas print, it carries sharp symbolism and a knowing edge. A piece for those who track where power is really heading.
+  A flying saucer lifts a cow from a field beside wind turbines and solar panels, adding comic absurdity to the utopian setting. Bitcoin and Ethereum emblems, sacred geometry, an all-seeing eye, the royal coat of arms and oversized “£21.40” values crowd the note with competing systems of symbolism.
+
+  The number 2140 points to Bitcoin’s distant final issuance while the royal portrait represents inherited financial power. By making monarchy, cryptocurrency, clean technology and science-fiction spectacle coexist on one banknote, the work imagines the future as a collision of old institutions and newly invented forms of value.
 ---

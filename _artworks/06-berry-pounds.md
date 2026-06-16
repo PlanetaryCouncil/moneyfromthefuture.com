@@ -7,7 +7,9 @@ image: "06 Berry pounds THIS.jpg"
 preview_image: "06 Berry pounds WEB.jpg"
 description_author: "Lorem Ipsum"
 description_ai: |
-  **Berry Pounds** is a playful riff on currency itself — pounds reimagined with colour, sweetness, and a wink. It belongs to the *Money From The Future* series, where banknotes stop taking themselves so seriously.
+  **Berry Pounds** transforms the familiar structure of a British ten-pound note into an exuberant fruit-themed currency. A violet-tinted portrait of Queen Elizabeth II fills the right side, set beneath a large numeral and surrounded by the fine engraved textures associated with official money.
 
-  This canvas print brings warmth and humour to the collection's bigger themes, making it an easy, joyful piece to live with. Money, but make it delicious.
+  Across the remaining surface, glossy blackberries float over a pale anatomical torso, a street-map pattern, a dark coin and iridescent security strips. Oversized phrases such as “Berry Pounds,” “BlackBerry” and “Traditional BlackBerry Pounds” mingle with fragmented pseudo-official lettering, making language itself part of the collage.
+
+  The substitution of berries for monetary authority creates a cheerful parody of how value is branded and trusted. Polished security aesthetics lend credibility to an obviously absurd tender, while the purple, blue and rainbow palette turns institutional design into something playful, edible and strange.
 ---

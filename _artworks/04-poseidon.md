@@ -7,7 +7,9 @@ image: "04 Poseidon 21 THIS.png"
 preview_image: "04-Poseidon-21-WEB.jpg"
 description_author: "Lorem Ipsum"
 description_ai: |
-  **Poseidon** summons the ruler of the oceans as a guardian of a future economy — ancient power meeting the currency of tomorrow. It is part of the *Money From The Future* series, where myth and money trade places.
+  **Poseidon** presents a monumental, haloed figure standing above a bright rural landscape. Draped in magenta and holding a slender staff in each outstretched hand, he presides over rolling fields, a white farmhouse and rows of cultivated land beneath radiating turquoise light.
 
-  As a heavyweight canvas print, Poseidon brings depth, motion, and a touch of the mythic to any wall. A striking choice for collectors who like their art with a story and their symbolism oceanic.
+  The pastoral order is interrupted by a gigantic pink octopus whose tentacle sweeps horizontally across the foreground. Fluorescent sheep gather below it, including one oversized animal at the center, while ornate medallions, invented numerals and an empty portrait oval complete the design of a fantastical banknote.
+
+  The work combines the visual authority of a saint, a classical god and a sovereign portrait without settling into any single tradition. Its improbable mixture of ocean life, agriculture and sacred radiance turns power into playful spectacle, suggesting a ruler whose domain encompasses nature, fertility and the surreal.
 ---

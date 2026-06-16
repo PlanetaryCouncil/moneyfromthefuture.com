@@ -7,7 +7,9 @@ image: "37-pizza-new UPSCALED THIS.png"
 preview_image: "37-pizza-new-UPSCALED-WEB.jpg"
 description_author: "Lorem Ipsum"
 description_ai: |
-  **Pizza New** revisits crypto's most legendary meal with a fresh take — the famous 10,000-bitcoin pizzas, reserved and reimagined. From the *Money From The Future* collection, it keeps a beloved piece of history on the menu.
+  **Pizza New** raises a pepperoni-covered Bitcoin symbol above a glowing platform in a neon city. Earth fills the background, while pizzas, spacecraft, data screens and orbital diagrams circulate through the star field around the fiery central emblem.
 
-  As a canvas print, it is a warm, witty artefact for Bitcoiners and pop-art lovers. History, served a second time.
+  Text panels identify May 22, 2010, the exchange of 10,000 BTC for two pizzas and the name Laszlo Hanyecz. The dark technological border combines block references, serial numbers, Bitcoin medallions and slogans such as “In Code We Trust,” giving the event the scale of a futuristic memorial.
+
+  Compared with the warmer folklore of the earlier *Pizza*, this version treats Bitcoin Pizza Day as a foundational legend of digital civilization. The familiar meal becomes a glowing monument to adoption, reminding viewers that value is established through use, shared memory and the stories communities choose to preserve.
 ---

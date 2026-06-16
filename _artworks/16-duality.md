@@ -7,7 +7,9 @@ image: "16 Duality 21 THIS.png"
 preview_image: "16-Duality-21-WEB.jpg"
 description_author: "Lorem Ipsum"
 description_ai: |
-  **Duality** holds two opposites in balance — light and dark, old and new, scarcity and abundance — the tension that drives every system. Part of the *Money From The Future* series, it makes harmony out of contradiction.
+  **Duality** divides the world into two sharply opposed futures that meet at a radiant Earth. On the left, a burning city, military aircraft, cracked ground and immense columns of smoke fill an orange-red landscape; on the right, forests, water, clean towers and abundant vegetation glow in green.
 
-  This canvas print offers a clean, meditative symbolism that works in almost any space. A piece about balance for anyone navigating a world of extremes.
+  Strong perspective lines pull both environments toward the central planet, where a vertical beam separates and connects them. Wireframe geometry overlays each side, and an engraved frame with four zero medallions gives the stark ecological vision the formal appearance of currency.
+
+  The symmetry makes destruction and regeneration look like parallel possibilities rather than distant abstractions. Earth becomes the pivot of a collective choice, and the empty denomination suggests that value itself depends on which future human systems decide to finance and build.
 ---
