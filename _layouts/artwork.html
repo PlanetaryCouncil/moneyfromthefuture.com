@@ -13,8 +13,10 @@ layout: default
 {% endif %}
 {% assign previous_artwork = artworks[previous_index] %}
 {% assign next_artwork = artworks[next_index] %}
-{% assign texture_image = page.preview_image | default: page.image %}
-{% assign texture_url = '/images/' | append: texture_image | relative_url %}
+{% comment %} 3D viewer uses the full-resolution file; basket/thumbnail uses the lighter web preview {% endcomment %}
+{% assign texture_url = '/images/' | append: page.image | relative_url %}
+{% assign display_image = page.preview_image | default: page.image %}
+{% assign display_url = '/images/' | append: display_image | relative_url %}
 
 <main class="artwork-page">
   <nav class="breadcrumb shell" aria-label="Breadcrumb">
@@ -29,6 +31,7 @@ layout: default
     <div id="ppc-wrap" class="art-viewer" data-art-texture="{{ texture_url }}">
       <div id="ppc-stage" tabindex="0"
            aria-label="3D preview of {{ page.title | escape }} — drag to rotate, scroll to zoom, drag to pan up close">
+        <div id="ppc-loader" aria-hidden="true"><span class="art-spinner"></span></div>
         <div id="ppc-hint">Scroll to zoom · drag to rotate &amp; pan</div>
       </div>
     </div>
@@ -43,7 +46,7 @@ layout: default
       <dl class="spec-grid">
         <div class="spec-item">
           <dt>Dimensions</dt>
-          <dd>{{ page.dimensions | default: '100 × 50 cm' }}</dd>
+          <dd>{{ page.dimensions | default: '60 × 30 cm' }}</dd>
         </div>
         <div class="spec-item">
           <dt>Material</dt>
@@ -51,11 +54,11 @@ layout: default
         </div>
         <div class="spec-item">
           <dt>Finish</dt>
-          <dd>{{ page.finish | default: 'Rolled, ready to frame' }}</dd>
+          <dd>{{ page.finish | default: 'Wooden frame, ready to hang' }}</dd>
         </div>
         <div class="spec-item">
           <dt>Shipping</dt>
-          <dd>{{ page.shipping | default: 'Worldwide · 5–7 days' }}</dd>
+          <dd>{{ page.shipping | default: 'Manufactured locally, in your country' }}</dd>
         </div>
       </dl>
     </div>
@@ -73,16 +76,13 @@ layout: default
           data-id="{{ page.art_id }}"
           data-slug="{{ page.slug }}"
           data-title="{{ page.title | escape }}"
-          data-image="{{ texture_url }}"
+          data-image="{{ display_url }}"
           data-price="{{ page.price }}"
         >Add To Basket</button>
         <a class="button button-secondary" href="{{ '/investment-art/basket.html' | relative_url }}">View Basket (<span data-basket-count>0</span>)</a>
       </div>
-      <p class="buy-status" data-basket-status>One-off design — no variants. Ships worldwide.</p>
-      <p class="pay-line">
-        <span class="pay-label">Pay with</span>
-        <span class="pay-methods">₿ Bitcoin · Card via PayPal</span>
-      </p>
+      <p class="buy-cert"><span class="cert-mark" aria-hidden="true">✓</span> Comes with certificate of authenticity</p>
+      <p class="buy-status" data-basket-status></p>
     </aside>
   </section>
 

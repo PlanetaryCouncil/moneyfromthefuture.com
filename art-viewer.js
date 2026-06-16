@@ -139,7 +139,9 @@
     };
     img.src = TEX;
 
-    stage.classList.add("is-live");
+    stage.classList.add("is-live"); // texture up — fade out the spinner
+  }, undefined, function () {
+    stage.classList.add("is-live"); // load failed — stop the spinner anyway
   });
 
   // ---- controls ----
