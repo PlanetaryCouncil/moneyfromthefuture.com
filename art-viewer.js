@@ -10,8 +10,9 @@
 
   const stage = document.getElementById("ppc-stage");
   const hint = document.getElementById("ppc-hint");
-  const TEX = wrap.getAttribute("data-art-texture");
-  if (!stage || !TEX) return;
+  const FULL = wrap.getAttribute("data-art-texture"); // high-res (THIS) file
+  const PREVIEW = wrap.getAttribute("data-art-preview") || FULL; // light (WEB) file
+  if (!stage || !FULL) return;
 
   // Bail gracefully to the static <img> fallback if WebGL / three.js is absent.
   const hasWebGL = (() => {
@@ -94,19 +95,25 @@
   let W = 2.0, H = 1.0, D = 0.06; // updated from the real image aspect on load
 
   const loader = new THREE.TextureLoader();
-  loader.load(TEX, function (front) {
-    front.encoding = THREE.sRGBEncoding;
-    front.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  let frontMat = null; // the canvas-face material whose map we swap web -> high-res
 
+  function prep(tex) {
+    tex.encoding = THREE.sRGBEncoding;
+    tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+    return tex;
+  }
+
+  // Build the canvas mesh + wall glow from the first texture that arrives.
+  function buildArt(tex, glowSrc) {
+    prep(tex);
     // Derive the true aspect from the loaded image — works for any artwork.
-    const iw = (front.image && front.image.width) || 2;
-    const ih = (front.image && front.image.height) || 1;
-    const aspect = iw / ih;
+    const iw = (tex.image && tex.image.width) || 2;
+    const ih = (tex.image && tex.image.height) || 1;
     W = 2.0;
-    H = W / aspect;
+    H = W / (iw / ih);
 
-    const frontMat = new THREE.MeshStandardMaterial({
-      map: front, emissiveMap: front, emissive: 0xffffff,
+    frontMat = new THREE.MeshStandardMaterial({
+      map: tex, emissiveMap: tex, emissive: 0xffffff,
       emissiveIntensity: 0.22, roughness: 0.82, metalness: 0,
     });
     const sideMat = new THREE.MeshBasicMaterial({ color: 0x0f1218 }); // unlit, never white
@@ -116,7 +123,7 @@
     boxArt.castShadow = true;
     art.add(boxArt);
 
-    // soft colored glow onto the wall (wall right behind -> no edge peek)
+    // soft colored glow onto the wall (sampled from the lightweight image)
     const small = document.createElement("canvas");
     small.width = 48;
     small.height = 24;
@@ -137,11 +144,34 @@
       hm.position.set(0, 0, -0.05);
       art.add(hm);
     };
-    img.src = TEX;
+    img.src = glowSrc;
 
-    stage.classList.add("is-live"); // texture up — fade out the spinner
+    stage.classList.add("is-live"); // first texture up — fade out the spinner
+  }
+
+  // Silently swap the low-res map for the high-res one once it arrives.
+  function upgradeArt(tex) {
+    if (!frontMat) { buildArt(tex, FULL); return; }
+    prep(tex);
+    const old = frontMat.map;
+    frontMat.map = tex;
+    frontMat.emissiveMap = tex;
+    frontMat.needsUpdate = true;
+    if (old && old !== tex) old.dispose(); // free the web texture we replaced
+  }
+
+  // 1) Show the lightweight WEB texture fast (usually already cached from the
+  //    catalog). 2) Then pull the full-res file in the background and swap it in.
+  loader.load(PREVIEW, function (web) {
+    buildArt(web, PREVIEW);
+    if (FULL && FULL !== PREVIEW) {
+      loader.load(FULL, upgradeArt, undefined, function () { /* keep the web version */ });
+    }
   }, undefined, function () {
-    stage.classList.add("is-live"); // load failed — stop the spinner anyway
+    // preview missing — go straight for the full file
+    loader.load(FULL, function (full) { buildArt(full, FULL); }, undefined, function () {
+      stage.classList.add("is-live"); // both failed — stop the spinner anyway
+    });
   });
 
   // ---- controls ----
