@@ -10,7 +10,6 @@
 
   const stage = document.getElementById("ppc-stage");
   const hint = document.getElementById("ppc-hint");
-  const fallback = stage ? stage.querySelector(".art-fallback") : null;
   const TEX = wrap.getAttribute("data-art-texture");
   if (!stage || !TEX) return;
 
@@ -140,8 +139,6 @@
     };
     img.src = TEX;
 
-    // texture is up — reveal the 3D stage, retire the flat fallback
-    if (fallback) fallback.style.opacity = "0";
     stage.classList.add("is-live");
   });
 
