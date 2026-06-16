@@ -12,7 +12,9 @@ import {
   getOrderLines,
   isValidSuccessSnapshot,
   normalizeBasket,
-  normalizeItem
+  normalizeItem,
+  removeItemFromBasket,
+  setItemQuantity
 } from "../shop-state.mjs";
 
 test("default item price falls back to default", () => {
@@ -167,4 +169,28 @@ test("basket total supports mixed prices", () => {
     { slug: "beta", quantity: 3, price: 1 }
   ]);
   assert.equal(getBasketTotal(basket), 203);
+});
+
+test("set item quantity updates a single line", () => {
+  const basket = setItemQuantity([{ slug: "alpha", price: 100, quantity: 1 }], "alpha", 3);
+  assert.equal(basket[0].quantity, 3);
+});
+
+test("set item quantity to zero removes the line", () => {
+  const basket = setItemQuantity([{ slug: "alpha", price: 100, quantity: 2 }], "alpha", 0);
+  assert.equal(basket.length, 0);
+});
+
+test("set item quantity ignores an unknown slug", () => {
+  const basket = setItemQuantity([{ slug: "alpha", price: 100, quantity: 2 }], "beta", 5);
+  assert.equal(basket[0].quantity, 2);
+});
+
+test("remove item from basket drops the matching slug", () => {
+  const basket = removeItemFromBasket(
+    [{ slug: "alpha", price: 100, quantity: 1 }, { slug: "beta", price: 100, quantity: 1 }],
+    "alpha"
+  );
+  assert.equal(basket.length, 1);
+  assert.equal(basket[0].slug, "beta");
 });

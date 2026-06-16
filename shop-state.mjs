@@ -79,6 +79,26 @@ export function addItemToBasket(basket, item, quantity = 1) {
   return nextBasket;
 }
 
+export function setItemQuantity(basket, slug, quantity) {
+  const normalizedBasket = normalizeBasket(basket);
+  const target = String(slug || "").trim();
+  const qty = Math.floor(Number(quantity));
+
+  // Quantity at or below zero removes the line entirely.
+  if (!Number.isFinite(qty) || qty <= 0) {
+    return normalizedBasket.filter((entry) => entry.slug !== target);
+  }
+
+  return normalizedBasket.map((entry) =>
+    entry.slug === target ? { ...entry, quantity: qty } : entry
+  );
+}
+
+export function removeItemFromBasket(basket, slug) {
+  const target = String(slug || "").trim();
+  return normalizeBasket(basket).filter((entry) => entry.slug !== target);
+}
+
 export function isValidSuccessSnapshot(snapshot) {
   return normalizeBasket(snapshot).length > 0;
 }

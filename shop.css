@@ -296,7 +296,84 @@ h2 { font-size: clamp(2.6rem, 6vw, 4.8rem); }
   gap: 1rem;
   padding-top: 1rem;
   border-top: 1px solid var(--line);
+  font-size: 1.05rem;
 }
+.basket-total strong { font-size: 1.25rem; }
+
+/* compact checkout header (replaces the old full-screen hero) */
+.checkout-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding-top: 2.4rem;
+  padding-bottom: 0.4rem;
+}
+.checkout-head-titles { display: grid; gap: 0.8rem; }
+.checkout-head h1 { font-size: clamp(2.4rem, 6vw, 3.4rem); margin: 0; line-height: 0.95; }
+
+/* per-line quantity + remove controls */
+.basket-item-unit { font-size: 0.85rem; }
+.basket-item-total { align-self: start; }
+.basket-qty {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.55rem;
+  flex-wrap: wrap;
+}
+.qty-btn {
+  width: 1.9rem;
+  height: 1.9rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  background: transparent;
+  font: inherit;
+  font-size: 1.05rem;
+  line-height: 1;
+  color: var(--ink);
+  cursor: pointer;
+}
+.qty-btn:hover { background: var(--ink); color: var(--bg); }
+.qty-value { min-width: 1.5rem; text-align: center; font-weight: 600; }
+.basket-remove {
+  margin-left: 0.4rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 0.82rem;
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.basket-remove:hover { color: var(--ink); }
+.basket-clear-link {
+  margin-top: 1rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.basket-clear-link:hover { color: var(--ink); }
+
+/* small form heading on the dark checkout card */
+.checkout-form-label {
+  margin: 0 0 0.2rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
 .checkout-section { padding-bottom: 4rem; }
 .checkout-card {
   background: linear-gradient(135deg, rgba(17, 17, 17, 0.96), rgba(12, 123, 103, 0.88));

@@ -8,7 +8,9 @@ import {
   getItemPrice,
   getOrderLines,
   isValidSuccessSnapshot,
-  normalizeBasket
+  normalizeBasket,
+  removeItemFromBasket,
+  setItemQuantity
 } from "./shop-state.mjs";
 
 const nameInput = document.getElementById("name");
@@ -341,13 +343,19 @@ function renderBasket() {
   }
 
   basketItems.innerHTML = basket.map((item) => `
-    <article class="basket-item">
+    <article class="basket-item" data-slug="${escapeHtml(item.slug)}">
       <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}">
       <div class="basket-item-copy">
         <strong>${escapeHtml(item.title)}</strong>
-        <span>${item.quantity} x EUR ${getItemPrice(item)}</span>
+        <span class="basket-item-unit">EUR ${getItemPrice(item)} each</span>
+        <div class="basket-qty">
+          <button type="button" class="qty-btn" data-basket-dec aria-label="Decrease quantity">&minus;</button>
+          <span class="qty-value" aria-live="polite">${item.quantity}</span>
+          <button type="button" class="qty-btn" data-basket-inc aria-label="Increase quantity">+</button>
+          <button type="button" class="basket-remove" data-basket-remove>Remove</button>
+        </div>
       </div>
-      <strong>EUR ${item.quantity * getItemPrice(item)}</strong>
+      <strong class="basket-item-total">EUR ${item.quantity * getItemPrice(item)}</strong>
     </article>
   `).join("");
 }
@@ -430,6 +438,35 @@ function initBasket() {
   if (clearBasket) {
     clearBasket.addEventListener("click", () => {
       writeBasket([]);
+      clearSuccessPayload();
+      hidePaymentSuccess();
+      renderBasket();
+    });
+  }
+
+  // Per-line quantity + remove controls (delegated — items re-render on every change).
+  const basketItems = document.getElementById("basket-items");
+  if (basketItems) {
+    basketItems.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-basket-dec], [data-basket-inc], [data-basket-remove]");
+      if (!button) return;
+
+      const slug = button.closest(".basket-item")?.dataset.slug;
+      if (!slug) return;
+
+      const basket = readBasket();
+      const current = basket.find((entry) => entry.slug === slug);
+      let next;
+
+      if (button.hasAttribute("data-basket-remove")) {
+        next = removeItemFromBasket(basket, slug);
+      } else if (button.hasAttribute("data-basket-inc")) {
+        next = setItemQuantity(basket, slug, (current?.quantity || 1) + 1);
+      } else {
+        next = setItemQuantity(basket, slug, (current?.quantity || 1) - 1);
+      }
+
+      writeBasket(next);
       clearSuccessPayload();
       hidePaymentSuccess();
       renderBasket();

@@ -5,42 +5,29 @@ description: Review selected Money From The Future canvas designs and checkout w
 permalink: /investment-art/basket.html
 footer_title: Basket
 ---
-<main>
-  <section class="shell hero">
-    <div>
-      <span class="eyebrow reveal">Basket</span>
-      <h1 class="reveal delay-1">Checkout Multiple Designs Together.</h1>
-      <p class="lead reveal delay-2">
-        Your selected canvas designs are saved in this browser. Review the basket, pay the total with PayPal, then forward the order details.
-      </p>
-      <div class="hero-actions reveal delay-3">
-        <a class="button button-primary" href="{{ '/' | relative_url }}">Add More Designs</a>
-        <button class="button button-secondary" type="button" id="clear-basket">Clear Basket</button>
-      </div>
+<main class="checkout-page">
+  <section class="shell checkout-head">
+    <div class="checkout-head-titles">
+      <span class="art-badge">Basket</span>
+      <h1>Your basket</h1>
     </div>
-    <div class="hero-panel reveal delay-2">
-      <div class="hero-panel-art" style="background-image: url('{{ '/images/36-future-is-ours-WEB.jpg' | relative_url }}');"></div>
-    </div>
+    <a class="button button-secondary" href="{{ '/' | relative_url }}#catalog">Add more designs</a>
   </section>
 
   <section class="shell basket-section">
     <div class="basket-layout">
       <div class="basket-panel reveal">
-        <span class="eyebrow">Selected Works</span>
         <div id="basket-items" class="basket-items"></div>
         <div class="basket-total">
           <span id="basket-summary">0 prints in basket</span>
           <strong id="basket-total">EUR 0</strong>
         </div>
+        <button class="basket-clear-link" type="button" id="clear-basket">Clear basket</button>
       </div>
 
-      <div class="checkout-card reveal delay-1">
+      <aside class="checkout-card reveal delay-1">
         <div id="checkout-flow" class="checkout-flow">
-          <div class="checkout-intro">
-            <span class="eyebrow checkout-eyebrow">Checkout</span>
-            <h2>Pay With PayPal, Then Forward The Order.</h2>
-            <p>Use PayPal for the basket total, then forward the basket summary and full delivery details.</p>
-          </div>
+          <p class="checkout-form-label">Delivery details</p>
           <form
             id="order-form"
             class="checkout-grid"
@@ -111,7 +98,7 @@ footer_title: Basket
             </div>
           </section>
         </template>
-      </div>
+      </aside>
     </div>
   </section>
 </main>
