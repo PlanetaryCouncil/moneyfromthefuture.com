@@ -27,37 +27,20 @@ footer_title: Basket
 
       <aside class="checkout-card reveal delay-1">
         <div id="checkout-flow" class="checkout-flow">
-          <p class="checkout-form-label">Delivery details</p>
+          <p class="checkout-form-label">Checkout</p>
+          <p class="checkout-hint">Pay securely with PayPal or card. Your name and delivery address are taken from PayPal — no need to type them twice.</p>
           <form
             id="order-form"
-            class="checkout-grid"
-            action="https://formspree.io/f/email@genesis.re"
+            action="https://formspree.io/f/mzdqwgby"
             method="POST"
           >
-            <div class="field">
-              <label for="name">Name</label>
-              <input id="name" name="name" type="text" autocomplete="name" placeholder="Full name" required>
-            </div>
-            <div class="field">
-              <label for="email">Email</label>
-              <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required>
-            </div>
-            <div class="field">
-              <label for="street-address">Street address</label>
-              <textarea id="street-address" name="street-address" autocomplete="street-address" placeholder="Street address" required></textarea>
-            </div>
-            <div class="field">
-              <label for="city">City</label>
-              <input id="city" name="city" type="text" autocomplete="address-level2" placeholder="City" required>
-            </div>
-            <div class="field">
-              <label for="postcode">Postcode</label>
-              <input id="postcode" name="postcode" type="text" autocomplete="postal-code" placeholder="Postcode" required>
-            </div>
-            <div class="field">
-              <label for="country">Country</label>
-              <input id="country" name="country" type="text" autocomplete="country-name" placeholder="Country" required>
-            </div>
+            <!-- Delivery details are captured from PayPal after payment, then forwarded here. -->
+            <input id="name" name="name" type="hidden" value="">
+            <input id="email" name="email" type="hidden" value="">
+            <input id="street-address" name="street-address" type="hidden" value="">
+            <input id="city" name="city" type="hidden" value="">
+            <input id="postcode" name="postcode" type="hidden" value="">
+            <input id="country" name="country" type="hidden" value="">
             <input id="form-subject" name="_subject" type="hidden" value="Money From The Future order">
             <input id="basket-summary-field" name="basket_summary" type="hidden" value="">
             <input id="basket-total-field" name="basket_total" type="hidden" value="">
@@ -80,7 +63,6 @@ footer_title: Basket
           <section class="payment-success-screen" aria-live="polite">
             <span class="eyebrow checkout-eyebrow">Payment Received</span>
             <h2>Payment Successful.</h2>
-            <p>Your PayPal payment went through. Review the order summary below.</p>
             <div class="payment-success-card">
               <div class="payment-success-row">
                 <span>Order</span>
@@ -92,9 +74,10 @@ footer_title: Basket
                 <strong data-success-total></strong>
               </div>
             </div>
+            <p class="payment-success-ship" data-success-ship hidden></p>
+            <p class="checkout-note" data-order-status aria-live="polite"></p>
             <div class="payment-success-actions">
-              <button class="button button-primary" type="submit" form="order-form">Send Delivery Details</button>
-              <a class="button button-secondary" href="{{ '/' | relative_url }}">Keep Browsing</a>
+              <a class="button button-secondary" href="{{ '/' | relative_url }}">Keep browsing</a>
             </div>
           </section>
         </template>

@@ -373,6 +373,8 @@ h2 { font-size: clamp(2.6rem, 6vw, 4.8rem); }
   text-transform: uppercase;
   font-weight: 700;
 }
+.checkout-hint { font-size: 0.9rem; line-height: 1.55; margin: 0 0 1.3rem; }
+.payment-success-ship { font-size: 0.9rem; line-height: 1.5; margin: 0; }
 
 .checkout-section { padding-bottom: 4rem; }
 .checkout-card {

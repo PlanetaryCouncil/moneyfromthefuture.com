@@ -69,6 +69,54 @@ function getCheckoutDetails() {
   };
 }
 
+function setFieldValue(id, value) {
+  const field = document.getElementById(id);
+  if (field && value) {
+    field.value = value;
+  }
+}
+
+// Populate the hidden delivery fields from a PayPal capture so the buyer never
+// has to re-type what PayPal already collected.
+function applyPayPalDetails(details) {
+  try {
+    const payer = details?.payer || {};
+    const shipping = details?.purchase_units?.[0]?.shipping || {};
+    const address = shipping.address || {};
+    const fullName = shipping.name?.full_name
+      || [payer.name?.given_name, payer.name?.surname].filter(Boolean).join(" ");
+
+    setFieldValue("name", fullName);
+    setFieldValue("email", payer.email_address || "");
+    setFieldValue("street-address", [address.address_line_1, address.address_line_2].filter(Boolean).join(", "));
+    setFieldValue("city", address.admin_area_2 || "");
+    setFieldValue("postcode", address.postal_code || "");
+    setFieldValue("country", address.country_code || "");
+  } catch {}
+}
+
+// Sample capture used by the "ddd" UI-test shortcut to exercise the real
+// extract-and-forward path without a live PayPal payment.
+const SIMULATED_PAYPAL_DETAILS = {
+  id: "SIMULATED-ORDER",
+  payer: {
+    name: { given_name: "Test", surname: "Buyer" },
+    email_address: "test-buyer@example.com"
+  },
+  purchase_units: [{
+    shipping: {
+      name: { full_name: "Test Buyer" },
+      address: {
+        address_line_1: "1 Test Street",
+        admin_area_2: "Testville",
+        admin_area_1: "Testshire",
+        postal_code: "TE5 7ST",
+        country_code: "GB"
+      }
+    }
+  }]
+};
+
 function readSuccessPayload() {
   try {
     const payload = JSON.parse(sessionStorage.getItem(SUCCESS_PAYLOAD_KEY) || "null");
@@ -207,6 +255,16 @@ function renderPaymentSuccess(snapshot, captureId = "") {
     totalNode.textContent = `EUR ${getBasketTotal(normalizedSnapshot)}`;
   }
 
+  const shipNode = fragment.querySelector("[data-success-ship]");
+  if (shipNode) {
+    const details = getCheckoutDetails();
+    const hasAddress = details.name && !details.name.startsWith("[");
+    if (hasAddress) {
+      shipNode.textContent = `Ships to ${[details.name, details.streetAddress, details.city, details.postcode, details.country].filter((part) => part && !part.startsWith("[")).join(", ")}`;
+      shipNode.hidden = false;
+    }
+  }
+
   paymentSuccessHost.replaceChildren(fragment);
   setPaymentSuccessVisible(true);
 }
@@ -298,10 +356,12 @@ function renderPayPalButtons(basket) {
         }),
         onApprove: (data, actions) => actions.order.capture().then((details) => {
           const snapshot = readBasket();
+          applyPayPalDetails(details);
           clearSuccessPayload();
           writeBasket([]);
           renderBasket();
           renderPaymentSuccess(snapshot, details?.id || data?.orderID || "");
+          sendOrderEmail();
           if (status) status.textContent = "";
         }),
         onError: () => {
@@ -370,8 +430,10 @@ function showSimulatedPaymentSuccess() {
   writeBasket([]);
 
   if (paymentSuccessHost) {
+    applyPayPalDetails(SIMULATED_PAYPAL_DETAILS);
     renderBasket();
     renderPaymentSuccess(snapshot, "simulated-checkout");
+    sendOrderEmail();
     updateBasketStatusMessage("Simulated successful checkout shown for UI testing.");
     return;
   }
@@ -410,6 +472,50 @@ function initTestingShortcuts() {
       showSimulatedPaymentSuccess();
     }
   });
+}
+
+function setOrderStatus(message) {
+  const status = document.querySelector("[data-order-status]");
+  if (status) {
+    status.textContent = message;
+  }
+}
+
+// Submit the order form to Formspree over fetch so the buyer stays on-page and
+// sees an explicit success / failure result instead of being redirected away.
+async function sendOrderEmail() {
+  if (!orderForm) return;
+
+  if (!orderForm.checkValidity()) {
+    setOrderStatus("Please complete every delivery field, then send again.");
+    orderForm.reportValidity();
+    return;
+  }
+
+  setOrderStatus("Sending order details…");
+
+  try {
+    const response = await fetch(orderForm.action, {
+      method: "POST",
+      body: new FormData(orderForm),
+      headers: { Accept: "application/json" }
+    });
+
+    if (response.ok) {
+      setOrderStatus("Order details sent. We'll be in touch about your prints.");
+      return;
+    }
+
+    const data = await response.json().catch(() => null);
+    const detail = Array.isArray(data?.errors)
+      ? data.errors.map((error) => error.message).filter(Boolean).join(", ")
+      : "";
+    setOrderStatus(detail
+      ? `Could not send order details: ${detail}`
+      : "Could not send order details. Please try again or email us directly.");
+  } catch {
+    setOrderStatus("Network problem sending order details. Please try again.");
+  }
 }
 
 function initBasket() {
@@ -480,8 +586,10 @@ function initBasket() {
     });
 
   if (orderForm) {
-    orderForm.addEventListener("submit", () => {
+    orderForm.addEventListener("submit", (event) => {
+      event.preventDefault();
       updateCheckoutData(getActiveCheckoutBasket());
+      sendOrderEmail();
     });
   }
 
