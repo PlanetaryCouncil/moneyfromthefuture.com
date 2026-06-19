@@ -510,12 +510,47 @@ input::placeholder, textarea::placeholder { color: rgba(255, 247, 234, 0.52); }
   letter-spacing: 0.04em;
   color: var(--muted);
 }
+
+/* prev/next arrows flanking the artwork viewer, on its left & right sides */
+.artwork-pager {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.7rem;
+  pointer-events: none; /* let drags reach the viewer; arrows re-enable below */
+}
+.pager-arrow {
+  pointer-events: auto;
+  width: 2.7rem;
+  height: 2.7rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  background: rgba(255, 250, 242, 0.82);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: var(--shadow);
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.pager-arrow:hover { background: var(--ink); color: var(--bg); }
+@media (max-width: 560px) {
+  .artwork-pager { padding: 0 0.4rem; }
+  .pager-arrow { width: 2.3rem; height: 2.3rem; font-size: 1.3rem; }
+}
 .breadcrumb a { color: var(--muted); text-decoration: none; }
 .breadcrumb a:hover { color: var(--ink); }
 .breadcrumb [aria-current] { color: var(--ink); font-weight: 500; }
 
 /* --- full-width 3D viewer --- */
 .art-stage-section {
+  position: relative;
   width: min(100% - 3rem, var(--max));
   margin: 0.6rem auto 0;
 }
