@@ -99,6 +99,27 @@ export function removeItemFromBasket(basket, slug) {
   return normalizeBasket(basket).filter((entry) => entry.slug !== target);
 }
 
+// Map a PayPal Orders v2 capture into our delivery-detail shape, so the buyer
+// never re-types what PayPal already collected. Pure + unit-testable.
+export function extractDeliveryFromPayPal(details) {
+  const payer = (details && details.payer) || {};
+  const unit = (details && Array.isArray(details.purchase_units) && details.purchase_units[0]) || {};
+  const shipping = unit.shipping || {};
+  const address = shipping.address || {};
+  const payerName = payer.name || {};
+  const fullName = (shipping.name && shipping.name.full_name)
+    || [payerName.given_name, payerName.surname].filter(Boolean).join(" ");
+
+  return {
+    name: fullName || "",
+    email: payer.email_address || "",
+    streetAddress: [address.address_line_1, address.address_line_2].filter(Boolean).join(", "),
+    city: address.admin_area_2 || "",
+    postcode: address.postal_code || "",
+    country: address.country_code || ""
+  };
+}
+
 export function isValidSuccessSnapshot(snapshot) {
   return normalizeBasket(snapshot).length > 0;
 }

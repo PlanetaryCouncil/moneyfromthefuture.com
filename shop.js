@@ -7,6 +7,7 @@ import {
   getBasketTotal,
   getItemPrice,
   getOrderLines,
+  extractDeliveryFromPayPal,
   isValidSuccessSnapshot,
   normalizeBasket,
   removeItemFromBasket,
@@ -80,18 +81,13 @@ function setFieldValue(id, value) {
 // has to re-type what PayPal already collected.
 function applyPayPalDetails(details) {
   try {
-    const payer = details?.payer || {};
-    const shipping = details?.purchase_units?.[0]?.shipping || {};
-    const address = shipping.address || {};
-    const fullName = shipping.name?.full_name
-      || [payer.name?.given_name, payer.name?.surname].filter(Boolean).join(" ");
-
-    setFieldValue("name", fullName);
-    setFieldValue("email", payer.email_address || "");
-    setFieldValue("street-address", [address.address_line_1, address.address_line_2].filter(Boolean).join(", "));
-    setFieldValue("city", address.admin_area_2 || "");
-    setFieldValue("postcode", address.postal_code || "");
-    setFieldValue("country", address.country_code || "");
+    const delivery = extractDeliveryFromPayPal(details);
+    setFieldValue("name", delivery.name);
+    setFieldValue("email", delivery.email);
+    setFieldValue("street-address", delivery.streetAddress);
+    setFieldValue("city", delivery.city);
+    setFieldValue("postcode", delivery.postcode);
+    setFieldValue("country", delivery.country);
   } catch {}
 }
 

@@ -126,36 +126,44 @@ npm test
 
 That runs the lightweight local regression suite with Node's built-in test runner. It does not call external APIs or consume model tokens. It is just local CPU work.
 
-When you want both tests and a full static build:
+When you want the release gate — fast tests plus a real Jekyll build smoke:
 
 ```sh
 cd /Users/m/Code/moneyfromthefuture.com
 npm run verify
 ```
 
-Current test suite focuses on:
+`verify` runs `npm test` then `npm run test:build`. Use it before publishing.
 
-- basket math
-- success-state gating
-- template regressions
-- checkout message generation
+Test layout:
 
-This is meant to catch the "success screen visible by default" class of bug before browser testing.
+- `npm test` → `node --test tests/*.test.mjs` (fast, no Ruby, no network):
+  - `tests/shop-state.test.mjs` — basket math, normalization, quantity steppers / remove, success-state gating, checkout message, PayPal→delivery extraction.
+  - `tests/content-artworks.test.mjs` — every artwork's front matter is valid, slugs match filenames, orders are unique and contiguous from 1, and **referenced image files exist on disk**.
+  - `tests/site-markup.test.mjs` — header/footer/artwork/basket markup is locked in (cart-only header, 5 footer socials, 3D viewer + side arrows, hidden delivery fields, real Formspree form id).
+  - `tests/template-regressions.test.mjs` — the "success screen visible by default" class of bug.
+- `npm run test:build` → `node --test tests/smoke/*.test.mjs`: runs a real `jekyll build` to a temp dir and asserts no Liquid errors and that all 40 artwork pages + core assets emit. Skips cleanly if Ruby/Jekyll isn't on the machine.
+
+The smoke build writes to a temp dir, not `_site`, so it won't disturb a running `npm run dev` server.
 
 Jekyll writes generated output to `_site/`. That folder is ignored and should not be committed.
 
 ## Project Structure
 
 ```text
-_config.yml                 Jekyll and GitHub Pages config
+_config.yml                 Jekyll and GitHub Pages config (+ shared artwork defaults)
 _artworks/*.md              One source file per artwork/product
-_layouts/default.html       Shared HTML head, header, footer, script/css includes
-_layouts/artwork.html       Product page template
+_layouts/default.html       Shared HTML head, cart-only header, social footer, script/css includes
+_layouts/artwork.html       Product page template (3D viewer, specs, buy box, story, side arrows)
 index.html                  Catalog page that loops over _artworks
-investment-art/basket.html  Basket/checkout source page
+investment-art/basket.html  Basket/checkout source page (lean, PayPal-first)
 shop.css                    Shared shop styling
-shop.js                     localStorage basket and checkout behavior
-images/                     Artwork files
+shop.js                     localStorage basket, per-line controls, PayPal + Formspree checkout
+shop-state.mjs              Pure cart/checkout logic (imported by shop.js, unit-tested)
+art-viewer.js               Three.js 3D canvas viewer with progressive WEB→THIS loading
+tests/*.test.mjs            Fast unit + content + markup tests (npm test)
+tests/smoke/*.test.mjs      Jekyll build smoke test (npm run test:build)
+images/                     Artwork files (THIS = full-res, WEB = light preview)
 changelog-promptlog.md      Project memory, decisions, acceptance criteria
 ```
 
@@ -171,13 +179,21 @@ art_id: "41"
 order: 41
 slug: 41-new-work
 title: "New Work"
-image: "41 New Work.png"
-description: "New Work canvas print from Money From The Future. 100 euro per piece."
+image: "41 New Work THIS.png"          # full-res file, used by the 3D viewer
+preview_image: "41 New Work WEB.jpg"   # light file, used by catalog + as the fast 3D texture
+description_author: "Lorem Ipsum"      # the artist's short voice (placeholder until written)
+description_ai: |
+  Longer SEO body. **Markdown** works; blank lines start new paragraphs.
 ---
 ```
 
-4. Restart Jekyll if the new file does not appear immediately.
-5. Check the catalog, product page, add-to-basket flow, and basket total.
+Notes:
+- `description` (the old generic field) was removed. Pages use `description_author` for the intro and `description_ai` for the long-form story + the `<meta name="description">`.
+- Specs (dimensions, material, finish, shipping) come from shared defaults in `_layouts/artwork.html`; override per-artwork by adding `dimensions:` / `finish:` / etc. to the front matter.
+- `tests/content-artworks.test.mjs` will fail if `image`/`preview_image` don't exist on disk, orders aren't contiguous, or `description_ai` is empty — run `npm test` after adding.
+
+4. Restart Jekyll if the new file does not appear immediately (front matter / `_config.yml` changes need a server restart).
+5. Check the catalog, product page, 3D viewer, add-to-basket flow, and basket total.
 6. Update `changelog-promptlog.md` with the feature/request, acceptance criteria, and verification.
 
 ## Edit Existing Artwork
@@ -223,17 +239,26 @@ https://planetarycouncil.github.io/moneyfromthefuture.com/
 
 If you later switch to the custom domain, change `_config.yml` `url` to `https://moneyfromthefuture.com`, set `baseurl` back to `""`, and restore `CNAME`.
 
-## PayPal Smart Button
+## Checkout: PayPal Smart Button + Formspree
 
-The basket page can render PayPal's JavaScript SDK smart button. Paste the live PayPal client ID into `_config.yml`:
+The basket renders PayPal's JS SDK smart button (PayPal + guest card). Paste the live PayPal client ID into `_config.yml`:
 
 ```yaml
 paypal_client_id: "YOUR_LIVE_PAYPAL_CLIENT_ID"
 ```
 
-The client ID is public configuration for the PayPal browser SDK. Do not add PayPal secret keys to this static GitHub Pages repo.
+The client ID is public configuration for the PayPal browser SDK. Do not add PayPal secret keys to this static GitHub Pages repo. If `paypal_client_id` is blank, the PayPal area shows a setup hint instead of a button.
 
-If `paypal_client_id` is blank, the basket keeps using the PayPal.me fallback link.
+Flow (capture-first, no duplicate address entry):
+
+1. Buyer reviews the basket and clicks PayPal/card. They enter name + address **once, in PayPal**.
+2. On capture, `shop.js` pulls name/email/shipping from the PayPal response (`extractDeliveryFromPayPal`) into hidden form fields.
+3. The order auto-forwards to **Formspree** over `fetch` (the 6 delivery fields are hidden carriers — there is no separate delivery form to fill).
+4. The success screen confirms the order and shows "Ships to …".
+
+Formspree form id lives in `investment-art/basket.html` as the form `action` (`https://formspree.io/f/<id>`). A brand-new form holds its first submission until you click Formspree's one-time confirmation email — do that before relying on order emails. The hidden `ddd` keyboard shortcut on the basket page fires the full extract→forward path with sample data, so you can test the email pipeline without a real payment.
+
+`tests/site-markup.test.mjs` guards against the form action regressing to a placeholder.
 
 ## Acceptance Criteria For Shop Work
 
@@ -242,7 +267,9 @@ If `paypal_client_id` is blank, the basket keeps using the PayPal.me fallback li
 - Only `_artworks/*.md` should be edited for artwork data.
 - Do not hand-maintain generated product HTML.
 - Basket persists through `localStorage`.
-- Basket supports multiple artworks and multiple quantities.
+- Basket supports multiple artworks and multiple quantities, with per-line −/+ and remove controls.
 - Checkout total is `EUR 100 x total print quantity`.
-- PayPal smart button, PayPal.me fallback, and forward-order email links reflect the basket total.
+- PayPal smart button captures payment; name/email/shipping come from the PayPal capture and auto-forward to Formspree.
+- Buyer never types their delivery address twice.
 - UI remains square-edged with no rounded corners.
+- `npm run verify` is green (fast tests + Jekyll build smoke).

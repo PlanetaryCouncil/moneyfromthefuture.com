@@ -46,8 +46,13 @@ The order is not so random. Some thought were put into ordering the initial set 
 
 ### Socials
 
-* https://www.instagram.com/moneyfromthefuture
-* https://www.tiktok.com/@marsrobertson
+Linked as first-class cards in the site footer:
+
+* Twitter — https://twitter.com/moneyFromThe
+* Telegram — https://t.me/moneyFTF
+* Instagram — https://www.instagram.com/moneyfromthefuture
+* TikTok — https://www.tiktok.com/@marsrobertson
+* Nostr — https://primal.net/p/nprofile1qqsw4de78ghgtl4atvtt9d9uqcua4y0napsaqvra4duflukp4js4uhqldmfwz
 
 ### Running the website locally
 

@@ -382,6 +382,56 @@ Known limits:
 - GitHub Pages settings must be configured to publish from GitHub Actions.
 - If switching back to the custom domain later, restore `CNAME` and set `_config.yml` `baseurl` to `""`.
 
+## Session: 2026-06-21 / 2026-06-22 — Product page, checkout rework, footer, test harness
+
+Large slice toward public release. Worked one feature at a time with live browser verification.
+
+### Individual artwork page rebuild
+- **Decision:** Lead with the artwork. Replaced the cramped side-by-side hero with a full-width **3D canvas viewer** (Three.js r128) that hangs each piece on a wall — drag to rotate, scroll to zoom, pan up close, auto-drift when idle. Adapted from `DEMO-test-gallery.html` into a reusable `art-viewer.js` (reads texture URLs from `data-` attributes; aspect ratio auto-detected per image).
+- **Progressive loading:** show the light `WEB` texture first (usually already cached from the catalog), then silently swap in the full-res `THIS` file in the background. Spinner shows until the first texture lands; graceful fallback if WebGL/THREE absent or load fails.
+- Restructured the page: breadcrumb, full-width viewer, product panel (badge, specs, sticky buy box), long-form story section, prev/next.
+- **Prev/next** moved from a bottom block to `‹ ›` arrows flanking the viewer (carousel style, `pointer-events` lets drag pass through the middle).
+- Files: `_layouts/artwork.html`, `art-viewer.js`, `shop.css`, `.claude/launch.json`.
+
+### Artwork descriptions split into two fields
+- **Decision:** Drop the generic `description`. Each artwork now carries `description_author` (the artist's short voice; placeholder `"Lorem Ipsum"` until written) and `description_ai` (longer SEO body, rendered via `markdownify`).
+- `<meta name="description">` now derives from `description_ai` (stripped + truncated to 160 chars), with fallback for non-artwork pages.
+- All 40 `_artworks/*.md` migrated. The `description_ai` drafts are currently title/theme-based; user is replacing them with image-accurate copy via another tool.
+- Files: all `_artworks/*.md`, `_layouts/artwork.html`, `_layouts/default.html`, `_config.yml`.
+
+### Product specs + trust
+- Spec grid: Dimensions `60 × 30 cm`, Material `Canvas Print`, Finish `Wooden frame, ready to hang`, Shipping `Manufactured locally, in your country` (shared defaults in the layout, per-artwork overridable).
+- Buy box: removed internal-strategy banner and the `Pay with Bitcoin/Card` line; added **"Comes with certificate of authenticity"**. Kept the live `data-basket-status` hook (hidden when empty) for add-to-basket feedback.
+
+### Basket page → lean checkout
+- Stripped marketing fluff (full-screen hero, "Pay With PayPal" headline). Compact header + basket + checkout.
+- **Per-line controls:** quantity steppers (−/+) and Remove on each basket line (delegated handler; `setItemQuantity`/`removeItemFromBasket` added to `shop-state.mjs`). Decrementing to 0 removes the line.
+- Empty-basket copy simplified to one friendly line; PayPal explainer hidden until there's something to pay for.
+
+### PayPal-first checkout (removes duplicate address entry)
+- **Problem:** buyer filled our delivery form, then PayPal's card form asked for name/address again.
+- **Decision:** capture payment first; pull name/email/shipping address from the PayPal capture (`extractDeliveryFromPayPal`, pure + unit-tested) and forward them. The 6 delivery fields are now hidden carriers populated from PayPal. (Also more correct — shipping to PayPal's address is what Seller Protection expects.)
+- Order auto-forwards to Formspree over `fetch` on capture (no extra button), buyer stays on-page, success/failure shown inline. Success screen simplified + shows "Ships to …".
+- **Formspree:** wired the real form `mzdqwgby` (was a placeholder `email@…`). First real submission needs the one-time Formspree form-confirmation email; confirmed working in prod. The hidden `ddd` UI shortcut now exercises the full extract→forward path for free testing.
+- Files: `investment-art/basket.html`, `shop.js`, `shop-state.mjs`, `shop.css`.
+
+### Navigation + footer
+- Moved `About / Policies / Blog` from the header to the footer (header keeps only the cart).
+- **Social as first-class** in the footer: Twitter `@moneyFromThe`, Telegram `@moneyFTF`, Instagram `@moneyfromthefuture`, TikTok `@marsrobertson`, Nostr (Primal) — each with an inline monochrome brand SVG (Nostr uses the ostrich). Dropped the standalone Social page from navigation (file still exists, unlinked).
+- Files: `_layouts/default.html`, `shop.css`.
+
+### Test harness (release-readiness)
+- Grew from ~36 to **66 tests** across `npm test` (65 fast) + `npm run test:build` (1 build smoke). `npm run verify` = both, the pre-publish gate.
+- New: `tests/content-artworks.test.mjs` (front matter validity, unique/contiguous orders, **referenced image files exist on disk**, non-empty `description_ai`), `tests/site-markup.test.mjs` (header/footer/artwork/basket markup locked in, incl. real Formspree form id), `tests/smoke/build.test.mjs` (real Jekyll build to temp dir, asserts no Liquid errors + all 40 artwork pages emit; skips if Ruby absent).
+- Extended `tests/shop-state.test.mjs` with quantity/remove and PayPal-extraction cases.
+- Added `package.json` scripts: `test:build`, `build`; `verify` now chains test + build smoke.
+
+### Known limits / next
+- `description_ai` copy is title-based until image-accurate copy lands.
+- Twitter handle `@moneyFromThe` used verbatim — confirm it resolves.
+- Open Graph / social-share images per product still TODO.
+- A manual launch-day smoke (real €1 PayPal, Formspree delivery, mobile) is still wise on top of the automated build smoke.
+
 ## Prompt Log
 
 ### Conversation Summary
@@ -415,10 +465,16 @@ Known limits:
 
 ## Open Questions / Future Feature Candidates
 
-- Replace PayPal.me link with a more formal PayPal checkout flow if needed.
-- Add direct quantity input for basket rows.
-- Add product metadata per artwork: size, print material, edition notes, shipping info.
-- Review representative image choices for all 40 artwork families.
-- Add SEO metadata / Open Graph per product page.
+Done (2026-06-22 session):
+- ~~Replace PayPal.me link with a more formal PayPal checkout flow~~ → PayPal smart button + auto-forward to Formspree, capture-first.
+- ~~Add direct quantity input for basket rows~~ → per-line −/+ steppers and Remove.
+- ~~Add product metadata per artwork (size, material, shipping)~~ → spec grid + certificate line.
+- ~~Add explicit product size/material/shipping terms~~ → 60×30 cm, wooden frame, made locally.
+
+Still open:
+- Replace title-based `description_ai` with image-accurate copy (in progress, external tool).
+- Write real `description_author` per artwork (currently "Lorem Ipsum").
+- Add Open Graph / social-share image per product page (meta description already wired).
 - Add sitemap entries for `/investment-art/*.html`.
-- Add explicit product size/material/shipping terms.
+- Review representative image choices for all 40 artwork families.
+- Confirm Twitter handle `@moneyFromThe` resolves; decide whether to delete the unlinked `social.md`.

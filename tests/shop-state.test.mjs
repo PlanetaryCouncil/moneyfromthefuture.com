@@ -14,8 +14,56 @@ import {
   normalizeBasket,
   normalizeItem,
   removeItemFromBasket,
-  setItemQuantity
+  setItemQuantity,
+  extractDeliveryFromPayPal
 } from "../shop-state.mjs";
+
+const PAYPAL_CAPTURE = {
+  id: "ORDER123",
+  payer: {
+    name: { given_name: "Ada", surname: "Lovelace" },
+    email_address: "ada@example.com"
+  },
+  purchase_units: [{
+    shipping: {
+      name: { full_name: "Ada Lovelace" },
+      address: {
+        address_line_1: "1 Market Street",
+        address_line_2: "Flat 2",
+        admin_area_2: "London",
+        admin_area_1: "Greater London",
+        postal_code: "E1 6AN",
+        country_code: "GB"
+      }
+    }
+  }]
+};
+
+test("extract delivery maps PayPal name, email and address", () => {
+  const d = extractDeliveryFromPayPal(PAYPAL_CAPTURE);
+  assert.equal(d.name, "Ada Lovelace");
+  assert.equal(d.email, "ada@example.com");
+  assert.equal(d.streetAddress, "1 Market Street, Flat 2");
+  assert.equal(d.city, "London");
+  assert.equal(d.postcode, "E1 6AN");
+  assert.equal(d.country, "GB");
+});
+
+test("extract delivery falls back to payer name when shipping name absent", () => {
+  const d = extractDeliveryFromPayPal({
+    payer: { name: { given_name: "Grace", surname: "Hopper" } },
+    purchase_units: [{ shipping: { address: { address_line_1: "5 Navy Yard" } } }]
+  });
+  assert.equal(d.name, "Grace Hopper");
+  assert.equal(d.streetAddress, "5 Navy Yard");
+});
+
+test("extract delivery is safe on empty or malformed input", () => {
+  for (const input of [undefined, null, {}, { purchase_units: [] }]) {
+    const d = extractDeliveryFromPayPal(input);
+    assert.deepEqual(d, { name: "", email: "", streetAddress: "", city: "", postcode: "", country: "" });
+  }
+});
 
 test("default item price falls back to default", () => {
   assert.equal(getItemPrice({}), DEFAULT_ITEM_PRICE);
