@@ -12,6 +12,12 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "4310", "--directory", "regenhands"],
       "port": 4310
+    },
+    {
+      "name": "1btc",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4320", "--directory", "1btc"],
+      "port": 4320
     }
   ]
 }

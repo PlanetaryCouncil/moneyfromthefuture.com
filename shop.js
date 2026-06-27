@@ -518,6 +518,51 @@ async function sendOrderEmail() {
   }
 }
 
+// Newsletter / contact form in the footer — submits to Formspree over fetch so
+// the visitor stays on-page and gets an inline result. Doubles as a contact form
+// via the optional message field.
+function initNewsletter() {
+  const form = document.getElementById("newsletter-form");
+  if (!form) return;
+
+  const status = form.querySelector("[data-newsletter-status]");
+  const setStatus = (message) => { if (status) status.textContent = message; };
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (!form.checkValidity()) {
+      setStatus("Please enter a valid email address.");
+      form.reportValidity();
+      return;
+    }
+
+    setStatus("Signing you up…");
+
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { Accept: "application/json" }
+      });
+
+      if (response.ok) {
+        form.reset();
+        setStatus("Thanks — you're on the list. 🙌");
+        return;
+      }
+
+      const data = await response.json().catch(() => null);
+      const detail = Array.isArray(data?.errors)
+        ? data.errors.map((error) => error.message).filter(Boolean).join(", ")
+        : "";
+      setStatus(detail ? `Could not sign up: ${detail}` : "Could not sign up. Please try again.");
+    } catch {
+      setStatus("Network problem. Please try again.");
+    }
+  });
+}
+
 function initBasket() {
   document.querySelectorAll("[data-add-to-basket]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -689,4 +734,5 @@ function initHeroRotation() {
 
 initHeroRotation();
 initBasket();
+initNewsletter();
 initTestingShortcuts();

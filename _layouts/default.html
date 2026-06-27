@@ -28,6 +28,21 @@
   {{ content }}
   <footer class="site-footer">
     <div class="shell footer-inner">
+      <div class="footer-newsletter">
+        <span class="footer-eyebrow">Sign up to the newsletter</span>
+        <p class="footer-newsletter-copy">New drops and dispatches from the future. Got a question or just want to say hello? Add a message.</p>
+        <form id="newsletter-form" class="newsletter-form" action="{{ site.newsletter_form_url }}" method="POST">
+          <input type="hidden" name="_subject" value="Newsletter signup / message — Money From The Future">
+          <input type="hidden" name="source" value="newsletter">
+          <input class="newsletter-gotcha" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="newsletter-row">
+            <input id="newsletter-email" name="email" type="email" required placeholder="you@example.com" autocomplete="email" aria-label="Email address">
+            <button class="button button-primary" type="submit">Sign up</button>
+          </div>
+          <textarea name="message" rows="2" placeholder="Optional message 🙂" aria-label="Optional message"></textarea>
+          <p class="newsletter-status" data-newsletter-status aria-live="polite"></p>
+        </form>
+      </div>
       <div class="footer-social">
         <span class="footer-eyebrow">Follow Money From The Future</span>
         <div class="footer-social-links">
@@ -69,12 +84,18 @@
         </div>
       </div>
       <div class="footer-bottom">
+        <div class="footer-brand">
+          <span class="brand-mark">MFTF</span>
+          <span class="footer-copyright">© {{ site.time | date: '%Y' }} {{ site.title }}</span>
+        </div>
         <nav class="footer-nav" aria-label="Footer">
           <a href="{{ '/about.html' | relative_url }}">About Us</a>
           <a href="{{ '/policies.html' | relative_url }}">Policies</a>
           <a href="{{ '/blog/' | relative_url }}">Blog</a>
         </nav>
-        <span class="footer-meta"><strong>PUBLIC BETA.</strong> Bitcoin Film Festival preview.</span>
+        <a class="footer-release" href="{{ site.repo_url }}{% if site.release_commit %}/commit/{{ site.release_commit }}{% else %}/commits/main{% endif %}" target="_blank" rel="noopener">
+          Initial public release{% if site.release_commit %} &middot; {{ site.release_commit }}{% endif %}
+        </a>
       </div>
     </div>
   </footer>

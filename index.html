@@ -78,7 +78,7 @@ description: Money From The Future online shop.
               data-id="{{ artwork.art_id }}"
               data-slug="{{ artwork.slug }}"
               data-title="{{ artwork.title | escape }}"
-              data-image="{{ '/images/' | append: artwork.image | relative_url }}"
+              data-image="{{ '/images/' | append: preview_image | relative_url }}"
               data-price="{{ artwork.price | default: 100 }}"
             >+</button>
           </div>

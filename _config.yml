@@ -1,9 +1,13 @@
 title: Money From The Future
 description: Investment art canvas prints from Money From The Future.
-url: "https://planetarycouncil.github.io"
-baseurl: "/moneyfromthefuture.com"
+url: "https://moneyfromthefuture.com"
+baseurl: ""
 timezone: Europe/Warsaw
 paypal_client_id: "AbPkxM3h1v8Vxptd1WaRn8NE9C9wWQFVgaeFhWrjrx3gQgfq-9eyD8piF3txeIHgNIOwRJPMpZSIY_mC"
+repo_url: "https://github.com/PlanetaryCouncil/moneyfromthefuture.com"
+# Newsletter / contact form endpoint. Reuses the order Formspree form for now
+# (submissions are tagged source=newsletter); swap to a dedicated form when ready.
+newsletter_form_url: "https://formspree.io/f/mzdqwgby"
 
 collections:
   artworks:

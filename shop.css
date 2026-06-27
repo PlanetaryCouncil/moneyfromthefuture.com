@@ -479,6 +479,35 @@ input::placeholder, textarea::placeholder { color: rgba(255, 247, 234, 0.52); }
   color: var(--muted);
   margin-bottom: 1.1rem;
 }
+
+/* newsletter / contact form (footer) */
+.footer-newsletter { margin-bottom: 2.4rem; }
+.footer-newsletter .footer-eyebrow { margin-bottom: 0.6rem; }
+.footer-newsletter-copy { color: var(--muted); line-height: 1.55; margin: 0 0 1.1rem; max-width: 34rem; }
+.newsletter-form { display: grid; gap: 0.7rem; max-width: 34rem; }
+.newsletter-row { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.newsletter-form input[type="email"] {
+  flex: 1;
+  min-width: 12rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  font: inherit;
+  color: var(--ink);
+}
+.newsletter-form textarea {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  font: inherit;
+  color: var(--ink);
+  resize: vertical;
+}
+.newsletter-form .button-primary { flex-shrink: 0; }
+.newsletter-gotcha { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.newsletter-status { font-size: 0.86rem; color: var(--muted); margin: 0; }
+.newsletter-status:empty { display: none; }
 .footer-social-links {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
@@ -514,6 +543,15 @@ input::placeholder, textarea::placeholder { color: rgba(255, 247, 234, 0.52); }
 .footer-nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; }
 .footer-nav a:hover { color: var(--ink); }
 .footer-meta { color: var(--muted); font-size: 0.9rem; }
+.footer-brand { display: flex; align-items: center; gap: 0.7rem; }
+.footer-copyright { color: var(--muted); font-size: 0.85rem; }
+.footer-release {
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.footer-release:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
 @media (max-width: 760px) {
   .footer-social-links { grid-template-columns: 1fr; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }

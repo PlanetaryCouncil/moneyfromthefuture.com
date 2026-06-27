@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1BTC.com — The Exclusive Members Club · JEDI Only</title>
+  <meta name="description" content="An exclusive members' club. The price is 1 BTC. A higherdimensional unlock of energy, an elite network, and benefits money can't usually buy. By default, smart and pretty.">
+
+  <meta property="og:title" content="1BTC.com — The Exclusive Members Club · JEDI Only">
+  <meta property="og:description" content="The price is 1 BTC. A higherdimensional unlock of energy and an elite network. By default, smart and pretty.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://1btc.com">
+
+  <!-- Three.js is loaded for the hero only, via importmap, async + non-blocking -->
+  <script type="importmap">
+    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+  </script>
+
+  <style>
+    :root {
+      --bg:        #000000;
+      --bg-2:      #0b0700;
+      --ink:       #fff6e6;
+      --ink-soft:  #b39a6a;
+      --ink-dim:   #7c6a47;
+      --gold:      #f7931a;   /* Bitcoin orange */
+      --gold-2:    #ffce4d;   /* bright gold */
+      --gold-deep: #b5670d;
+      --line:      rgba(247, 147, 26, 0.18);
+      --line-2:    rgba(247, 147, 26, 0.32);
+      --card:      rgba(40, 28, 6, 0.34);
+      --card-2:    rgba(40, 28, 6, 0.6);
+      --maxw:      1100px;
+
+      --font-sans:  -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      background:
+        radial-gradient(130% 90% at 50% -10%, rgba(247,147,26,0.16), transparent 55%),
+        var(--bg);
+    }
+
+    body {
+      position: relative;
+      font-family: var(--font-sans);
+      background: transparent;
+      color: var(--ink);
+      line-height: 1.62;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img, canvas, svg { display: block; }
+
+    /* ── Layout helpers ─────────────────────────────────────────────── */
+    section { position: relative; z-index: 1; padding: clamp(64px, 11vw, 132px) 22px; scroll-margin-top: 72px; }
+    .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; }
+    .narrow { max-width: 720px; }
+    .center { text-align: center; }
+
+    .eyebrow {
+      font-size: 0.68rem; letter-spacing: 0.34em; text-transform: uppercase;
+      color: var(--gold); font-weight: 600;
+    }
+    .eyebrow.dim { color: var(--ink-soft); }
+
+    h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.9rem, 5vw, 3.1rem);
+      line-height: 1.08;
+      margin-top: 12px;
+      background: linear-gradient(120deg, var(--gold-2) 10%, var(--gold) 70%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    h3 { font-family: var(--font-serif); font-size: 1.32rem; font-weight: 600; }
+    .lead { margin-top: 16px; font-size: clamp(1rem, 2.4vw, 1.18rem); color: var(--ink-soft); }
+    .section-head { max-width: 680px; margin: 0 auto; text-align: center; }
+
+    .gold   { color: var(--gold-2); }
+    b.gold, strong.gold { font-weight: 700; }
+
+    /* ── Buttons ────────────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 15px 28px; border-radius: 999px; border: 1px solid transparent;
+      cursor: pointer; font: 600 1rem var(--font-sans); white-space: nowrap;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+    }
+    .btn-primary {
+      color: #190f00;
+      background: linear-gradient(120deg, var(--gold-2), var(--gold));
+      box-shadow: 0 14px 34px rgba(247, 147, 26, 0.34);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 18px 46px rgba(247, 147, 26, 0.5); }
+    .btn-ghost { color: var(--ink); border-color: var(--line-2); background: rgba(40,28,6,0.3); }
+    .btn-ghost:hover { transform: translateY(-2px); border-color: var(--gold); color: var(--gold-2); }
+    .btn:disabled { opacity: 0.6; cursor: default; transform: none; }
+    .btn-row { margin-top: 30px; display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+
+    /* ── Background atmosphere ──────────────────────────────────────── */
+    .aura {
+      position: fixed; z-index: 0; border-radius: 50%; filter: blur(80px);
+      opacity: 0.42; pointer-events: none; mix-blend-mode: screen; will-change: transform;
+    }
+    .aura.a1 { width: 48vw; height: 48vw; left: -8vw; top: -6vw;
+      background: radial-gradient(circle, rgba(247,147,26,0.5), transparent 65%);
+      animation: drift1 30s ease-in-out infinite; }
+    .aura.a2 { width: 42vw; height: 42vw; right: -10vw; top: 40vh;
+      background: radial-gradient(circle, rgba(255,206,77,0.34), transparent 65%);
+      animation: drift2 38s ease-in-out infinite; }
+    @keyframes drift1 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(12vw,14vh) scale(1.18)} }
+    @keyframes drift2 { 0%,100%{transform:translate(0,0) scale(1.05)} 50%{transform:translate(-12vw,-8vh) scale(0.85)} }
+
+    /* ── Top nav ────────────────────────────────────────────────────── */
+    header {
+      position: sticky; top: 0; z-index: 20;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      background: linear-gradient(180deg, rgba(0,0,0,0.72), rgba(0,0,0,0.18));
+      border-bottom: 1px solid var(--line);
+    }
+    .nav { max-width: var(--maxw); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 13px 22px; }
+    .brand { display: flex; align-items: center; gap: 9px; font-family: var(--font-serif); font-size: 1.18rem; }
+    .brand .mark {
+      width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+      background: linear-gradient(135deg, var(--gold-2), var(--gold-deep)); color: #190f00; font-weight: 700;
+      box-shadow: 0 0 18px rgba(247,147,26,0.5);
+    }
+    .nav-links { display: flex; gap: 26px; align-items: center; }
+    .nav-links a { font-size: 0.9rem; color: var(--ink-soft); transition: color 0.16s ease; }
+    .nav-links a:hover { color: var(--gold-2); }
+    .nav-cta { padding: 9px 20px; font-size: 0.9rem; }
+    @media (max-width: 760px) { .nav-links a:not(.nav-cta) { display: none; } }
+
+    /* ── 1 · HERO ───────────────────────────────────────────────────── */
+    .hero { min-height: 100svh; display: grid; place-items: center; padding-top: clamp(40px, 8vw, 80px); overflow: hidden; }
+    #scene { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; }
+    /* CSS mandala fallback sits under the canvas; visible if WebGL fails */
+    .hero-fallback {
+      position: absolute; z-index: 0; left: 50%; top: 46%; transform: translate(-50%,-50%);
+      width: min(78vw, 560px); aspect-ratio: 1; opacity: 0.9; pointer-events: none;
+    }
+    .hero-inner { position: relative; z-index: 2; text-align: center; max-width: 720px; padding: 0 6px; }
+    .hero h1 {
+      font-family: var(--font-serif); font-weight: 700;
+      font-size: clamp(2.6rem, 9vw, 5.4rem); line-height: 1.02; letter-spacing: -0.01em;
+      text-shadow: 0 0 50px rgba(247,147,26,0.35);
+    }
+    .hero h1 .shimmer {
+      background: linear-gradient(100deg, var(--gold-2), #fff7df 45%, var(--gold) 60%, var(--gold-2));
+      background-size: 220% 100%;
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      animation: shimmer 6s linear infinite;
+    }
+    @keyframes shimmer { to { background-position: 220% 0; } }
+    .hero .tagline { margin-top: 18px; font-size: clamp(1.05rem, 3vw, 1.4rem); color: var(--ink); }
+    .hero .tagline b { color: var(--gold-2); }
+    .price-pill {
+      margin: 26px auto 0; display: inline-flex; align-items: baseline; gap: 12px;
+      padding: 12px 26px; border-radius: 999px; border: 1px solid var(--line-2);
+      background: rgba(40,28,6,0.5); box-shadow: 0 0 40px rgba(247,147,26,0.18) inset;
+    }
+    .price-pill .label { font-size: 0.64rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink-soft); }
+    .price-pill .amt { font-family: var(--font-serif); font-size: 1.7rem; color: var(--gold-2); letter-spacing: 0.04em; }
+    .alt-door { margin-top: 14px; font-size: 0.95rem; color: var(--ink-soft); }
+    .alt-door b { color: var(--gold-2); font-weight: 600; }
+    .scroll-cue { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); z-index:2;
+      font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink-dim); animation: bob 2.4s ease-in-out infinite; }
+    @keyframes bob { 0%,100%{transform:translate(-50%,0)} 50%{transform:translate(-50%,7px)} }
+
+    /* ── Reusable rotating SVG mandala accents ──────────────────────── */
+    .mandala { width: 100%; height: 100%; overflow: visible; }
+    .mandala .spin   { transform-origin: 100px 100px; animation: spin 60s linear infinite; }
+    .mandala .spin-r { transform-origin: 100px 100px; animation: spin 80s linear infinite reverse; }
+    .mandala .pulse  { transform-origin: 100px 100px; animation: pulse 7s ease-in-out infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes pulse { 0%,100%{ opacity:.5; transform: scale(1);} 50%{ opacity:.95; transform: scale(1.05);} }
+
+    /* ── 2 · UNLOCK (four energies) ─────────────────────────────────── */
+    .unlock-grid { margin-top: 48px; display: grid; gap: 18px; grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: 860px) { .unlock-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 460px) { .unlock-grid { grid-template-columns: 1fr; } }
+    .energy {
+      position: relative; padding: 26px 22px 28px; border: 1px solid var(--line); border-radius: 18px;
+      background: var(--card); text-align: center; overflow: hidden;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+    .energy:hover { transform: translateY(-4px); border-color: var(--line-2); background: var(--card-2); }
+    .energy .glyph { width: 56px; height: 56px; margin: 0 auto 14px; color: var(--gold); }
+    .energy h3 { color: var(--gold-2); }
+    .energy p { margin-top: 8px; font-size: 0.92rem; color: var(--ink-soft); }
+
+    /* ── 3 · BENEFITS ───────────────────────────────────────────────── */
+    .benefits-grid { margin-top: 48px; display: grid; gap: 18px; grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 860px) { .benefits-grid { grid-template-columns: 1fr; } }
+    .benefit { padding: 26px 24px; border: 1px solid var(--line); border-radius: 18px; background: var(--card);
+      transition: transform 0.2s ease, border-color 0.2s ease; }
+    .benefit:hover { transform: translateY(-4px); border-color: var(--line-2); }
+    .benefit .num { font-family: var(--font-serif); font-size: 1.1rem; color: var(--gold); }
+    .benefit h3 { margin-top: 8px; }
+    .benefit p { margin-top: 8px; font-size: 0.94rem; color: var(--ink-soft); }
+
+    /* ── 4 · NETWORK ────────────────────────────────────────────────── */
+    .network { overflow: hidden; }
+    #net-canvas { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.9; }
+    .network .wrap { position: relative; z-index: 2; }
+    .stat-row { margin-top: 44px; display: flex; flex-wrap: wrap; gap: 22px; justify-content: center; }
+    .stat { min-width: 150px; padding: 22px 26px; border: 1px solid var(--line); border-radius: 16px; background: rgba(10,7,0,0.5); text-align: center; }
+    .stat .big { font-family: var(--font-serif); font-size: 2.2rem; color: var(--gold-2); }
+    .stat .cap { margin-top: 4px; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
+
+    /* ── 5 · TIERS / ELITE ──────────────────────────────────────────── */
+    .tiers { margin-top: 48px; display: grid; gap: 20px; grid-template-columns: repeat(3, 1fr); align-items: stretch; }
+    @media (max-width: 900px) { .tiers { grid-template-columns: 1fr; max-width: 460px; margin-left: auto; margin-right: auto; } }
+    .tier { position: relative; display: flex; flex-direction: column; padding: 30px 26px; border: 1px solid var(--line);
+      border-radius: 20px; background: var(--card); }
+    .tier.jedi {
+      border-color: var(--gold); background: linear-gradient(180deg, rgba(247,147,26,0.16), rgba(40,28,6,0.5));
+      box-shadow: 0 0 60px rgba(247,147,26,0.28); transform: translateY(-8px);
+    }
+    @media (max-width: 900px) { .tier.jedi { transform: none; } }
+    .tier .badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+      font-size: 0.62rem; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 700; color: #190f00;
+      background: linear-gradient(120deg, var(--gold-2), var(--gold)); padding: 6px 16px; border-radius: 999px; white-space: nowrap; }
+    .tier .t-name { font-family: var(--font-serif); font-size: 1.5rem; color: var(--gold-2); }
+    .tier .t-price { margin-top: 10px; font-size: 1.05rem; color: var(--ink); }
+    .tier .t-price b { font-family: var(--font-serif); font-size: 1.6rem; color: var(--gold-2); }
+    .tier ul { margin: 20px 0 26px; display: grid; gap: 11px; }
+    .tier li { list-style: none; display: flex; gap: 10px; font-size: 0.92rem; color: var(--ink-soft); }
+    .tier li::before { content: "₿"; color: var(--gold); font-weight: 700; }
+    .tier .btn { margin-top: auto; justify-content: center; }
+
+    /* ── 6 · REFERRAL ───────────────────────────────────────────────── */
+    .ref-card { margin-top: 44px; max-width: 760px; margin-left: auto; margin-right: auto;
+      padding: 34px 30px; border: 1px solid var(--line-2); border-radius: 22px; background: var(--card-2); text-align: center; }
+    .ref-steps { display: flex; flex-wrap: wrap; gap: 18px; justify-content: center; margin-top: 8px; }
+    .ref-step { flex: 1 1 180px; max-width: 220px; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: rgba(10,7,0,0.4); }
+    .ref-step .n { width: 34px; height: 34px; margin: 0 auto 10px; border-radius: 50%; display: grid; place-items: center;
+      background: linear-gradient(135deg, var(--gold-2), var(--gold-deep)); color: #190f00; font-weight: 700; }
+    .ref-step p { font-size: 0.88rem; color: var(--ink-soft); }
+    .ref-link-row { margin-top: 26px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .ref-link-row input { flex: 1 1 280px; min-width: 0; padding: 14px 18px; border-radius: 999px; border: 1px solid var(--line);
+      background: rgba(10,7,0,0.5); color: var(--gold-2); font: 0.95rem var(--font-sans); text-align: center; }
+    .copied { font-size: 0.82rem; color: var(--gold-2); margin-top: 10px; min-height: 1.1em; }
+
+    /* ── 7 · PROOF ──────────────────────────────────────────────────── */
+    .quotes { margin-top: 48px; display: grid; gap: 18px; grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 860px) { .quotes { grid-template-columns: 1fr; } }
+    .quote { padding: 28px 26px; border: 1px solid var(--line); border-radius: 18px; background: var(--card); }
+    .quote .stars { color: var(--gold-2); letter-spacing: 2px; }
+    .quote p { margin-top: 12px; font-family: var(--font-serif); font-size: 1.06rem; line-height: 1.5; }
+    .quote .who { margin-top: 16px; font-size: 0.84rem; color: var(--ink-soft); }
+    .quote .who b { color: var(--gold-2); }
+
+    /* ── 8 · CHECKOUT ───────────────────────────────────────────────── */
+    .checkout-card { margin-top: 44px; max-width: 560px; margin-left: auto; margin-right: auto;
+      padding: 34px 30px 30px; border: 1px solid var(--line-2); border-radius: 24px;
+      background: var(--card-2); box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 60px rgba(247,147,26,0.12); }
+    .co-line { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 0; border-bottom: 1px dashed var(--line); }
+    .co-line:last-of-type { border-bottom: none; }
+    .co-line .k { color: var(--ink-soft); font-size: 0.92rem; }
+    .co-line .v { font-family: var(--font-serif); }
+    .co-total .v { font-size: 1.5rem; color: var(--gold-2); }
+    form.reserve { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+    form.reserve input[type=email] { flex: 1 1 240px; min-width: 0; padding: 15px 18px; border-radius: 999px; border: 1px solid var(--line);
+      background: rgba(10,7,0,0.5); color: var(--ink); font: 1rem var(--font-sans); outline: none; transition: border-color 0.2s ease; }
+    form.reserve input[type=email]:focus { border-color: var(--gold); }
+    form.reserve input::placeholder { color: rgba(179,154,106,0.7); }
+    form.reserve .btn { flex: 0 0 auto; }
+    .error { color: #ff9a8a; margin-top: 12px; font-size: 0.88rem; min-height: 1.1em; }
+    .pay-note { margin-top: 14px; font-size: 0.8rem; color: var(--ink-dim); text-align: center; }
+    .addr-box { margin-top: 16px; display: none; }
+    .addr-box.show { display: block; animation: fade 0.5s ease; }
+    .addr { display: flex; gap: 8px; align-items: center; justify-content: center; flex-wrap: wrap;
+      padding: 12px 16px; border: 1px dashed var(--line-2); border-radius: 12px; background: rgba(10,7,0,0.5);
+      font-family: var(--font-serif); color: var(--gold-2); word-break: break-all; font-size: 0.95rem; }
+    .addr button { font-size: 0.78rem; padding: 6px 12px; }
+
+    /* ── Two doors (BTC vs fame) ────────────────────────────────────── */
+    .doors-grid { margin-top: 44px; display: grid; gap: 20px; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 780px) { .doors-grid { grid-template-columns: 1fr; max-width: 460px; margin-left: auto; margin-right: auto; } }
+    .door { padding: 32px 28px; border: 1px solid var(--line); border-radius: 20px; background: var(--card);
+      transition: transform 0.2s ease, border-color 0.2s ease; }
+    .door:hover { transform: translateY(-4px); border-color: var(--line-2); }
+    .door.fame { border-color: var(--gold); background: linear-gradient(180deg, rgba(247,147,26,0.14), rgba(40,28,6,0.45));
+      box-shadow: 0 0 56px rgba(247,147,26,0.24); }
+    .door .d-kicker { font-size: 0.64rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--ink-soft); }
+    .door.fame .d-kicker { color: var(--gold); }
+    .door h3 { margin-top: 8px; font-size: 1.5rem; color: var(--gold-2); }
+    .door p { margin-top: 10px; color: var(--ink-soft); font-size: 0.95rem; }
+    .door .d-price { margin-top: 16px; font-family: var(--font-serif); font-size: 1.4rem; color: var(--ink); }
+    .door .d-price b { color: var(--gold-2); }
+
+    /* ── Checkout pay toggle + fame fields ──────────────────────────── */
+    .pay-toggle { display: flex; gap: 6px; padding: 5px; border: 1px solid var(--line); border-radius: 999px;
+      background: rgba(10,7,0,0.5); margin-bottom: 20px; }
+    .pay-toggle button { flex: 1; padding: 11px 8px; border: none; border-radius: 999px; background: transparent;
+      color: var(--ink-soft); font: 600 0.9rem var(--font-sans); cursor: pointer; transition: background 0.18s ease, color 0.18s ease; }
+    .pay-toggle button.active { background: linear-gradient(120deg, var(--gold-2), var(--gold)); color: #190f00; }
+    .pane[hidden] { display: none; }
+    .fame-fields { display: grid; gap: 10px; margin-top: 4px; }
+    .fame-fields input, .fame-fields select { width: 100%; padding: 14px 18px; border-radius: 14px; border: 1px solid var(--line);
+      background: rgba(10,7,0,0.5); color: var(--ink); font: 1rem var(--font-sans); outline: none; transition: border-color 0.2s ease; }
+    .fame-fields input::placeholder { color: rgba(179,154,106,0.7); }
+    .fame-fields input:focus, .fame-fields select:focus { border-color: var(--gold); }
+    .fame-fields .btn { justify-content: center; margin-top: 4px; }
+
+    /* success */
+    .success { display: none; }
+    .success.show { display: block; animation: fade 0.6s ease; }
+    @keyframes fade { from{opacity:0; transform: translateY(12px);} to{opacity:1; transform:none;} }
+    .id-card { margin: 8px auto 0; padding: 22px 24px; border: 1px solid var(--line-2); border-radius: 16px; background: rgba(10,7,0,0.5); max-width: 380px; }
+    .id-card .label { font-size: 0.64rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--ink-soft); }
+    .id-card .id { font-family: var(--font-serif); font-size: 1.9rem; letter-spacing: 0.12em; margin-top: 8px; color: var(--gold-2); word-break: break-all; }
+
+    /* ── 9 · FINAL CTA + FOOTER ─────────────────────────────────────── */
+    .final { text-align: center; }
+    .final h2 { font-size: clamp(2.1rem, 6vw, 3.6rem); }
+    .footer-zone { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 40px 22px 8px; border-top: 1px solid var(--line); text-align: center; }
+    .creator { font-family: var(--font-serif); font-size: 1.15rem; margin-top: 6px; }
+    .icon-row { margin-top: 16px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .icon-row a { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--line);
+      color: var(--ink-soft); transition: transform 0.16s ease, color 0.16s ease, border-color 0.16s ease; }
+    .icon-row a:hover { transform: translateY(-3px); color: var(--gold); border-color: var(--gold-deep); }
+    .icon-row svg { width: 18px; height: 18px; }
+    .projects { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 8px 10px; justify-content: center; }
+    .projects a { font-size: 0.8rem; color: var(--ink-soft); padding: 6px 13px; border-radius: 999px; border: 1px solid var(--line);
+      transition: color 0.16s ease, border-color 0.16s ease; }
+    .projects a:hover { color: var(--gold); border-color: var(--gold-deep); }
+    .legal { margin-top: 26px; font-size: 0.72rem; color: var(--ink-dim); }
+
+    /* ── Scroll reveal ──────────────────────────────────────────────── */
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+    .reveal.d1 { transition-delay: 0.08s; }
+    .reveal.d2 { transition-delay: 0.16s; }
+    .reveal.d3 { transition-delay: 0.24s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .aura, .mandala .spin, .mandala .spin-r, .mandala .pulse,
+      .hero h1 .shimmer, .scroll-cue { animation: none !important; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="aura a1" aria-hidden="true"></div>
+  <div class="aura a2" aria-hidden="true"></div>
+
+  <!-- ════════ NAV ════════ -->
+  <header>
+    <nav class="nav">
+      <a class="brand" href="#top"><span class="mark">₿</span> 1BTC</a>
+      <div class="nav-links">
+        <a href="#unlock">The Unlock</a>
+        <a href="#tiers">Tiers</a>
+        <a href="#referral">Referral</a>
+        <a href="#network">Network</a>
+        <a class="btn btn-primary nav-cta" href="#checkout">Claim seat</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+
+    <!-- ════════ 1 · HERO ════════ -->
+    <section class="hero" id="hero">
+      <canvas id="scene" aria-hidden="true"></canvas>
+      <div class="hero-fallback" id="hero-fallback" aria-hidden="true"></div>
+      <div class="hero-inner">
+        <div class="eyebrow reveal in">Exclusive members club · JEDI only</div>
+        <h1 class="reveal in d1">You're in.<br><span class="shimmer">By default smart &amp; pretty.</span></h1>
+        <p class="tagline reveal in d2">A higherdimensional unlock of energy.<br>An elite network. Benefits money can't usually buy.</p>
+        <div class="price-pill reveal in d2"><span class="label">Membership</span><span class="amt">1 BTC</span></div>
+        <div class="alt-door reveal in d2">or <b>100k+ audience</b> — pay with fame 🎤</div>
+        <div class="btn-row reveal in d3">
+          <a class="btn btn-primary" href="#checkout">Claim my seat &nbsp;→</a>
+          <a class="btn btn-ghost" href="#unlock">Feel the energy</a>
+        </div>
+      </div>
+      <div class="scroll-cue">scroll to unlock</div>
+    </section>
+
+    <!-- ════════ 2 · THE UNLOCK ════════ -->
+    <section id="unlock">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="eyebrow">The higherdimensional unlock</div>
+          <h2>Membership opens a field of energy.</h2>
+          <p class="lead">Blessed with higherdimensional fields of energy. Flow, intention, vibes — connected to the source. The door is 1 BTC. What's behind it is priceless.</p>
+        </div>
+        <div class="unlock-grid">
+          <div class="energy reveal">
+            <svg class="glyph" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M24 4C14 14 14 22 24 24c10 2 10 10 0 20"/><path d="M24 4c10 10 10 18 0 20C14 26 14 34 24 44"/></svg>
+            <h3>Flow</h3><p>Frictionless access to rooms, people, and momentum already in motion.</p>
+          </div>
+          <div class="energy reveal d1">
+            <svg class="glyph" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="24" cy="24" r="18"/><circle cx="24" cy="24" r="9"/><circle cx="24" cy="24" r="1.6" fill="currentColor"/></svg>
+            <h3>Intention</h3><p>A circle that moves on purpose. Aligned signal, zero noise.</p>
+          </div>
+          <div class="energy reveal d2">
+            <svg class="glyph" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M24 6l5 12 13 1-10 8 3 13-11-7-11 7 3-13L9 19l13-1z"/></svg>
+            <h3>Vibes</h3><p>Be among people who are, by default, smart and pretty. The bar is the baseline.</p>
+          </div>
+          <div class="energy reveal d3">
+            <svg class="glyph" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="24" cy="24" r="6"/><path d="M24 4v8M24 36v8M4 24h8M36 24h8M10 10l6 6M32 32l6 6M38 10l-6 6M16 32l-6 6"/></svg>
+            <h3>Source</h3><p>Connected to the source of money from the future. Energy compounds here.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ 3 · BENEFITS ════════ -->
+    <section id="benefits">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="eyebrow">Members' club with benefits</div>
+          <h2>What 1 BTC actually buys.</h2>
+          <p class="lead">No application. No interview. The price is the filter — and everyone on the other side of it already cleared the bar.</p>
+        </div>
+        <div class="benefits-grid">
+          <div class="benefit reveal"><div class="num">01</div><h3>Pre-vetted network</h3><p>Every member paid the same price. You skip the small talk and the screening — trust is the default.</p></div>
+          <div class="benefit reveal d1"><div class="num">02</div><h3>Rooms you can't buy into</h3><p>Dinners, retreats, and private channels that don't have a public door. Your ID is the door.</p></div>
+          <div class="benefit reveal d2"><div class="num">03</div><h3>Signal over noise</h3><p>Curated intros, deal flow, and intel from people who only speak when it's worth your time.</p></div>
+          <div class="benefit reveal"><div class="num">04</div><h3>Portable status</h3><p>Your member ID travels with you — verifiable, scarce, and recognised across the network.</p></div>
+          <div class="benefit reveal d1"><div class="num">05</div><h3>Referral upside</h3><p>Bring the right people, earn standing. The network rewards those who grow it well.</p></div>
+          <div class="benefit reveal d2"><div class="num">06</div><h3>The JEDI path</h3><p>A route to the inner-most circle for members who embody flow, intention and vibes.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ 3½ · TWO DOORS (fame) ════════ -->
+    <section id="doors">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="eyebrow">Ultra-exclusive · two doors</div>
+          <h2>Pay with Bitcoin. Or pay with fame.</h2>
+          <p class="lead">By default, the club is open to those who already moved the world's attention. 100k+ genuine audience? Your reach <em>is</em> your stake.</p>
+        </div>
+        <div class="doors-grid">
+          <div class="door reveal">
+            <div class="d-kicker">Door one</div>
+            <h3>Pay with Bitcoin</h3>
+            <p>The cleanest filter there is. One seat, settled on-chain from your own wallet. No application, no interview.</p>
+            <div class="d-price"><b>1 BTC</b></div>
+          </div>
+          <div class="door fame reveal d1">
+            <div class="d-kicker">Door two · open by default</div>
+            <h3>Pay with fame</h3>
+            <p>100k+ followers and you're already in. Your influence is the currency — verified handle, verified seat. We bring the network; you bring the audience.</p>
+            <div class="d-price"><b>100k+ audience</b></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ 4 · NETWORK ════════ -->
+    <section class="network" id="network">
+      <canvas id="net-canvas" aria-hidden="true"></canvas>
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="eyebrow">An elite network</div>
+          <h2>Every node already cleared the bar.</h2>
+          <p class="lead">A living web of members — each one a verified seat. Move your cursor through it; the network reaches back.</p>
+        </div>
+        <div class="stat-row">
+          <div class="stat reveal"><div class="big">1 BTC</div><div class="cap">One price, one filter</div></div>
+          <div class="stat reveal d1"><div class="big">100%</div><div class="cap">Pre-vetted by default</div></div>
+          <div class="stat reveal d2"><div class="big">∞</div><div class="cap">Higherdimensional upside</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ 5 · TIERS / ELITE ════════ -->
+    <section id="tiers">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="eyebrow">The elite program</div>
+          <h2>Choose your frequency.</h2>
+          <p class="lead">One membership, three altitudes. The seat is 1 BTC. Where you sit is up to your energy.</p>
+        </div>
+        <div class="tiers">
+          <div class="tier reveal">
+            <div class="t-name">Member</div>
+            <div class="t-price"><b>1 BTC</b> · the seat</div>
+            <ul>
+              <li>Verified member ID</li>
+              <li>Private member channels</li>
+              <li>Access to the network</li>
+              <li>Referral link &amp; upside</li>
+            </ul>
+            <a class="btn btn-ghost" href="#checkout">Claim a seat</a>
+          </div>
+          <div class="tier jedi reveal d1">
+            <div class="badge">JEDI only</div>
+            <div class="t-name">JEDI</div>
+            <div class="t-price"><b>By merit</b> · the inner circle</div>
+            <ul>
+              <li>Everything in Member &amp; Inner Circle</li>
+              <li>Direct line to the source</li>
+              <li>Founding-table seat &amp; voting voice</li>
+              <li>Higherdimensional unlock — full field</li>
+              <li>Invitation only. Earned, never bought.</li>
+            </ul>
+            <a class="btn btn-primary" href="#checkout">Begin the path</a>
+          </div>
+          <div class="tier reveal d2">
+            <div class="t-name">Inner Circle</div>
+            <div class="t-price"><b>1 BTC</b> + standing</div>
+            <ul>
+              <li>Everything in Member</li>
+              <li>Curated 1:1 introductions</li>
+              <li>Retreats &amp; private dinners</li>
+              <li>Early access to deal flow</li>
+            </ul>
+            <a class="btn btn-ghost" href="#checkout">Claim a seat</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ 6 · REFERRAL ════════ -->
+    <section id="referral">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="eyebrow">The referral program</div>
+          <h2>Grow the network, rise within it.</h2>
+          <p class="lead">The club compounds. Bring members who clear the bar and your standing rises with theirs.</p>
+        </div>
+        <div class="ref-card reveal d1">
+          <div class="ref-steps">
+            <div class="ref-step"><div class="n">1</div><p>Claim your seat &amp; get your member ID.</p></div>
+            <div class="ref-step"><div class="n">2</div><p>Share your personal referral link.</p></div>
+            <div class="ref-step"><div class="n">3</div><p>Each verified join lifts your standing toward JEDI.</p></div>
+          </div>
+          <div class="ref-link-row">
+            <input id="ref-link" type="text" readonly value="https://1btc.com/?ref=join-after-you-claim" aria-label="Your referral link">
+            <button class="btn btn-primary" id="copy-ref" type="button">Copy link</button>
+          </div>
+          <div class="copied" id="ref-copied"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ 7 · PROOF ════════ -->
+    <section id="proof">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="eyebrow">From the inside</div>
+          <h2>Members don't explain. They nod.</h2>
+        </div>
+        <div class="quotes">
+          <div class="quote reveal"><div class="stars">★★★★★</div><p>"Paid 1 BTC. Met three people in a week who changed my year. The price is the point."</p><div class="who"><b>Member</b> · Inner Circle</div></div>
+          <div class="quote reveal d1"><div class="stars">★★★★★</div><p>"It's the only room where I don't have to prove anything. Everyone already did."</p><div class="who"><b>Member</b> · JEDI path</div></div>
+          <div class="quote reveal d2"><div class="stars">★★★★★</div><p>"Higherdimensional is not marketing here. The energy in the network is real."</p><div class="who"><b>Member</b> · Founding seat</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ 8 · CHECKOUT ════════ -->
+    <section id="checkout">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="eyebrow">Simplified checkout</div>
+          <h2>Claim your seat.</h2>
+          <p class="lead">One field. One price. Reserve with your email and we'll lock your member ID — then settle the 1 BTC seat.</p>
+        </div>
+
+        <div class="checkout-card reveal d1">
+          <div id="co-form-zone">
+            <div class="pay-toggle" role="tablist" aria-label="How you pay">
+              <button type="button" class="active" data-pay="btc" role="tab" aria-selected="true">Pay 1 BTC</button>
+              <button type="button" data-pay="fame" role="tab" aria-selected="false">Pay with fame</button>
+            </div>
+
+            <!-- BTC pane -->
+            <div class="pane" data-pane="btc">
+              <div class="co-line"><span class="k">Membership</span><span class="v">Exclusive seat</span></div>
+              <div class="co-line"><span class="k">Network access</span><span class="v">Included</span></div>
+              <div class="co-line"><span class="k">Referral program</span><span class="v">Included</span></div>
+              <div class="co-line co-total"><span class="k">Total</span><span class="v">1 BTC</span></div>
+
+              <form class="reserve" id="reserve-form" novalidate>
+                <input type="email" id="email" placeholder="you@email.com" autocomplete="email" required aria-label="Email address">
+                <button class="btn btn-primary" type="submit" id="reserve-btn">Reserve my seat →</button>
+              </form>
+              <p class="pay-note">No application. No interview. The price is the filter.</p>
+            </div>
+
+            <!-- Fame pane -->
+            <div class="pane" data-pane="fame" hidden>
+              <div class="co-line"><span class="k">Membership</span><span class="v">Influencer seat</span></div>
+              <div class="co-line"><span class="k">Network access</span><span class="v">Included</span></div>
+              <div class="co-line"><span class="k">Referral program</span><span class="v">Included</span></div>
+              <div class="co-line co-total"><span class="k">Total</span><span class="v">100k+ reach</span></div>
+
+              <form class="fame-fields" id="fame-form" novalidate>
+                <input type="email" id="fame-email" placeholder="you@email.com" autocomplete="email" required aria-label="Email address">
+                <input type="text" id="fame-handle" placeholder="@yourhandle" autocomplete="off" required aria-label="Social handle">
+                <select id="fame-audience" required aria-label="Audience size">
+                  <option value="" disabled selected>Total audience size…</option>
+                  <option value="100k">100k – 500k</option>
+                  <option value="500k">500k – 1M</option>
+                  <option value="1m">1M – 5M</option>
+                  <option value="5m">5M+</option>
+                </select>
+                <button class="btn btn-primary" type="submit" id="fame-btn">Apply with my audience →</button>
+              </form>
+              <p class="pay-note">Open by default to 100k+ creators. Your reach is your stake — verified handle, verified seat.</p>
+            </div>
+
+            <div class="error" id="error" role="alert"></div>
+          </div>
+
+          <!-- success -->
+          <div class="success" id="success">
+            <div class="id-card center">
+              <div class="label">Your member ID</div>
+              <div class="id" id="unique-id">₿-000000</div>
+            </div>
+            <div class="addr-box show" id="addr-box">
+              <p class="pay-note" style="margin-top:18px">To settle your <b class="gold">1 BTC</b> seat, send to:</p>
+              <div class="addr">
+                <span id="btc-addr">bc1q-1btc-club-reserve-your-seat-first</span>
+                <button class="btn btn-ghost" id="copy-addr" type="button">Copy</button>
+              </div>
+              <p class="copied center" id="addr-copied"></p>
+            </div>
+            <p class="pay-note" id="fame-note" style="display:none; margin-top:18px">🎤 Your audience is being verified. Once your <b class="gold">100k+</b> reach checks out, your influencer seat is confirmed — no Bitcoin required.</p>
+            <p class="pay-note" style="margin-top:16px">Welcome. You are, by default, <b class="gold">smart</b> and <b class="gold">pretty</b>. Your referral link is live below.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ 9 · FINAL CTA + FOOTER ════════ -->
+    <section class="final" id="join">
+      <div class="wrap narrow">
+        <div class="eyebrow reveal">The door is open</div>
+        <h2 class="reveal d1">1 BTC. And you're in.</h2>
+        <p class="lead reveal d2">By default, smart and pretty. A higherdimensional unlock of energy and an elite network — waiting on the other side of one decision.</p>
+        <div class="btn-row reveal d2">
+          <a class="btn btn-primary" href="#checkout">Claim my seat &nbsp;→</a>
+        </div>
+      </div>
+
+      <section class="footer-zone" aria-label="Creator and related projects" style="padding-bottom:0; padding-top:48px">
+        <div class="eyebrow dim">Organized by</div>
+        <div class="creator">Mars Robertson</div>
+        <div class="icon-row" aria-label="Follow Mars Robertson">
+          <a href="https://twitter.com/moneyFromThe" target="_blank" rel="noopener" aria-label="X / Twitter"><svg viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" d="M389.2 48h70.6L305.6 224.2L487 464H345L233.7 318.6L106.5 464H35.8l164.9-188.5L26.8 48h145.6l100.5 132.9zm-24.8 373.8h39.1L151.1 88h-42z"/></svg></a>
+          <a href="https://t.me/moneyFTF" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 496 512" aria-hidden="true"><path fill="currentColor" d="M248 8C111.033 8 0 119.033 0 256s111.033 248 248 248s248-111.033 248-248S384.967 8 248 8m114.952 168.66c-3.732 39.215-19.881 134.378-28.1 178.3c-3.476 18.584-10.322 24.816-16.948 25.425c-14.4 1.326-25.338-9.517-39.287-18.661c-21.827-14.308-34.158-23.215-55.346-37.177c-24.485-16.135-8.612-25 5.342-39.5c3.652-3.793 67.107-61.51 68.335-66.746c.153-.655.3-3.1-1.154-4.384s-3.59-.849-5.135-.5q-3.283.746-104.608 69.142q-14.845 10.194-26.894 9.934c-8.855-.191-25.888-5.006-38.551-9.123c-15.531-5.048-27.875-7.717-26.8-16.291q.84-6.7 18.45-13.7q108.446-47.248 144.628-62.3c68.872-28.647 83.183-33.623 92.511-33.789c2.052-.034 6.639.474 9.61 2.885a10.45 10.45 0 0 1 3.53 6.716a43.8 43.8 0 0 1 .417 9.769"/></svg></a>
+          <a href="https://instagram.com/moneyfromthefuture" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9S287.7 141 224.1 141m0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7s74.7 33.5 74.7 74.7s-33.6 74.7-74.7 74.7m146.4-194.3c0 14.9-12 26.8-26.8 26.8c-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8s26.8 12 26.8 26.8m76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9c-26.2-26.2-58-34.4-93.9-36.2c-37-2.1-147.9-2.1-184.9 0c-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9c1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0c35.9-1.7 67.7-9.9 93.9-36.2c26.2-26.2 34.4-58 36.2-93.9c2.1-37 2.1-147.8 0-184.8M398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6c-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6c-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6c29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6c11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1"/></svg></a>
+          <a href="https://www.tiktok.com/@marsrobertson" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25v178.72A162.55 162.55 0 1 1 185 188.31v89.89a74.62 74.62 0 1 0 52.23 71.18V0h88a121 121 0 0 0 1.86 22.17A122.18 122.18 0 0 0 381 102.39a121.43 121.43 0 0 0 67 20.14Z"/></svg></a>
+          <a href="https://primal.net/p/nprofile1qqsw4de78ghgtl4atvtt9d9uqcua4y0napsaqvra4duflukp4js4uhqldmfwz" target="_blank" rel="noopener" aria-label="Nostr"><svg viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" d="M412.5 22.17c-.6 0-1.2.1-1.7.1c-9 .72-15.4 5.89-16.2 8.96c-2.1 7.02-3.6 16.36-2.2 22.82s3.4 10.34 14.2 12.22c16.6 2.88 35.4-.64 51.8-6.43c13-4.61 24.2-10.62 31.3-15.14c-.4-.67-.8-1.27-1.4-1.78c-1.5-1.26-4.3-2.53-8.6-3.31c-8.7-1.57-22.2-.88-36-1.57l-4.3-.22l-2.5-3.5c-6.2-8.57-14.6-11.93-22.7-12.14h-1.7zm-14 60.61c-3.9 10.17-4.5 20.22-2.8 29.52c2.2 12.2 9.5 22.1 13.6 32.9c14 36.6.8 45.4-20.8 51.1c22.3 20 33.3 44.4 35 68.3c30-45.7 35.3-86.2 1.3-128.6c-6.7-8.3-9.9-18.2-11.4-26.8c-1.5-7.9-.8-15.35 3.7-23.91c-4.5-.11-9-.51-13.5-1.29c-1.8-.31-3.4-.72-5.1-1.22M108.4 126.9c-29.04-.2-53.3 25.3-56.66 60c10.56-10.7 25.02-17.7 46.11-17.2c-20.2 13.7-33.69 29.2-44.34 45.3c1.77 8.2 4.64 16.5 8.8 24.9c38.09-52.5 60.99-29.6 72.69.1c10.8-20 27.4-36 47-48.1c-21.4-46.4-49.2-64.8-73.6-65m180.2 55c-3.4 0-6.9 0-10.4.2c-12.4.5-25 2.2-37.3 5.1c-46.3 11-86.3 38-97.9 81.1c22.2 7.6 40.7 16.4 56.7 25.4c31.6 4.7 63.8 3.2 91.4-2.5c38.5-8 67-25.4 73.3-39.7l16.4 7.2c-11 25.4-44.7 41.6-86 50.1c-19 4-39.9 6-61.3 5.7c4.3 2.8 8.4 5.5 12.4 8.1c27.1 17.6 48.4 29.7 82.6 28c35.6-2.9 62.6-25.9 72.9-54.6c10.2-28.7 4.4-62.5-28.7-89.5c-19.2-15.8-50.6-24.4-84.1-24.6m-92.5 130.4c-4.4 8.8-8.1 18-10.6 26.2c-18.6 8.8-25 12.1-34.8 33.2c-35.5 15.3-50.4 38.2-61.34 71.5c-22.48 6.1-40.85 5-63.06-9.9c-12.14 16.1 6.05 30.4 22.64 36.9c21.16 8.3 50.31 2.8 55.46-7.2c16.5-32.5 31.1-54.7 61.7-77c13.1-1.4 22.4-2.4 34.3-18c21.6 2.2 39.3-8 55-18.1c7.8 17.9 23.5 41.8 20.7 58.9c-11.8 9.5-8 21.3-8.3 24.1c6 17.9 66.2-5.8 108 18c22.4 12.8 27.9 44.9 69.4 37.9c6.8-1.1 5.3-7.2.6-8.9c-37.4-13.7-27.6-21-44.8-48.1c-32-.8-59.3-5.2-95.4-16.1c-10.4-3 3.2-24.8 13.3-47c-33.4-.9-57.8-14.7-82.9-31c-12.4-8.1-25.2-16.8-39.9-25.4"/></svg></a>
+        </div>
+        <div class="projects">
+          <a href="https://regenhands.com" target="_blank" rel="noopener">RegenHands.com</a>
+          <a href="https://ultramagichands.com" target="_blank" rel="noopener">UltraMagicHands.com</a>
+          <a href="https://moneyfromthefuture.com" target="_blank" rel="noopener">MoneyFromTheFuture.com</a>
+          <a href="https://planetarycouncil.org" target="_blank" rel="noopener">PlanetaryCouncil.org</a>
+          <a href="https://independenttribunal.org" target="_blank" rel="noopener">IndependentTribunal.org</a>
+        </div>
+        <p class="legal">1BTC.com is a members' club. Nothing here is financial advice. You complete any Bitcoin payment yourself, from your own wallet.</p>
+      </section>
+    </section>
+  </main>
+
+  <!-- ════════ Three.js hero: higherdimensional energy mandala ════════ -->
+  <script type="module">
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    try {
+      const THREE = await import('three');
+      const canvas = document.getElementById('scene');
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 100);
+      camera.position.z = 7.4;
+
+      const GOLD = 0xf7931a, GOLD2 = 0xffce4d;
+      const group = new THREE.Group();
+      scene.add(group);
+
+      // Concentric mandala rings (torus) at varied tilts — the gyroscope.
+      const rings = [];
+      for (let i = 0; i < 5; i++) {
+        const r = 1.5 + i * 0.62;
+        const geo = new THREE.TorusGeometry(r, 0.012 + i * 0.004, 8, 220);
+        const mat = new THREE.MeshBasicMaterial({ color: i % 2 ? GOLD2 : GOLD, transparent: true,
+          opacity: 0.55 - i * 0.05, blending: THREE.AdditiveBlending });
+        const m = new THREE.Mesh(geo, mat);
+        m.rotation.x = i * 0.5; m.rotation.y = i * 0.32;
+        group.add(m); rings.push(m);
+      }
+
+      // Inner higherdimensional core: icosahedron wireframe (3D sacred geometry).
+      const ico = new THREE.LineSegments(
+        new THREE.EdgesGeometry(new THREE.IcosahedronGeometry(1.15, 1)),
+        new THREE.LineBasicMaterial({ color: GOLD2, transparent: true, opacity: 0.7, blending: THREE.AdditiveBlending })
+      );
+      group.add(ico);
+
+      // Energy field: points scattered on a sphere shell.
+      const N = 900, pos = new Float32Array(N * 3);
+      for (let i = 0; i < N; i++) {
+        const u = Math.acos(2 * ((i + 0.5) / N) - 1), t = i * 2.399963;   // fibonacci sphere
+        const rad = 3.4 + (i % 7) * 0.06;
+        pos[i*3]   = rad * Math.sin(u) * Math.cos(t);
+        pos[i*3+1] = rad * Math.sin(u) * Math.sin(t);
+        pos[i*3+2] = rad * Math.cos(u);
+      }
+      const pg = new THREE.BufferGeometry();
+      pg.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      const points = new THREE.Points(pg, new THREE.PointsMaterial({ color: GOLD2, size: 0.035,
+        transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending, depthWrite: false }));
+      group.add(points);
+
+      let mx = 0, my = 0;
+      addEventListener('pointermove', (e) => { mx = (e.clientX / innerWidth - 0.5); my = (e.clientY / innerHeight - 0.5); });
+
+      function resize() {
+        const w = innerWidth, h = Math.max(innerHeight, document.querySelector('.hero').offsetHeight);
+        renderer.setSize(w, h, false);
+        camera.aspect = w / h; camera.updateProjectionMatrix();
+      }
+      addEventListener('resize', resize); resize();
+
+      let raf = null, t0 = 0;
+      function frame(t) {
+        const time = t * 0.001;
+        group.rotation.y = time * 0.18 + mx * 0.6;
+        group.rotation.x = Math.sin(time * 0.25) * 0.18 + my * 0.4;
+        rings.forEach((m, i) => { m.rotation.z = time * (0.1 + i * 0.05) * (i % 2 ? 1 : -1); });
+        ico.rotation.y = -time * 0.4; ico.rotation.x = time * 0.3;
+        points.rotation.y = -time * 0.05;
+        const pulse = 1 + Math.sin(time * 1.1) * 0.04;   // breathing energy
+        group.scale.setScalar(pulse);
+        renderer.render(scene, camera);
+        raf = requestAnimationFrame(frame);
+      }
+
+      if (reduce) { renderer.render(scene, camera); }
+      else raf = requestAnimationFrame(frame);
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) { cancelAnimationFrame(raf); raf = null; }
+        else if (!reduce && !raf) raf = requestAnimationFrame(frame);
+      });
+    } catch (err) {
+      // WebGL or CDN unavailable — reveal the CSS mandala fallback.
+      document.getElementById('hero-fallback').dataset.show = '1';
+      console.warn('[1btc] Three.js hero unavailable, using CSS mandala fallback.', err);
+    }
+  </script>
+
+  <!-- ════════ Page behaviour: mandala, network, reveal, capture, referral ════════ -->
+  <script>
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ── Build a rotating SVG mandala (hero fallback + reusable accents) ──
+    function buildMandala(host) {
+      const NS = 'http://www.w3.org/2000/svg';
+      const svg = document.createElementNS(NS, 'svg');
+      svg.setAttribute('viewBox', '0 0 200 200'); svg.setAttribute('class', 'mandala');
+      function ring(cls, petals, rx, ry, cy, stroke, op) {
+        const g = document.createElementNS(NS, 'g'); g.setAttribute('class', cls);
+        for (let i = 0; i < petals; i++) {
+          const e = document.createElementNS(NS, 'ellipse');
+          e.setAttribute('cx', '100'); e.setAttribute('cy', String(cy));
+          e.setAttribute('rx', String(rx)); e.setAttribute('ry', String(ry));
+          e.setAttribute('transform', `rotate(${i * 360 / petals} 100 100)`);
+          e.setAttribute('fill', 'none'); e.setAttribute('stroke', stroke);
+          e.setAttribute('stroke-width', '0.8'); e.setAttribute('opacity', String(op));
+          g.appendChild(e);
+        }
+        return g;
+      }
+      svg.appendChild(ring('spin pulse', 24, 8, 34, 56, '#f7931a', 0.5));
+      svg.appendChild(ring('spin-r', 18, 6, 50, 50, '#ffce4d', 0.4));
+      svg.appendChild(ring('spin', 12, 4, 70, 30, '#f7931a', 0.32));
+      const c1 = document.createElementNS(NS, 'circle');
+      c1.setAttribute('cx','100'); c1.setAttribute('cy','100'); c1.setAttribute('r','14');
+      c1.setAttribute('fill','none'); c1.setAttribute('stroke','#ffce4d'); c1.setAttribute('stroke-width','1.2'); c1.setAttribute('opacity','0.8');
+      svg.appendChild(c1);
+      host.appendChild(svg);
+    }
+    const fb = document.getElementById('hero-fallback');
+    buildMandala(fb);   // built but transparent under canvas; shows if Three fails
+    // If Three succeeds, dim the fallback so it doesn't double up.
+    const fbObserver = new MutationObserver(() => {});
+    setTimeout(() => { if (!fb.dataset.show) fb.style.opacity = '0.18'; }, 1200);
+
+    // ── Scroll reveal ──────────────────────────────────────────────
+    if (!reduceMotion && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.reveal:not(.in)').forEach(el => io.observe(el));
+    } else {
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+    }
+
+    // ── Network constellation (section 4) ──────────────────────────
+    (function () {
+      const canvas = document.getElementById('net-canvas');
+      const sec = document.getElementById('network');
+      const ctx = canvas.getContext('2d');
+      let w, h, dpr, nodes = [], raf = null, visible = false;
+      const mouse = { x: -9999, y: -9999 };
+      function resize() {
+        dpr = Math.min(devicePixelRatio || 1, 2);
+        w = canvas.width = Math.floor(sec.offsetWidth * dpr);
+        h = canvas.height = Math.floor(sec.offsetHeight * dpr);
+        const target = Math.min(90, Math.round((sec.offsetWidth * sec.offsetHeight) / 16000));
+        nodes = [];
+        for (let i = 0; i < target; i++) nodes.push({
+          x: Math.random()*w, y: Math.random()*h,
+          vx: (Math.random()-0.5)*0.22*dpr, vy: (Math.random()-0.5)*0.22*dpr,
+          r: (Math.random()*1.5+0.7)*dpr });
+      }
+      const LINK = 130;
+      function frame() {
+        ctx.clearRect(0,0,w,h);
+        const link = LINK*dpr;
+        for (let i=0;i<nodes.length;i++){
+          const n=nodes[i]; n.x+=n.vx; n.y+=n.vy;
+          if(n.x<0||n.x>w)n.vx*=-1; if(n.y<0||n.y>h)n.vy*=-1;
+          for(let j=i+1;j<nodes.length;j++){
+            const m=nodes[j], dx=n.x-m.x, dy=n.y-m.y, d2=dx*dx+dy*dy;
+            if(d2<link*link){ const a=(1-Math.sqrt(d2)/link)*0.5;
+              ctx.strokeStyle='rgba(247,147,26,'+a.toFixed(3)+')'; ctx.lineWidth=dpr*0.6;
+              ctx.beginPath(); ctx.moveTo(n.x,n.y); ctx.lineTo(m.x,m.y); ctx.stroke(); }
+          }
+          ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+          ctx.fillStyle='rgba(255,206,77,0.85)'; ctx.fill();
+        }
+        raf = requestAnimationFrame(frame);
+      }
+      function start(){ if(!raf && visible && !reduceMotion) raf=requestAnimationFrame(frame); }
+      function stop(){ if(raf){ cancelAnimationFrame(raf); raf=null; } }
+      addEventListener('resize', () => { resize(); if(reduceMotion){ frame(); stop(); } });
+      resize();
+      if (reduceMotion) { frame(); }   // one static frame
+      else if ('IntersectionObserver' in window) {
+        new IntersectionObserver((es)=>{ visible = es[0].isIntersecting; visible ? start() : stop(); },
+          { threshold: 0 }).observe(sec);
+      } else { visible = true; start(); }
+    })();
+
+    // ── Member ID + referral + checkout ────────────────────────────
+    const GOOGLE_FORM_PREFILL_LINK = "";  // paste a Google Form pre-filled link to collect emails
+    function parseGoogleForm(link){ try { const u=new URL(link);
+      const action=u.origin+u.pathname.replace('/viewform','/formResponse');
+      for(const [k] of u.searchParams) if(k.startsWith('entry.')) return {action, field:k}; } catch(_){} return null; }
+    const FORM = GOOGLE_FORM_PREFILL_LINK ? parseGoogleForm(GOOGLE_FORM_PREFILL_LINK) : null;
+
+    function makeId(email){ let h=0; for(let i=0;i<email.length;i++) h=(h*31+email.charCodeAt(i))>>>0;
+      return '₿-'+h.toString(36).toUpperCase().padStart(6,'0').slice(-6); }
+    function refLink(id){ return 'https://1btc.com/?ref=' + id.replace('₿-','').toLowerCase(); }
+
+    const form = document.getElementById('reserve-form');
+    const emailEl = document.getElementById('email');
+    const errEl = document.getElementById('error');
+    const btn = document.getElementById('reserve-btn');
+    const refInput = document.getElementById('ref-link');
+    const fameForm = document.getElementById('fame-form');
+    const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
+    function showSuccess(id, mode){
+      document.getElementById('unique-id').textContent = id;
+      document.getElementById('co-form-zone').style.display = 'none';
+      document.getElementById('success').classList.add('show');
+      if (refInput) refInput.value = refLink(id);
+      // Fame members don't pay BTC — swap the address box for the verification note.
+      const fame = mode === 'fame';
+      document.getElementById('addr-box').style.display = fame ? 'none' : '';
+      document.getElementById('fame-note').style.display = fame ? '' : 'none';
+    }
+    const prior = localStorage.getItem('onebtc_email');
+    if (prior) showSuccess(makeId(prior), localStorage.getItem('onebtc_mode') || 'btc');
+
+    // ── Pay toggle (BTC ⇄ fame) ────────────────────────────────────
+    document.querySelectorAll('.pay-toggle button').forEach((b) => {
+      b.addEventListener('click', () => {
+        const pay = b.dataset.pay;
+        document.querySelectorAll('.pay-toggle button').forEach((x) => {
+          const on = x === b; x.classList.toggle('active', on); x.setAttribute('aria-selected', on); });
+        document.querySelectorAll('.pane').forEach((p) => { p.hidden = p.dataset.pane !== pay; });
+        errEl.textContent = '';
+      });
+    });
+
+    // ── BTC reserve ────────────────────────────────────────────────
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault(); errEl.textContent='';
+      const email = emailEl.value.trim();
+      if(!isEmail(email)){ errEl.textContent='Please enter a valid email address.'; return; }
+      btn.disabled=true; btn.textContent='…';
+      try {
+        if (FORM){ const body=new URLSearchParams(); body.append(FORM.field,email);
+          await fetch(FORM.action,{method:'POST',mode:'no-cors',body}); }
+        localStorage.setItem('onebtc_email', email); localStorage.setItem('onebtc_mode','btc');
+        showSuccess(makeId(email), 'btc');
+        location.hash = '#checkout';
+      } catch(err){ errEl.textContent='Something went wrong — please try again.'; btn.disabled=false; btn.textContent='Reserve my seat →'; }
+    });
+
+    // ── Fame application ───────────────────────────────────────────
+    fameForm.addEventListener('submit', async (e) => {
+      e.preventDefault(); errEl.textContent='';
+      const email = document.getElementById('fame-email').value.trim();
+      const handle = document.getElementById('fame-handle').value.trim();
+      const audience = document.getElementById('fame-audience').value;
+      if(!isEmail(email)){ errEl.textContent='Please enter a valid email address.'; return; }
+      if(handle.length < 2){ errEl.textContent='Add your social handle so we can verify your audience.'; return; }
+      if(!audience){ errEl.textContent='Select your total audience size.'; return; }
+      const fbtn = document.getElementById('fame-btn');
+      fbtn.disabled=true; fbtn.textContent='…';
+      try {
+        if (FORM){ const body=new URLSearchParams(); body.append(FORM.field, email + ' | ' + handle + ' | ' + audience);
+          await fetch(FORM.action,{method:'POST',mode:'no-cors',body}); }
+        localStorage.setItem('onebtc_email', email); localStorage.setItem('onebtc_mode','fame');
+        showSuccess(makeId(email), 'fame');
+        location.hash = '#checkout';
+      } catch(err){ errEl.textContent='Something went wrong — please try again.'; fbtn.disabled=false; fbtn.textContent='Apply with my audience →'; }
+    });
+
+    // ── Copy buttons ───────────────────────────────────────────────
+    function wireCopy(btnId, getText, noteId){
+      const b = document.getElementById(btnId); if(!b) return;
+      b.addEventListener('click', async () => {
+        try { await navigator.clipboard.writeText(getText()); }
+        catch(_){ const t=document.createElement('textarea'); t.value=getText(); document.body.appendChild(t); t.select();
+          try{document.execCommand('copy');}catch(e){} t.remove(); }
+        const note = document.getElementById(noteId); if(note){ note.textContent='Copied ✓';
+          setTimeout(()=>{ note.textContent=''; }, 2200); }
+      });
+    }
+    wireCopy('copy-ref', () => refInput.value, 'ref-copied');
+    wireCopy('copy-addr', () => document.getElementById('btc-addr').textContent, 'addr-copied');
+  </script>
+</body>
+</html>
