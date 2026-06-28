@@ -504,6 +504,11 @@ input::placeholder, textarea::placeholder { color: rgba(255, 247, 234, 0.52); }
   color: var(--ink);
   resize: vertical;
 }
+.newsletter-form input::placeholder,
+.newsletter-form textarea::placeholder {
+  color: rgba(17, 17, 17, 0.58);
+  opacity: 1;
+}
 .newsletter-form .button-primary { flex-shrink: 0; }
 .newsletter-gotcha { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 .newsletter-status { font-size: 0.86rem; color: var(--muted); margin: 0; }
