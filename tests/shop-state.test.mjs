@@ -5,7 +5,10 @@ import {
   DEFAULT_ITEM_PRICE,
   addItemToBasket,
   buildCheckoutMessage,
+  convertPrice,
+  formatPrice,
   getBasketCount,
+  getBasketDisplayTotal,
   getBasketSummaryText,
   getBasketTotal,
   getItemPrice,
@@ -122,20 +125,45 @@ test("basket total multiplies quantity and price", () => {
   assert.equal(getBasketTotal(basket), 201);
 });
 
+test("currency conversion uses hardcoded shop rates", () => {
+  assert.equal(convertPrice(100, "USD"), 100);
+  assert.equal(convertPrice(100, "EUR"), 90);
+  assert.equal(convertPrice(100, "GBP"), 80);
+  assert.equal(formatPrice(1, "EUR"), "EUR 0.90");
+});
+
+test("basket display total converts from USD baseline", () => {
+  const basket = normalizeBasket([{ slug: "a", quantity: 2, price: 100 }]);
+  assert.equal(getBasketTotal(basket), 200);
+  assert.equal(getBasketDisplayTotal(basket, "GBP"), 160);
+});
+
 test("basket summary uses singular print", () => {
   const basket = normalizeBasket([{ slug: "a", quantity: 1, price: 100 }]);
-  assert.equal(getBasketSummaryText(basket), "1 print - EUR 100");
+  assert.equal(getBasketSummaryText(basket), "1 print - USD 100");
 });
 
 test("basket summary uses plural prints", () => {
   const basket = normalizeBasket([{ slug: "a", quantity: 2, price: 100 }]);
-  assert.equal(getBasketSummaryText(basket), "2 prints - EUR 200");
+  assert.equal(getBasketSummaryText(basket), "2 prints - USD 200");
+});
+
+test("basket summary supports selected display currency", () => {
+  const basket = normalizeBasket([{ slug: "a", quantity: 2, price: 100 }]);
+  assert.equal(getBasketSummaryText(basket, "EUR"), "2 prints - EUR 180");
 });
 
 test("order lines include title slug unit price and subtotal", () => {
   const basket = normalizeBasket([{ slug: "alpha", title: "Alpha", quantity: 2, price: 100 }]);
   assert.deepEqual(getOrderLines(basket), [
-    "2 x Alpha (alpha) - EUR 100 each - EUR 200 total"
+    "2 x Alpha (alpha) - USD 100 each - USD 200 total"
+  ]);
+});
+
+test("order lines support selected display currency", () => {
+  const basket = normalizeBasket([{ slug: "alpha", title: "Alpha", quantity: 2, price: 100 }]);
+  assert.deepEqual(getOrderLines(basket, "GBP"), [
+    "2 x Alpha (alpha) - GBP 80 each - GBP 160 total"
   ]);
 });
 
@@ -192,7 +220,8 @@ test("checkout message includes summary and buyer details", () => {
   assert.match(message, /Name: Ada/);
   assert.match(message, /Email: ada@example.com/);
   assert.match(message, /Street address: 1 Market Street/);
-  assert.match(message, /Total: EUR 100/);
+  assert.match(message, /Total: USD 100/);
+  assert.match(buildCheckoutMessage(basket, {}, "Paid via PayPal", "EUR"), /Total: EUR 90/);
 });
 
 test("checkout message handles empty basket explicitly", () => {

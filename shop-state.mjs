@@ -1,4 +1,10 @@
 export const DEFAULT_ITEM_PRICE = 100;
+export const DEFAULT_CURRENCY = "USD";
+export const CURRENCIES = {
+  USD: { code: "USD", rate: 1 },
+  EUR: { code: "EUR", rate: 0.9 },
+  GBP: { code: "GBP", rate: 0.8 }
+};
 
 function toPositiveInteger(value, fallback = 1) {
   const number = Number(value);
@@ -10,6 +16,34 @@ function toPositiveInteger(value, fallback = 1) {
 export function getItemPrice(item) {
   const price = Number(item?.price);
   return Number.isFinite(price) ? price : DEFAULT_ITEM_PRICE;
+}
+
+export function getCurrencyConfig(currencyCode = DEFAULT_CURRENCY) {
+  const code = String(currencyCode || DEFAULT_CURRENCY).toUpperCase();
+  return CURRENCIES[code] || CURRENCIES[DEFAULT_CURRENCY];
+}
+
+export function convertPrice(amount, currencyCode = DEFAULT_CURRENCY) {
+  const number = Number(amount);
+  const price = Number.isFinite(number) ? number : 0;
+  const { rate } = getCurrencyConfig(currencyCode);
+  return Math.round(price * rate * 100) / 100;
+}
+
+export function formatMoney(amount, currencyCode = DEFAULT_CURRENCY) {
+  const { code } = getCurrencyConfig(currencyCode);
+  const number = Number(amount);
+  const safeAmount = Number.isFinite(number) ? number : 0;
+  const formatted = Number.isInteger(safeAmount) ? String(safeAmount) : safeAmount.toFixed(2);
+  return `${code} ${formatted}`;
+}
+
+export function formatPrice(amount, currencyCode = DEFAULT_CURRENCY) {
+  return formatMoney(convertPrice(amount, currencyCode), currencyCode);
+}
+
+export function getItemDisplayPrice(item, currencyCode = DEFAULT_CURRENCY) {
+  return convertPrice(getItemPrice(item), currencyCode);
 }
 
 export function normalizeItem(item, quantityOverride) {
@@ -47,17 +81,25 @@ export function getBasketTotal(basket) {
   return normalizeBasket(basket).reduce((total, item) => total + (item.quantity * item.price), 0);
 }
 
-export function getBasketSummaryText(basket) {
-  const normalizedBasket = normalizeBasket(basket);
-  const count = getBasketCount(normalizedBasket);
-  const total = getBasketTotal(normalizedBasket);
-  return `${count} ${count === 1 ? "print" : "prints"} - EUR ${total}`;
+export function getBasketDisplayTotal(basket, currencyCode = DEFAULT_CURRENCY) {
+  return normalizeBasket(basket).reduce(
+    (total, item) => total + (item.quantity * getItemDisplayPrice(item, currencyCode)),
+    0
+  );
 }
 
-export function getOrderLines(basket) {
+export function getBasketSummaryText(basket, currencyCode = DEFAULT_CURRENCY) {
+  const normalizedBasket = normalizeBasket(basket);
+  const count = getBasketCount(normalizedBasket);
+  const total = getBasketDisplayTotal(normalizedBasket, currencyCode);
+  return `${count} ${count === 1 ? "print" : "prints"} - ${formatMoney(total, currencyCode)}`;
+}
+
+export function getOrderLines(basket, currencyCode = DEFAULT_CURRENCY) {
   return normalizeBasket(basket).map((item) => {
-    const subtotal = item.quantity * item.price;
-    return `${item.quantity} x ${item.title} (${item.slug}) - EUR ${item.price} each - EUR ${subtotal} total`;
+    const unit = getItemDisplayPrice(item, currencyCode);
+    const subtotal = item.quantity * unit;
+    return `${item.quantity} x ${item.title} (${item.slug}) - ${formatMoney(unit, currencyCode)} each - ${formatMoney(subtotal, currencyCode)} total`;
   });
 }
 
@@ -124,11 +166,11 @@ export function isValidSuccessSnapshot(snapshot) {
   return normalizeBasket(snapshot).length > 0;
 }
 
-export function buildCheckoutMessage(basket, details, paymentStatus = "Paid via PayPal") {
+export function buildCheckoutMessage(basket, details, paymentStatus = "Paid via PayPal", currencyCode = DEFAULT_CURRENCY) {
   const normalizedBasket = normalizeBasket(basket);
-  const lines = getOrderLines(normalizedBasket);
-  const summary = getBasketSummaryText(normalizedBasket);
-  const total = getBasketTotal(normalizedBasket);
+  const lines = getOrderLines(normalizedBasket, currencyCode);
+  const summary = getBasketSummaryText(normalizedBasket, currencyCode);
+  const total = getBasketDisplayTotal(normalizedBasket, currencyCode);
 
   return (
     "Basket summary:\n" +
@@ -141,7 +183,7 @@ export function buildCheckoutMessage(basket, details, paymentStatus = "Paid via 
     "\nCity: " + (details?.city || "[city]") +
     "\nPostcode: " + (details?.postcode || "[postcode]") +
     "\nCountry: " + (details?.country || "[country]") +
-    "\n\nTotal: EUR " + total +
+    "\n\nTotal: " + formatMoney(total, currencyCode) +
     "\nPayment status: " + paymentStatus
   );
 }

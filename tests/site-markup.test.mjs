@@ -19,6 +19,14 @@ const header = defaultLayout.match(/<header[\s\S]*?<\/header>/)[0];
 test("header keeps the basket link with a live count", () => {
   assert.match(header, /basket-nav-link/);
   assert.match(header, /data-basket-count/);
+  assert.match(header, /basket-nav-dot/);
+});
+
+test("header exposes the currency selector", () => {
+  assert.match(header, /data-currency-select/);
+  for (const code of ["USD", "EUR", "GBP"]) {
+    assert.match(header, new RegExp(`<option value="${code}">${code}</option>`));
+  }
 });
 
 test("header no longer carries the About/Policies/Social/Blog nav links", () => {

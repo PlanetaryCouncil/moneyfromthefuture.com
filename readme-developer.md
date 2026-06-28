@@ -268,7 +268,7 @@ Formspree form id lives in `investment-art/basket.html` as the form `action` (`h
 - Do not hand-maintain generated product HTML.
 - Basket persists through `localStorage`.
 - Basket supports multiple artworks and multiple quantities, with per-line −/+ and remove controls.
-- Checkout total is `EUR 100 x total print quantity`.
+- Checkout total is based on a `USD 100` print baseline. The header currency selector converts that baseline to hardcoded `USD`, `EUR`, or `GBP` totals for display and PayPal checkout.
 - PayPal smart button captures payment; name/email/shipping come from the PayPal capture and auto-forward to Formspree.
 - Buyer never types their delivery address twice.
 - UI remains square-edged with no rounded corners.

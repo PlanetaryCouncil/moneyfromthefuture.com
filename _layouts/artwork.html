@@ -78,7 +78,7 @@ layout: default
     <aside class="buy-box reveal delay-1">
       <div class="buy-price">
         <span class="meta-label">Price</span>
-        <strong>EUR {{ page.price }}</strong>
+        <strong data-currency-price="{{ page.price }}">USD {{ page.price }}</strong>
       </div>
       <div class="product-actions">
         <button

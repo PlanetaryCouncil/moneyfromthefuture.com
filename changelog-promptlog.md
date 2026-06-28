@@ -26,7 +26,7 @@ For every feature, add:
 - Current public target URL is `https://planetarycouncil.github.io/moneyfromthefuture.com/`.
 - One artwork family equals one buyer-facing product page.
 - Buyer-facing catalog avoids variants to reduce decision fatigue.
-- Canvas prints are priced at `EUR 100` per print.
+- Canvas prints use a `USD 100` baseline by default, with hardcoded `EUR 90` and `GBP 80` display/checkout conversions.
 - Basket state uses `localStorage`, not cookies, `sessionStorage`, or backend sessions.
 - Catalog tiles use `preview_image` (`WEB`) while product pages use `image` (`THIS`).
 
@@ -39,14 +39,51 @@ For every feature, add:
 - Basket supports multiple different designs.
 - Basket supports multiple quantities of the same design.
 - Basket persists while navigating between pages and after refresh.
-- Basket checkout calculates `EUR 100 x total print quantity`.
-- PayPal link reflects the full basket total.
+- Basket checkout calculates the selected-currency total from the USD baseline.
+- PayPal checkout reflects the selected currency and full basket total.
 - Forward-order email includes artwork titles, quantities, subtotals, total, buyer email, and address.
 - Product pages include previous / catalog / next navigation for browsing.
 - Generated product pages remain maintainable through Jekyll layouts and `_artworks/*.md`.
 - No rounded corners in the shop UI unless explicitly reintroduced.
 
 ## Changelog
+
+### 2026-06-28 - USD Baseline + Currency Selector
+
+Request summary:
+User asked whether the shop should replace EUR with USD for a more international default, plus a simple dropdown to switch between USD, EUR, and GBP using hardcoded rates. User also asked for a subtle red basket indicator when items are present.
+
+Decision:
+Use `USD 100` as the baseline print price. Keep item prices stored as baseline numbers, then convert client-side to `USD`, `EUR`, or `GBP` for display, basket totals, PayPal order creation, and Formspree order summaries.
+
+Files changed:
+- `shop-state.mjs`
+- `shop.js`
+- `_layouts/default.html`
+- `_layouts/artwork.html`
+- `index.html`
+- `investment-art/basket.html`
+- `test-purchase.html`
+- `shop.css`
+- `tests/shop-state.test.mjs`
+- `tests/checkout-critical-path.test.mjs`
+- `tests/site-markup.test.mjs`
+- `readme-developer.md`
+- `changelog-promptlog.md`
+
+Acceptance criteria:
+- Default visible price is `USD 100`.
+- Visitor can switch currency between `USD`, `EUR`, and `GBP`.
+- Hardcoded conversion is `USD 100`, `EUR 90`, `GBP 80`.
+- Basket totals, success summary, Formspree message, and PayPal order use the selected currency.
+- Currency preference persists in `localStorage`.
+- Header cart shows a subtle red pulsing dot only when the basket has items.
+
+Verification:
+- Ran `npm run verify`: 75 Node tests passed, plus the Jekyll production build smoke test passed.
+
+Known limits:
+- Exchange rates are intentionally hardcoded, not live market rates.
 
 ### 2026-06-05 - Basket Success-State Hardening + Local Regression Suite
 

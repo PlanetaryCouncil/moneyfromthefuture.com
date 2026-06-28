@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Test Purchase
-description: One euro test purchase page for PayPal checkout validation.
+description: One dollar test purchase page for PayPal checkout validation.
 permalink: /test-purchase.html
 footer_title: Test Purchase
 ---
@@ -13,7 +13,7 @@ footer_title: Test Purchase
     <div class="product-panel reveal delay-1">
       <span class="eyebrow">Test Purchase</span>
       <h1>Dummy Item For One Euro.</h1>
-      <p class="lead">This page exists only for real PayPal checkout testing. It adds a single 1 euro item into the basket so we can validate payment behavior without touching the live artwork prices.</p>
+      <p class="lead">This page exists only for real PayPal checkout testing. It adds a single 1 dollar item into the basket so we can validate payment behavior without touching the live artwork prices.</p>
       <div class="product-meta">
         <div class="meta-block">
           <span class="meta-label">Type</span>
@@ -21,7 +21,7 @@ footer_title: Test Purchase
         </div>
         <div class="meta-block">
           <span class="meta-label">Price</span>
-          <strong>EUR 1</strong>
+          <strong data-currency-price="1">USD 1</strong>
         </div>
       </div>
       <div class="product-actions">
@@ -41,7 +41,7 @@ footer_title: Test Purchase
   </section>
   <section class="shell">
     <div class="product-note reveal">
-      <p data-basket-status>Use this page only to verify the checkout path. It should add a 1 euro item to the basket and nothing else.</p>
+      <p data-basket-status>Use this page only to verify the checkout path. It should add a 1 dollar item to the basket and nothing else.</p>
     </div>
   </section>
 </main>

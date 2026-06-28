@@ -1,10 +1,15 @@
 import {
+  DEFAULT_CURRENCY,
   DEFAULT_ITEM_PRICE,
   addItemToBasket,
   buildCheckoutMessage,
+  formatMoney,
+  formatPrice,
   getBasketCount,
+  getBasketDisplayTotal,
   getBasketSummaryText,
-  getBasketTotal,
+  getCurrencyConfig,
+  getItemDisplayPrice,
   getItemPrice,
   getOrderLines,
   extractDeliveryFromPayPal,
@@ -25,14 +30,33 @@ const checkoutCard = document.querySelector(".checkout-card");
 const paymentSuccessHost = document.getElementById("payment-success-host");
 const paymentSuccessTemplate = document.getElementById("payment-success-template");
 const BASKET_KEY = "moneyFromTheFutureBasket";
+const CURRENCY_KEY = "moneyFromTheFutureCurrency";
 const SUCCESS_PAYLOAD_KEY = "moneyFromTheFutureSuccessPayload";
 const SHORTCUT_TIMEOUT_MS = 900;
 
 let paypalSdkPromise = null;
-let renderedPayPalTotal = null;
+let paypalSdkCurrency = null;
+let renderedPayPalKey = null;
 let shortcutBuffer = "";
 let shortcutTimer = null;
 let currentSuccessSnapshot = null;
+let currentSuccessCaptureId = "";
+
+function readCurrency() {
+  try {
+    return getCurrencyConfig(localStorage.getItem(CURRENCY_KEY)).code;
+  } catch {
+    return DEFAULT_CURRENCY;
+  }
+}
+
+function writeCurrency(currencyCode) {
+  const code = getCurrencyConfig(currencyCode).code;
+  try {
+    localStorage.setItem(CURRENCY_KEY, code);
+  } catch {}
+  return code;
+}
 
 function readBasket() {
   try {
@@ -49,6 +73,24 @@ function writeBasket(basket) {
 function updateBasketCount(count = getBasketCount(readBasket())) {
   document.querySelectorAll("[data-basket-count]").forEach((element) => {
     element.textContent = String(count);
+  });
+
+  document.querySelectorAll(".basket-nav-link").forEach((element) => {
+    element.classList.toggle("has-items", count > 0);
+  });
+}
+
+function updateCurrencyPrices(currencyCode = readCurrency()) {
+  const currency = getCurrencyConfig(currencyCode).code;
+
+  document.querySelectorAll("[data-currency-select]").forEach((select) => {
+    if (select.value !== currency) {
+      select.value = currency;
+    }
+  });
+
+  document.querySelectorAll("[data-currency-price]").forEach((element) => {
+    element.textContent = formatPrice(element.dataset.currencyPrice || DEFAULT_ITEM_PRICE, currency);
   });
 }
 
@@ -154,6 +196,7 @@ function setPaymentSuccessVisible(isVisible) {
 
 function hidePaymentSuccess() {
   currentSuccessSnapshot = null;
+  currentSuccessCaptureId = "";
   if (paymentSuccessHost) {
     paymentSuccessHost.replaceChildren();
   }
@@ -171,6 +214,7 @@ function escapeHtml(value) {
 
 function updateCheckoutData(basket, paymentStatus = "Paid via PayPal") {
   const normalizedBasket = normalizeBasket(basket);
+  const currency = readCurrency();
   const subjectField = document.getElementById("form-subject");
   const basketSummaryField = document.getElementById("basket-summary-field");
   const basketTotalField = document.getElementById("basket-total-field");
@@ -178,13 +222,13 @@ function updateCheckoutData(basket, paymentStatus = "Paid via PayPal") {
   const paymentStatusField = document.getElementById("payment-status-field");
   const sourcePageField = document.getElementById("source-page-field");
   const formMessageField = document.getElementById("form-message");
-  const total = getBasketTotal(normalizedBasket);
-  const lines = getOrderLines(normalizedBasket);
-  const summary = getBasketSummaryText(normalizedBasket);
-  const message = buildCheckoutMessage(normalizedBasket, getCheckoutDetails(), paymentStatus);
+  const total = getBasketDisplayTotal(normalizedBasket, currency);
+  const lines = getOrderLines(normalizedBasket, currency);
+  const summary = getBasketSummaryText(normalizedBasket, currency);
+  const message = buildCheckoutMessage(normalizedBasket, getCheckoutDetails(), paymentStatus, currency);
 
   if (subjectField) {
-    subjectField.value = `Money From The Future order - EUR ${total}`;
+    subjectField.value = `Money From The Future order - ${formatMoney(total, currency)}`;
   }
 
   if (basketSummaryField) {
@@ -192,7 +236,7 @@ function updateCheckoutData(basket, paymentStatus = "Paid via PayPal") {
   }
 
   if (basketTotalField) {
-    basketTotalField.value = `EUR ${total}`;
+    basketTotalField.value = formatMoney(total, currency);
   }
 
   if (basketLinesField) {
@@ -214,6 +258,7 @@ function updateCheckoutData(basket, paymentStatus = "Paid via PayPal") {
 
 function renderPaymentSuccess(snapshot, captureId = "") {
   const normalizedSnapshot = normalizeBasket(snapshot);
+  const currency = readCurrency();
 
   if (!paymentSuccessHost || !paymentSuccessTemplate || !isValidSuccessSnapshot(normalizedSnapshot)) {
     hidePaymentSuccess();
@@ -222,6 +267,7 @@ function renderPaymentSuccess(snapshot, captureId = "") {
   }
 
   currentSuccessSnapshot = normalizedSnapshot;
+  currentSuccessCaptureId = captureId;
   updateCheckoutData(normalizedSnapshot, captureId ? `PayPal captured (${captureId})` : "PayPal captured");
 
   const fragment = paymentSuccessTemplate.content.cloneNode(true);
@@ -230,25 +276,24 @@ function renderPaymentSuccess(snapshot, captureId = "") {
   const totalNode = fragment.querySelector("[data-success-total]");
 
   if (summaryNode) {
-    summaryNode.textContent = getBasketSummaryText(normalizedSnapshot);
+    summaryNode.textContent = getBasketSummaryText(normalizedSnapshot, currency);
   }
 
   if (linesNode) {
-    linesNode.innerHTML = getOrderLines(normalizedSnapshot).map((line) => {
-      const parts = line.split(" - EUR ");
-      const label = parts[0] || line;
-      const subtotal = parts[parts.length - 1]?.replace(" total", "") || "0";
+    linesNode.innerHTML = normalizedSnapshot.map((item) => {
+      const unit = getItemDisplayPrice(item, currency);
+      const subtotal = item.quantity * unit;
       return `
         <div class="payment-success-line">
-          <span>${escapeHtml(label)}</span>
-          <strong>EUR ${escapeHtml(subtotal)}</strong>
+          <span>${escapeHtml(`${item.quantity} x ${item.title} (${item.slug})`)}</span>
+          <strong>${escapeHtml(formatMoney(subtotal, currency))}</strong>
         </div>
       `;
     }).join("");
   }
 
   if (totalNode) {
-    totalNode.textContent = `EUR ${getBasketTotal(normalizedSnapshot)}`;
+    totalNode.textContent = formatMoney(getBasketDisplayTotal(normalizedSnapshot, currency), currency);
   }
 
   const shipNode = fragment.querySelector("[data-success-ship]");
@@ -265,22 +310,35 @@ function renderPaymentSuccess(snapshot, captureId = "") {
   setPaymentSuccessVisible(true);
 }
 
-function loadPayPalSdk(clientId) {
-  if (window.paypal) return Promise.resolve(window.paypal);
+function loadPayPalSdk(clientId, currencyCode) {
+  const currency = getCurrencyConfig(currencyCode).code;
+  if (window.paypal && paypalSdkCurrency === currency) return Promise.resolve(window.paypal);
   if (paypalSdkPromise) return paypalSdkPromise;
 
   paypalSdkPromise = new Promise((resolve, reject) => {
+    document.querySelectorAll("script[data-paypal-sdk]").forEach((script) => script.remove());
+    try {
+      window.paypal = undefined;
+    } catch {}
+
     const script = document.createElement("script");
+    script.dataset.paypalSdk = currency;
     const params = new URLSearchParams({
       "client-id": clientId,
-      currency: "EUR",
+      currency,
       intent: "capture",
       components: "buttons"
     });
 
     script.src = `https://www.paypal.com/sdk/js?${params.toString()}`;
-    script.onload = () => resolve(window.paypal);
-    script.onerror = reject;
+    script.onload = () => {
+      paypalSdkCurrency = currency;
+      resolve(window.paypal);
+    };
+    script.onerror = (error) => {
+      paypalSdkPromise = null;
+      reject(error);
+    };
     document.head.appendChild(script);
   });
 
@@ -289,17 +347,19 @@ function loadPayPalSdk(clientId) {
 
 function renderPayPalButtons(basket) {
   const normalizedBasket = normalizeBasket(basket);
+  const currency = readCurrency();
   const container = document.getElementById("paypal-button-container");
   const status = document.getElementById("paypal-button-status");
   const hint = document.querySelector(".checkout-hint");
   if (!container) return;
 
-  const total = getBasketTotal(normalizedBasket);
+  const total = getBasketDisplayTotal(normalizedBasket, currency);
   const clientId = (container.dataset.paypalClientId || "").trim();
+  const renderKey = `${currency}:${total}`;
 
   if (!total) {
     container.innerHTML = "";
-    renderedPayPalTotal = null;
+    renderedPayPalKey = null;
     if (hint) hint.hidden = true;
     if (status) status.textContent = "Your basket is empty — browse the catalogue and add an item to enable checkout.";
     return;
@@ -309,18 +369,18 @@ function renderPayPalButtons(basket) {
 
   if (!clientId) {
     container.innerHTML = "";
-    renderedPayPalTotal = null;
+    renderedPayPalKey = null;
     if (status) status.textContent = "PayPal smart button needs paypal_client_id in _config.yml.";
     return;
   }
 
-  if (renderedPayPalTotal === total && container.childElementCount) return;
+  if (renderedPayPalKey === renderKey && container.childElementCount) return;
 
   container.innerHTML = "";
-  renderedPayPalTotal = total;
+  renderedPayPalKey = renderKey;
   if (status) status.textContent = "";
 
-  loadPayPalSdk(clientId)
+  loadPayPalSdk(clientId, currency)
     .then((paypal) => {
       if (!paypal || !paypal.Buttons) throw new Error("PayPal SDK did not load buttons.");
 
@@ -335,11 +395,11 @@ function renderPayPalButtons(basket) {
           purchase_units: [{
             description: "Money From The Future canvas prints",
             amount: {
-              currency_code: "EUR",
+              currency_code: currency,
               value: total.toFixed(2),
               breakdown: {
                 item_total: {
-                  currency_code: "EUR",
+                  currency_code: currency,
                   value: total.toFixed(2)
                 }
               }
@@ -348,8 +408,8 @@ function renderPayPalButtons(basket) {
               name: item.title,
               quantity: String(item.quantity),
               unit_amount: {
-                currency_code: "EUR",
-                value: getItemPrice(item).toFixed(2)
+                currency_code: currency,
+                value: getItemDisplayPrice(item, currency).toFixed(2)
               }
             }))
           }]
@@ -370,7 +430,7 @@ function renderPayPalButtons(basket) {
       }).render(container);
     })
     .catch(() => {
-      renderedPayPalTotal = null;
+      renderedPayPalKey = null;
       if (status) status.textContent = "PayPal button could not load.";
     });
 }
@@ -380,10 +440,12 @@ function renderBasket() {
   const basketItems = document.getElementById("basket-items");
   const basketSummary = document.getElementById("basket-summary");
   const basketTotal = document.getElementById("basket-total");
+  const currency = readCurrency();
   const count = getBasketCount(basket);
-  const total = getBasketTotal(basket);
+  const total = getBasketDisplayTotal(basket, currency);
 
   updateBasketCount(count);
+  updateCurrencyPrices(currency);
   updateCheckoutData(getActiveCheckoutBasket());
   renderPayPalButtons(basket);
 
@@ -392,7 +454,7 @@ function renderBasket() {
   }
 
   if (basketTotal) {
-    basketTotal.textContent = `EUR ${total}`;
+    basketTotal.textContent = formatMoney(total, currency);
   }
 
   if (!basketItems) return;
@@ -407,7 +469,7 @@ function renderBasket() {
       <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}">
       <div class="basket-item-copy">
         <strong>${escapeHtml(item.title)}</strong>
-        <span class="basket-item-unit">EUR ${getItemPrice(item)} each</span>
+        <span class="basket-item-unit">${escapeHtml(formatMoney(getItemDisplayPrice(item, currency), currency))} each</span>
         <div class="basket-qty">
           <button type="button" class="qty-btn" data-basket-dec aria-label="Decrease quantity">&minus;</button>
           <span class="qty-value" aria-live="polite">${item.quantity}</span>
@@ -415,7 +477,7 @@ function renderBasket() {
           <button type="button" class="basket-remove" data-basket-remove>Remove</button>
         </div>
       </div>
-      <strong class="basket-item-total">EUR ${item.quantity * getItemPrice(item)}</strong>
+      <strong class="basket-item-total">${escapeHtml(formatMoney(item.quantity * getItemDisplayPrice(item, currency), currency))}</strong>
     </article>
   `).join("");
 }
@@ -560,6 +622,40 @@ function initNewsletter() {
     } catch {
       setStatus("Network problem. Please try again.");
     }
+  });
+}
+
+function resetPayPalSdk() {
+  paypalSdkPromise = null;
+  paypalSdkCurrency = null;
+  renderedPayPalKey = null;
+  document.querySelectorAll("script[data-paypal-sdk]").forEach((script) => script.remove());
+  try {
+    window.paypal = undefined;
+  } catch {}
+}
+
+function initCurrencySelector() {
+  const selectors = document.querySelectorAll("[data-currency-select]");
+  if (!selectors.length) {
+    updateCurrencyPrices();
+    return;
+  }
+
+  const current = writeCurrency(readCurrency());
+  updateCurrencyPrices(current);
+
+  selectors.forEach((select) => {
+    select.value = current;
+    select.addEventListener("change", () => {
+      const next = writeCurrency(select.value);
+      resetPayPalSdk();
+      updateCurrencyPrices(next);
+      renderBasket();
+      if (currentSuccessSnapshot) {
+        renderPaymentSuccess(currentSuccessSnapshot, currentSuccessCaptureId);
+      }
+    });
   });
 }
 
@@ -733,6 +829,7 @@ function initHeroRotation() {
 }
 
 initHeroRotation();
+initCurrencySelector();
 initBasket();
 initNewsletter();
 initTestingShortcuts();

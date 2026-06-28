@@ -67,7 +67,7 @@ description: Money From The Future online shop.
           <span class="catalog-id">{{ artwork.art_id }}</span>
           <div class="catalog-row">
             <h3><a class="catalog-title-link" href="{{ '/investment-art/' | append: artwork.slug | append: '.html' | relative_url }}">{{ artwork.title }}</a></h3>
-            <span class="price-tag">EUR 100</span>
+            <span class="price-tag" data-currency-price="{{ artwork.price | default: 100 }}">USD 100</span>
           </div>
           <div class="catalog-actions">
             <button
@@ -100,7 +100,7 @@ description: Money From The Future online shop.
         <p>Each piece gets one product page and one price.</p>
       </article>
       <article class="info-card reveal delay-1">
-        <h3>2. Pay EUR 100</h3>
+        <h3>2. Pay USD 100</h3>
         <p>Use the PayPal button on the artwork page.</p>
       </article>
       <article class="info-card reveal delay-2">

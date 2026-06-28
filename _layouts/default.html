@@ -18,8 +18,17 @@
         <span>{{ site.title }}</span>
       </a>
       <nav>
+        <label class="currency-switcher" aria-label="Currency">
+          <span class="currency-switcher-label">Currency</span>
+          <select data-currency-select>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="GBP">GBP</option>
+          </select>
+        </label>
         <a class="basket-nav-link" href="{{ '/investment-art/basket.html' | relative_url }}" aria-label="Shopping cart">
           <span class="basket-nav-icon" aria-hidden="true">🛒</span>
+          <span class="basket-nav-dot" aria-hidden="true"></span>
           <span data-basket-count>0</span>
         </a>
       </nav>
@@ -28,7 +37,6 @@
   {{ content }}
   <footer class="site-footer">
     <div class="shell footer-inner">
-      <div class="footer-newsletter">
         <span class="footer-eyebrow">Sign up to the newsletter</span>
         <p class="footer-newsletter-copy">New drops and dispatches from the future. Got a question or just want to say hello? Add a message.</p>
         <form id="newsletter-form" class="newsletter-form" action="{{ site.newsletter_form_url }}" method="POST">

@@ -18,6 +18,12 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "4320", "--directory", "1btc"],
       "port": 4320
+    },
+    {
+      "name": "solarpunkestates",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4330", "--directory", "solarpunkestates"],
+      "port": 4330
     }
   ]
 }

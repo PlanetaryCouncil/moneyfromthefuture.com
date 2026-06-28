@@ -6,6 +6,7 @@ import assert from "node:assert/strict";
 
 import {
   addItemToBasket,
+  getBasketDisplayTotal,
   getBasketTotal,
   getBasketCount,
   isValidSuccessSnapshot,
@@ -41,8 +42,8 @@ test("critical path: catalog add → basket → PayPal amount → capture → or
 
   assert.equal(getBasketCount(basket), 3, "three prints in basket");
 
-  // 2. PayPal is charged the basket total (the exact value createOrder sends).
-  const total = getBasketTotal(basket);
+  // 2. PayPal is charged the selected-currency basket total (USD by default).
+  const total = getBasketDisplayTotal(basket, "USD");
   assert.equal(total, 300);
   assert.equal(total.toFixed(2), "300.00");
 
@@ -63,7 +64,7 @@ test("critical path: catalog add → basket → PayPal amount → capture → or
   assert.match(message, /Email: ada@example\.com/);
   assert.match(message, /Street address: 12 Marylebone Road/);
   assert.match(message, /Postcode: NW1 5JD/);
-  assert.match(message, /Total: EUR 300/);
+  assert.match(message, /Total: USD 300/);
   assert.match(message, /Payment status: Paid via PayPal/);
 });
 
