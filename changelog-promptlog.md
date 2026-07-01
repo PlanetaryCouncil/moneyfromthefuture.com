@@ -48,6 +48,29 @@ For every feature, add:
 
 ## Changelog
 
+### 2026-07-01 - Artwork V2 Copy Default + Footer Spacing
+
+Request summary:
+User asked to make the new artwork descriptions appear on artwork pages by default and improve the footer/social area with better margins.
+
+Decision:
+Keep artwork pages and meta descriptions preferring `description_ai_v2` with fallback to the original `description_ai`. Restore the intended newsletter wrapper in the footer and add more spacing between newsletter, social cards, and footer navigation.
+
+Files changed:
+- `_layouts/default.html`
+- `shop.css`
+- `tests/site-markup.test.mjs`
+- `changelog-promptlog.md`
+
+Acceptance criteria:
+- Artwork pages render `description_ai_v2` by default when present.
+- Page meta descriptions prefer `description_ai_v2`.
+- Footer newsletter and social sections have visible breathing room.
+- Footer structure is covered by markup tests.
+
+Verification:
+- Ran `npm run verify`: 77 Node tests passed, plus the Jekyll production build smoke test passed.
+
 ### 2026-06-30 - Artwork Description AI v2
 
 Request summary:

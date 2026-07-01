@@ -505,14 +505,14 @@ input::placeholder, textarea::placeholder { color: rgba(255, 247, 234, 0.52); }
 .checkout-price { font-size: 3rem; }
 .paypal-button { background: #ffc439; color: #111111; border-color: #ffc439; }
 .site-footer {
-  margin-top: 4rem;
+  margin-top: 5.5rem;
   border-top: 1px solid var(--line);
   background: rgba(255, 250, 242, 0.45);
 }
 .footer-inner {
   display: grid;
-  gap: 2rem;
-  padding-top: 2.6rem;
+  gap: 3.2rem;
+  padding-top: clamp(3.2rem, 7vw, 5.5rem);
   padding-bottom: 2.8rem;
 }
 .footer-eyebrow {
@@ -525,7 +525,10 @@ input::placeholder, textarea::placeholder { color: rgba(255, 247, 234, 0.52); }
 }
 
 /* newsletter / contact form (footer) */
-.footer-newsletter { margin-bottom: 2.4rem; }
+.footer-newsletter {
+  max-width: 34rem;
+  margin-bottom: 0.4rem;
+}
 .footer-newsletter .footer-eyebrow { margin-bottom: 0.6rem; }
 .footer-newsletter-copy { color: var(--muted); line-height: 1.55; margin: 0 0 1.1rem; max-width: 34rem; }
 .newsletter-form { display: grid; gap: 0.7rem; max-width: 34rem; }
@@ -557,6 +560,9 @@ input::placeholder, textarea::placeholder { color: rgba(255, 247, 234, 0.52); }
 .newsletter-gotcha { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 .newsletter-status { font-size: 0.86rem; color: var(--muted); margin: 0; }
 .newsletter-status:empty { display: none; }
+.footer-social {
+  padding-top: 0.4rem;
+}
 .footer-social-links {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
@@ -585,7 +591,7 @@ input::placeholder, textarea::placeholder { color: rgba(255, 247, 234, 0.52); }
   justify-content: space-between;
   gap: 1rem;
   flex-wrap: wrap;
-  padding-top: 1.6rem;
+  padding-top: 2rem;
   border-top: 1px solid var(--line);
 }
 .footer-nav { display: flex; gap: 1.3rem; flex-wrap: wrap; }

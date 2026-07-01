@@ -132,6 +132,7 @@ test("shop script forwards the order to Formspree over fetch", () => {
 });
 
 test("footer has the newsletter / contact form wired to Formspree", () => {
+  assert.match(defaultLayout, /class="footer-newsletter"/);
   assert.match(defaultLayout, /id="newsletter-form"/);
   assert.match(defaultLayout, /action="\{\{ site\.newsletter_form_url \}\}"/);
   assert.match(defaultLayout, /name="email"[^>]*type="email"|type="email"[^>]*name="email"/);
