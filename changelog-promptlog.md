@@ -48,6 +48,31 @@ For every feature, add:
 
 ## Changelog
 
+### 2026-07-01 - Social Preview Cards
+
+Request summary:
+User asked to enable preview images for artwork pages and the homepage using modern Open Graph and Twitter card tags, with preview text including investment-art language.
+
+Decision:
+Add social preview metadata in the shared Jekyll default layout so every page inherits canonical URLs, Open Graph tags, and Twitter `summary_large_image` cards. Artwork pages use their own `preview_image` first, while non-art pages fall back to a site-level preview image.
+
+Files changed:
+- `_config.yml`
+- `_layouts/default.html`
+- `tests/site-markup.test.mjs`
+- `tests/smoke/build.test.mjs`
+- `changelog-promptlog.md`
+
+Acceptance criteria:
+- Homepage has a concrete social preview image.
+- Artwork pages use their artwork `preview_image` for social sharing.
+- Social descriptions include the added higherdimensional / investment-art sentence.
+- Twitter card metadata is present with site and creator handles.
+- Build smoke tests fail if the homepage social image falls back to an empty `/images/` URL.
+
+Verification:
+- Ran `npm run verify`: 79 Node tests passed, plus the Jekyll production build smoke test passed.
+
 ### 2026-07-01 - Linked Author Descriptions
 
 Request summary:

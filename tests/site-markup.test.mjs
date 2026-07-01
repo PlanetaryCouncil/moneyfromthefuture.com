@@ -63,6 +63,33 @@ test("default layout loads the shop script as a module", () => {
   assert.match(defaultLayout, /<script type="module"[^>]*shop\.js/);
 });
 
+test("default layout exposes Open Graph and Twitter preview cards", () => {
+  for (const tag of [
+    "og:title",
+    "og:site_name",
+    "og:description",
+    "og:url",
+    "og:image",
+    "og:image:alt"
+  ]) {
+    assert.match(defaultLayout, new RegExp(`<meta property="${tag}"`), `missing ${tag}`);
+  }
+  for (const name of [
+    "twitter:card",
+    "twitter:site",
+    "twitter:creator",
+    "twitter:title",
+    "twitter:description",
+    "twitter:image"
+  ]) {
+    assert.match(defaultLayout, new RegExp(`<meta name="${name}"`), `missing ${name}`);
+  }
+  assert.match(defaultLayout, /summary_large_image/);
+  assert.match(defaultLayout, /page\.preview_image \| default: page\.image/);
+  assert.match(defaultLayout, /social_image_url/);
+  assert.match(defaultLayout, /social_description_extra/);
+});
+
 // ---- artwork page ----
 test("artwork page wires the 3D viewer with progressive textures", () => {
   assert.match(artworkLayout, /id="ppc-wrap"/);

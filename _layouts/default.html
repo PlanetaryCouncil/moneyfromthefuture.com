@@ -3,8 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }} Canvas Shop{% endif %}</title>
-  <meta name="description" content="{{ page.description_ai_v2 | default: page.description_ai | default: page.description | default: site.description | markdownify | strip_html | strip_newlines | truncate: 160 | escape }}">
+  {% assign page_title = page.title | default: site.title %}
+  {% if page.url == '/' or page.title == site.title %}
+    {% assign full_title = site.title | append: ' Canvas Shop' %}
+  {% elsif page.title %}
+    {% assign full_title = page.title | append: ' | ' | append: site.title %}
+  {% else %}
+    {% assign full_title = site.title | append: ' Canvas Shop' %}
+  {% endif %}
+  {% assign description_source = page.description_ai_v2 | default: page.description_ai | default: page.description | default: site.description %}
+  {% assign description_intro = description_source | markdownify | strip_html | strip_newlines | truncate: 150, '' %}
+  {% capture social_description %}{{ description_intro }} {{ site.social_description_extra }}{% endcapture %}
+  {% assign social_description = social_description | strip %}
+  {% assign social_image_source = page.preview_image | default: page.image | default: page.social_image | default: site.social_image %}
+  {% if social_image_source contains '://' %}
+    {% assign social_image_url = social_image_source %}
+  {% elsif social_image_source contains '/images/' %}
+    {% assign social_image_url = social_image_source | absolute_url %}
+  {% else %}
+    {% assign social_image_url = '/images/' | append: social_image_source | absolute_url %}
+  {% endif %}
+  <title>{{ full_title | escape }}</title>
+  <meta name="description" content="{{ social_description | truncate: 240 | escape }}">
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
+  <meta property="og:type" content="{% if page.collection == 'artworks' %}product{% else %}website{% endif %}">
+  <meta property="og:title" content="{{ full_title | escape }}">
+  <meta property="og:site_name" content="{{ site.title | escape }}">
+  <meta property="og:description" content="{{ social_description | truncate: 300 | escape }}">
+  <meta property="og:url" content="{{ page.url | absolute_url }}">
+  <meta property="og:image" content="{{ social_image_url | escape }}">
+  <meta property="og:image:alt" content="{{ page_title | escape }} preview image">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="{{ site.twitter_site }}">
+  <meta name="twitter:creator" content="{{ site.twitter_creator }}">
+  <meta name="twitter:title" content="{{ full_title | escape }}">
+  <meta name="twitter:description" content="{{ social_description | truncate: 300 | escape }}">
+  <meta name="twitter:image" content="{{ social_image_url | escape }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">

@@ -54,6 +54,14 @@ test("jekyll production build compiles and emits the key pages", (t) => {
     assert.ok(fs.existsSync(path.join(DEST, rel)), `build did not emit ${rel}`);
   }
 
+  const indexHtml = fs.readFileSync(path.join(DEST, "index.html"), "utf8");
+  const artworkHtml = fs.readFileSync(path.join(DEST, "investment-art/01-the-boss.html"), "utf8");
+  assert.match(indexHtml, /<meta property="og:image" content="https:\/\/moneyfromthefuture\.com\/images\/01%20The%20Boss%20WEB\.jpg">/);
+  assert.match(indexHtml, /<meta name="twitter:image" content="https:\/\/moneyfromthefuture\.com\/images\/01%20The%20Boss%20WEB\.jpg">/);
+  assert.match(indexHtml, /Higherdimensional portals beaming energy from another timelines/);
+  assert.match(artworkHtml, /<meta property="og:image" content="https:\/\/moneyfromthefuture\.com\/images\/01%20The%20Boss%20WEB\.jpg">/);
+  assert.doesNotMatch(indexHtml, /content="https:\/\/moneyfromthefuture\.com\/images\/"/);
+
   // Every artwork should produce a detail page.
   const artworkCount = fs.readdirSync(path.join(ROOT, "_artworks")).filter((f) => f.endsWith(".md")).length;
   const builtPages = fs
