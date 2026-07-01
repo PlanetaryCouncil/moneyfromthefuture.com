@@ -48,6 +48,29 @@ For every feature, add:
 
 ## Changelog
 
+### 2026-07-01 - Dual Artwork Descriptions
+
+Request summary:
+User asked to display both artwork descriptions one underneath another for more visible page content and SEO value.
+
+Decision:
+Render `description_ai_v2` first, then the original `description_ai` below it with a subtle divider. Keep meta descriptions preferring `description_ai_v2` to avoid bloated duplicate meta copy.
+
+Files changed:
+- `_layouts/artwork.html`
+- `shop.css`
+- `tests/site-markup.test.mjs`
+- `changelog-promptlog.md`
+
+Acceptance criteria:
+- Artwork pages show both descriptions when both fields exist.
+- The original description appears below the v2 description.
+- The second block is visually separated but still part of the same artwork story section.
+- Tests guard both markdown-rendered fields.
+
+Verification:
+- Ran `npm run verify`: 77 Node tests passed, plus the Jekyll production build smoke test passed.
+
 ### 2026-07-01 - Artwork V2 Copy Default + Footer Spacing
 
 Request summary:

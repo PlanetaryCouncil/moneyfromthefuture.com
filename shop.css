@@ -844,6 +844,11 @@ input::placeholder, textarea::placeholder { color: rgba(255, 247, 234, 0.52); }
   margin: 0 0 1.1rem;
 }
 .story-body { max-width: 46rem; }
+.story-body-secondary {
+  margin-top: 1.8rem;
+  padding-top: 1.8rem;
+  border-top: 1px solid var(--line);
+}
 .story-body > :first-child { margin-top: 0; }
 .story-body p {
   color: var(--muted);

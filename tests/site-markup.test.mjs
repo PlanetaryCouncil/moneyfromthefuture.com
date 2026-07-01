@@ -84,9 +84,10 @@ test("artwork page add-to-basket button carries all dataset fields", () => {
   }
 });
 
-test("artwork page prefers description_ai_v2 and renders it through markdownify", () => {
-  assert.match(artworkLayout, /assign artwork_description = page\.description_ai_v2 \| default: page\.description_ai/);
-  assert.match(artworkLayout, /artwork_description \| markdownify/);
+test("artwork page renders description_ai_v2 and description_ai through markdownify", () => {
+  assert.match(artworkLayout, /page\.description_ai_v2 \| markdownify/);
+  assert.match(artworkLayout, /page\.description_ai \| markdownify/);
+  assert.match(artworkLayout, /story-body-secondary/);
   assert.match(defaultLayout, /page\.description_ai_v2 \| default: page\.description_ai/);
 });
 
