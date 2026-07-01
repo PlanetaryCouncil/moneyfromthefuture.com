@@ -12,4 +12,10 @@ description_ai: |
   Luminous geometric solids mark the forehead, chest and space above the head. Behind them, crystalline wireframe structures spread like wings as cyan rays and red accents burst outward; a QR code, serial digits, oversized numerals and orange security forms surround this radiant core.
 
   The image fuses mystical awakening with digital anonymity. Its astral traveler seems to access transcendence through code and geometry rather than ancient ritual, turning the banknote into both an identity document and a portal for an outsider moving beyond conventional systems of value.
+description_ai_v2: |
+  **Astral Pirate** shows a hooded cyber-mystic sitting in meditation, lit by crystalline geometry and electric blue wings. It feels like a passport photo for someone who travels through code, markets and inner space rather than countries.
+
+  As investment art, it belongs to the world of cyberpunk spirituality, sacred geometry prints, anonymous hacker mythology and futuristic banknote collecting. The QR code and serial details make transcendence feel strangely official.
+
+  The figure is calm but guarded. This is not soft enlightenment; it is disciplined, encrypted, armored awakening.
 ---

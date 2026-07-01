@@ -203,6 +203,15 @@ function hidePaymentSuccess() {
   setPaymentSuccessVisible(false);
 }
 
+function updateEmptyBasketMessage() {
+  const emptyMessage = document.querySelector(".basket-empty");
+  if (!emptyMessage) return;
+
+  emptyMessage.textContent = currentSuccessSnapshot
+    ? "Basket cleared after payment."
+    : "No canvas prints selected yet.";
+}
+
 function escapeHtml(value) {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -308,6 +317,7 @@ function renderPaymentSuccess(snapshot, captureId = "") {
 
   paymentSuccessHost.replaceChildren(fragment);
   setPaymentSuccessVisible(true);
+  updateEmptyBasketMessage();
 }
 
 function loadPayPalSdk(clientId, currencyCode) {
@@ -461,6 +471,7 @@ function renderBasket() {
 
   if (!basket.length) {
     basketItems.innerHTML = '<p class="basket-empty">No canvas prints selected yet.</p>';
+    updateEmptyBasketMessage();
     return;
   }
 

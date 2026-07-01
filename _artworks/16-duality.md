@@ -12,4 +12,10 @@ description_ai: |
   Strong perspective lines pull both environments toward the central planet, where a vertical beam separates and connects them. Wireframe geometry overlays each side, and an engraved frame with four zero medallions gives the stark ecological vision the formal appearance of currency.
 
   The symmetry makes destruction and regeneration look like parallel possibilities rather than distant abstractions. Earth becomes the pivot of a collective choice, and the empty denomination suggests that value itself depends on which future human systems decide to finance and build.
+description_ai_v2: |
+  **Duality** divides the planet between burning collapse and green regeneration, with Earth suspended at the center. On one side are fire, aircraft and smoke; on the other are forests, water, clean towers and geometric growth.
+
+  This is investment art for climate futurism, ecological wall decor, sci-fi city art and collectors interested in civilization-scale choices. The zero banknote border turns the two possible futures into a question of value.
+
+  The image is simple in structure but huge in implication. It asks which world we fund with our attention, systems and imagination.
 ---

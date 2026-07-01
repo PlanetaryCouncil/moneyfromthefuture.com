@@ -22,6 +22,19 @@ function scalar(fm, key) {
   return match[1].trim().replace(/^["']|["']$/g, "");
 }
 
+function blockScalar(fm, key) {
+  const lines = fm.split("\n");
+  const start = lines.findIndex((line) => line.match(new RegExp(`^${key}:[ \\t]*\\|[ \\t]*$`)));
+  if (start === -1) return "";
+
+  const body = [];
+  for (const line of lines.slice(start + 1)) {
+    if (line && !line.startsWith(" ")) break;
+    body.push(line.replace(/^  /, ""));
+  }
+  return body.join("\n").trim();
+}
+
 test("there are artwork files to validate", () => {
   assert.ok(files.length >= 1, "no _artworks/*.md files found");
 });
@@ -29,7 +42,7 @@ test("there are artwork files to validate", () => {
 test("every artwork has the required front matter", () => {
   for (const file of files) {
     const fm = frontMatter(fs.readFileSync(path.join(ARTWORKS_DIR, file), "utf8"));
-    for (const key of ["art_id", "order", "slug", "title", "image", "description_author", "description_ai"]) {
+    for (const key of ["art_id", "order", "slug", "title", "image", "description_author", "description_ai", "description_ai_v2"]) {
       assert.ok(new RegExp(`^${key}:`, "m").test(fm), `${file} is missing "${key}"`);
     }
   }
@@ -71,8 +84,16 @@ test("every referenced image and preview_image exists on disk", () => {
 
 test("description_ai has real content (not the empty placeholder)", () => {
   for (const file of files) {
-    const source = fs.readFileSync(path.join(ARTWORKS_DIR, file), "utf8");
-    const body = source.match(/description_ai:[ \t]*\|\n([\s\S]*?)\n---/);
-    assert.ok(body && body[1].trim().length > 40, `${file} has empty/short description_ai`);
+    const fm = frontMatter(fs.readFileSync(path.join(ARTWORKS_DIR, file), "utf8"));
+    assert.ok(blockScalar(fm, "description_ai").length > 40, `${file} has empty/short description_ai`);
+  }
+});
+
+test("description_ai_v2 has three paragraphs of image-based copy", () => {
+  for (const file of files) {
+    const fm = frontMatter(fs.readFileSync(path.join(ARTWORKS_DIR, file), "utf8"));
+    const paragraphs = blockScalar(fm, "description_ai_v2").split(/\n\s*\n/).filter(Boolean);
+    assert.equal(paragraphs.length, 3, `${file} description_ai_v2 should have 3 paragraphs`);
+    assert.ok(paragraphs.join(" ").includes("investment art"), `${file} description_ai_v2 should mention investment art`);
   }
 });

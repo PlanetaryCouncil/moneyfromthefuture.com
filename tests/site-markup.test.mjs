@@ -84,8 +84,10 @@ test("artwork page add-to-basket button carries all dataset fields", () => {
   }
 });
 
-test("artwork page renders description_ai through markdownify", () => {
-  assert.match(artworkLayout, /description_ai \| markdownify/);
+test("artwork page prefers description_ai_v2 and renders it through markdownify", () => {
+  assert.match(artworkLayout, /assign artwork_description = page\.description_ai_v2 \| default: page\.description_ai/);
+  assert.match(artworkLayout, /artwork_description \| markdownify/);
+  assert.match(defaultLayout, /page\.description_ai_v2 \| default: page\.description_ai/);
 });
 
 // ---- basket / checkout ----
@@ -104,6 +106,10 @@ test("basket has the PayPal container and order status hooks", () => {
   assert.match(basket, /id="paypal-button-container"/);
   assert.match(basket, /data-paypal-client-id=/);
   assert.match(basket, /data-order-status/);
+});
+
+test("success state explains why the visible basket is empty", () => {
+  assert.match(shopScript, /Basket cleared after payment\./);
 });
 
 // ---- art viewer behaviour ----

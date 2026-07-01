@@ -12,4 +12,10 @@ description_ai: |
   Along that path, small images trace an expansive history of existence: cells and shells, human evolution, DNA, scientific diagrams, currency signs, planets, machines and views of Earth. Concentric targets occupy the centers of both loops, and folded botanical forms bind the composition together above and below.
 
   The warm and cool halves suggest nature and technology, origin and destination, or inner life and outer space. Because neither side has a true beginning or end, progress appears less like a straight ascent than an endless circulation in which knowledge, life and value repeatedly transform one another.
+description_ai_v2: |
+  **Infinity** turns the figure eight into a complete mythology of life, science, money and space. Warm evolutionary imagery flows through one loop, while cool technological and planetary symbols orbit the other, creating a continuous path between origin and future.
+
+  As investment art, it works as a collectible canvas for anyone interested in infinity symbolism, future money, sacred geometry and abstract banknote design. The piece has the visual discipline of currency but the ambition of a cosmic map.
+
+  Its strongest idea is that value never sits still. Life, knowledge, technology and imagination keep circulating, transforming and returning in new forms.
 ---

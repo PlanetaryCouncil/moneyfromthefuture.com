@@ -17,6 +17,7 @@ layout: default
 {% assign texture_url = '/images/' | append: page.image | relative_url %}
 {% assign display_image = page.preview_image | default: page.image %}
 {% assign display_url = '/images/' | append: display_image | relative_url %}
+{% assign artwork_description = page.description_ai_v2 | default: page.description_ai %}
 
 <main class="artwork-page">
   <nav class="breadcrumb shell" aria-label="Breadcrumb">
@@ -98,11 +99,11 @@ layout: default
     </aside>
   </section>
 
-  {% if page.description_ai and page.description_ai != "" %}
+  {% if artwork_description and artwork_description != "" %}
   <section class="shell artwork-story reveal">
     <h2 class="story-heading">About this work</h2>
     <div class="story-body">
-      {{ page.description_ai | markdownify }}
+      {{ artwork_description | markdownify }}
     </div>
   </section>
   {% endif %}

@@ -48,6 +48,29 @@ For every feature, add:
 
 ## Changelog
 
+### 2026-06-30 - Artwork Description AI v2
+
+Request summary:
+User asked to open the artwork images one by one and add longer, image-based descriptions named `description_ai_v2`, with a natural "investment art" angle and the project's ultra-art, unique, bizarre genre voice.
+
+Decision:
+Keep the existing `description_ai` fields untouched and add a new additive `description_ai_v2` block to every artwork file. Each v2 description has three paragraphs, is based on the actual image content, and includes "investment art" naturally without making financial-return claims.
+
+Files changed:
+- `_artworks/*.md`
+- `tests/content-artworks.test.mjs`
+- `changelog-promptlog.md`
+
+Acceptance criteria:
+- All 40 artwork markdown files include `description_ai_v2`.
+- Each `description_ai_v2` has exactly three paragraphs.
+- Each `description_ai_v2` is image-specific and mentions "investment art".
+- Existing `description_ai` copy remains available for rollback or comparison.
+
+Verification:
+- Opened the 40 high-resolution `THIS` artwork images in batches and wrote v2 copy from the visible artwork.
+- Updated content tests to validate both `description_ai` and `description_ai_v2` independently.
+
 ### 2026-06-28 - USD Baseline + Currency Selector
 
 Request summary:
@@ -84,6 +107,45 @@ Verification:
 
 Known limits:
 - Exchange rates are intentionally hardcoded, not live market rates.
+
+### 2026-06-22 / 06-27 - Launch prep: proper footer, custom domain, newsletter, critical-path test
+
+Request summary:
+Final polish before going public: update the footer release banner to "Initial public release" pointing at the deployed commit, make the footer "proper" with social always visible, add a newsletter signup that doubles as a contact form, switch to the custom domain, and lock in the money path with a critical-path test. (Logged after the fact — work was committed across these dates but the log entry was missed before credits ran out.)
+
+Decision:
+- Replace "PUBLIC BETA. Bitcoin Film Festival preview." with **"Initial public release"** linking to the exact deployed commit. The commit SHA is auto-injected at build time by a new Pages workflow step (`printf 'release_commit: ...' >> _config.yml` from `GITHUB_SHA`), so `site.release_commit` is always accurate on deploy and falls back to `/commits/main` locally.
+- Proper footer baseline bar: `MFTF` mark + `© {year} {title}` + nav (About/Policies/Blog) + release link. The five social cards stay in `_layouts/default.html`, so social is on every page.
+- **Newsletter / contact form** in the footer: required email + optional message, submitted to Formspree over `fetch` (`initNewsletter()`), inline success/error, `_gotcha` honeypot, tagged `source=newsletter`. Reuses the order form `mzdqwgby` for now via `site.newsletter_form_url`.
+- **Custom domain switch**: `_config.yml` `url` → `https://moneyfromthefuture.com`, `baseurl` → `""`; added `CNAME` (`moneyfromthefuture.com`) and `repo_url`. Local preview unaffected (`_config.local.yml` already sets `baseurl: ""`).
+- **Critical-path test** (`tests/checkout-critical-path.test.mjs`): walks catalog add → basket → PayPal-charged total → capture extraction → Formspree payload using the real pure functions (later made currency-aware in the 2026-06-28 session).
+- Catalog add-to-basket `data-image` now uses the light `preview_image` (WEB), so the basket thumbnail no longer pulls a multi-MB full-res file.
+
+Files changed:
+- `_layouts/default.html`
+- `_config.yml`
+- `CNAME`
+- `.github/workflows/pages.yml`
+- `shop.js`
+- `shop.css`
+- `index.html`
+- `readme-developer.md`
+- `tests/checkout-critical-path.test.mjs`
+- `tests/site-markup.test.mjs`
+
+Acceptance criteria:
+- Footer shows "Initial public release" linking to the deployed commit; social cards visible on every page; proper bottom bar with brand, copyright, nav, release link.
+- Newsletter signup works over AJAX with inline confirmation and doubles as a contact form via the optional message.
+- Production build emits root-relative paths (`baseurl: ""`) and copies `CNAME` into `_site`.
+- Critical-path test guards the catalog→basket→PayPal→Formspree money pipeline.
+
+Verification:
+- `npm run verify` green (76 Node tests + Jekyll build smoke). Critical path also walked live in-browser (catalog add → basket total → PayPal render → simulated capture → Formspree payload), `fetch` stubbed.
+
+Known limits / next:
+- Domain go-live is manual/user-side: set the custom domain in GitHub Settings → Pages and add apex `A` records to GitHub Pages IPs (`185.199.108–111.153`), then enforce HTTPS.
+- Newsletter reuses the order Formspree form (tagged); a dedicated form is recommended (free tier caps ~50 submissions/month).
+- Open: confirm Twitter handle `@moneyFromThe`; per-product Open Graph images; decide whether to delete the unlinked `social.md`.
 
 ### 2026-06-05 - Basket Success-State Hardening + Local Regression Suite
 
@@ -502,11 +564,15 @@ Large slice toward public release. Worked one feature at a time with live browse
 
 ## Open Questions / Future Feature Candidates
 
-Done (2026-06-22 session):
+Done (2026-06-22 → 06-29):
 - ~~Replace PayPal.me link with a more formal PayPal checkout flow~~ → PayPal smart button + auto-forward to Formspree, capture-first.
 - ~~Add direct quantity input for basket rows~~ → per-line −/+ steppers and Remove.
 - ~~Add product metadata per artwork (size, material, shipping)~~ → spec grid + certificate line.
 - ~~Add explicit product size/material/shipping terms~~ → 60×30 cm, wooden frame, made locally.
+- ~~Multi-currency~~ → USD baseline + USD/EUR/GBP selector (hardcoded rates), persisted.
+- ~~Newsletter / contact signup~~ → footer form, AJAX to Formspree, doubles as contact.
+- ~~Custom domain~~ → `_config.yml` switched, `CNAME` added (DNS/Pages settings still user-side).
+- ~~Release banner~~ → "Initial public release" linking to the auto-injected deployed commit.
 
 Still open:
 - Replace title-based `description_ai` with image-accurate copy (in progress, external tool).
@@ -515,3 +581,5 @@ Still open:
 - Add sitemap entries for `/investment-art/*.html`.
 - Review representative image choices for all 40 artwork families.
 - Confirm Twitter handle `@moneyFromThe` resolves; decide whether to delete the unlinked `social.md`.
+- Move newsletter to a dedicated Formspree form (currently shares the order form, tagged `source=newsletter`).
+- Live exchange rates (currently hardcoded USD/EUR/GBP).
