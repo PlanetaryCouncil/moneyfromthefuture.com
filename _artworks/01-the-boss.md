@@ -5,7 +5,7 @@ slug: 01-the-boss
 title: "The Boss"
 image: "01 The Boss THIS.jpg"
 preview_image: "01 The Boss WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "The Boss. Who rules the world? Connected energetically. Possibly a next James Bond villain? A glitch in the collective consciousness."
 description_ai: |
   **The Boss** presents a colossal octopus suspended above the curve of Earth, staring outward with molten orange eyes. Its exposed brain glows like a small sun, while broad tentacles unfurl across a field of stars, nebulae and electronic circuitry.
 

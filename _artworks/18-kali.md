@@ -5,7 +5,7 @@ slug: 18-kali
 title: "Kali"
 image: "18 Kali THIS.jpg"
 preview_image: "18-Kali WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "Mars. Ex-wife. The overlapping circles is what we have in common."
 description_ai: |
   **Kali** arranges two commanding figures within opposing circles of solar light. A dark-armored warrior carrying a tall spear stands before a blazing orange sun on the left, while a blue-skinned, many-armed goddess advances from a cool white-blue halo on the right.
 

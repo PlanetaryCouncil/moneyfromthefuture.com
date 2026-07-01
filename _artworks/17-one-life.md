@@ -5,7 +5,7 @@ slug: 17-one-life
 title: "One Life"
 image: "17 One life 21 signed WOW UPSCALED THIS.png"
 preview_image: "17 One life 21 signed WOW UPSCALED WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "One Life. Make use of it."
 description_ai: |
   **One Life** stages the beginning of existence on a cosmic scale. Sperm-like forms travel from the blue curve of a planet toward an enormous green cell, while that cellular sphere merges with a half-visible Earth surrounded by brilliant light.
 

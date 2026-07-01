@@ -5,7 +5,7 @@ slug: 10-amanita
 title: "Amanita"
 image: "10 Amanita 21 UPSCALED THIS.png"
 preview_image: "10 Amanita 21 UPSCALED WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "Inspired by my friend who has a shop: restoreyour.health"
 description_ai: |
   **Amanita** elevates a red-and-white fly agaric mushroom to the status of a radiant central monument. Its broad spotted cap and finely drawn gills rise above two smaller specimens, surrounded by berries, roots, leaves and curling vines in a dense forest-green setting.
 

@@ -5,7 +5,7 @@ slug: 35-2140-westminster
 title: "2140 Westminster"
 image: "35-2140 THIS.png"
 preview_image: "35-2140-WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "This one is also inspired by friends from [2140.wtf](https://2140.wtf]"
 description_ai: |
   **2140 Westminster** places an engraved portrait of Queen Elizabeth II before a solar-powered city of towers, domes and cultivated green space. Orange beams project from her eyes across the landscape, giving the familiar currency figure an exaggerated, futuristic authority.
 

@@ -5,7 +5,7 @@ slug: 37-pizza-new
 title: "Pizza New"
 image: "37-pizza-new UPSCALED THIS.png"
 preview_image: "37-pizza-new-UPSCALED-WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "New Bitcoin Pizza Day, this time with loads of information included, a self-contained unit."
 description_ai: |
   **Pizza New** raises a pepperoni-covered Bitcoin symbol above a glowing platform in a neon city. Earth fills the background, while pizzas, spacecraft, data screens and orbital diagrams circulate through the star field around the fiery central emblem.
 

@@ -5,7 +5,7 @@ slug: 26-stonehenge
 title: "Stonehenge"
 image: "26-Stonehenge THIS.jpg"
 preview_image: "26-Stonehenge-WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "Stonehenge. Time travel. Energy portals. The usuals."
 description_ai: |
   **Stonehenge** places the ancient stone circle in the foreground of an impossible cosmic landscape. Sunlight passes through its central trilithon and casts long shadows toward the viewer, giving the monument the appearance of a precisely aligned gateway.
 

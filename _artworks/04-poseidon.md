@@ -5,7 +5,7 @@ slug: 04-poseidon
 title: "Poseidon"
 image: "04 Poseidon 21 THIS.png"
 preview_image: "04-Poseidon-21-WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "Poseidon (not Jesus). Not messiah either. A dude. A god. A force of nature. Connected to mycelium network."
 description_ai: |
   **Poseidon** presents a monumental, haloed figure standing above a bright rural landscape. Draped in magenta and holding a slender staff in each outstretched hand, he presides over rolling fields, a white farmhouse and rows of cultivated land beneath radiating turquoise light.
 

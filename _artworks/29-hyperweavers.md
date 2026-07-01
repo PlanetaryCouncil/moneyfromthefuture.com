@@ -5,7 +5,7 @@ slug: 29-hyperweavers
 title: "Hyperweavers"
 image: "29-hyperweavers UPSCALED THIS.png"
 preview_image: "29-hyperweavers-UPSCALED-WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "Business. Networking. As always. Hyperweavers."
 description_ai: |
   **Hyperweavers** brings a white unicorn and a white rabbit face to face above the glowing edge of a planet. The unicorn’s mane dissolves into streams of green code, while its long spiral horn points toward a radiant cosmic vortex between the two animals.
 

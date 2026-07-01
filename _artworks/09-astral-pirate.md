@@ -5,7 +5,7 @@ slug: 09-astral-pirate
 title: "Astral Pirate"
 image: "09 Astral Pirate 21 UPSCALED THIS.png"
 preview_image: "09-Astral-Pirate-21-UPSCALED-THIS-WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "Astral Pirate Hacker Ninja. Shapeshifter Transgressing Hyperdimensional Multiverse. Also inspired by me."
 description_ai: |
   **Astral Pirate** places a hooded, armored figure in lotus position at the center of an electric-blue banknote. The figure’s open hands and still posture suggest meditation, yet the sculpted body, concealed eyes and dark futuristic clothing give the calm pose a guarded, formidable presence.
 

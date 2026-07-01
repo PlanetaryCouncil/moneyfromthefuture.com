@@ -5,7 +5,7 @@ slug: 33-bitcoin-film-fest
 title: "Bitcoin Film Fest"
 image: "33-bitcoin-film-fest UPSCALED THIS.png"
 preview_image: "33-bitcoin-film-fest-UPSCALED-WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "Limited edition of 10, made it for the festival."
 description_ai: |
   **Bitcoin Film Fest** turns Warsaw’s Palace of Culture and Science into a rocket-powered monument rising above the Earth. A glowing map of Poland marks the planet below, while Bitcoin and Monero symbols, geometric constellations and network lines illuminate the deep-blue sky.
 

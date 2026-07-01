@@ -84,6 +84,10 @@ test("artwork page add-to-basket button carries all dataset fields", () => {
   }
 });
 
+test("artwork page renders author description through markdownify for links", () => {
+  assert.match(artworkLayout, /page\.description_author \| markdownify/);
+});
+
 test("artwork page renders description_ai_v2 and description_ai through markdownify", () => {
   assert.match(artworkLayout, /page\.description_ai_v2 \| markdownify/);
   assert.match(artworkLayout, /page\.description_ai \| markdownify/);

@@ -5,7 +5,7 @@ slug: 14-cannabis
 title: "Cannabis"
 image: "14 Cannabis 21 signed symmetrical v2 THIS.png"
 preview_image: "14 Cannabis 21 signed symmetrical v2 WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "Replacing petrodollar. Carbon drawdown. Enriching the soil. Obviuosly."
 description_ai: |
   **Cannabis** places a brilliant green cannabis leaf at the center of a radial composition labeled “Transformation.” Golden light turns the leaf into an emblem, while surrounding fields show the crop growing at agricultural scale and a farmer standing among mature plants.
 

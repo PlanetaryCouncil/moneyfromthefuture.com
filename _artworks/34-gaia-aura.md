@@ -5,7 +5,7 @@ slug: 34-gaia-aura
 title: "Gaia Aura"
 image: "34-gaia-aura UPSCALED THIS.jpeg"
 preview_image: "34-gaia-aura-UPSCALED-WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "Gaia. Aura. Cosmic forces. Powerful archetype."
 description_ai: |
   **Gaia Aura** brings two monumental feminine profiles face to face across a floating Earth. The green figure on the left grows from leaves, vines and wildflowers, while the warm figure on the right is crowned with roses and surrounded by windblown hair and amber light.
 

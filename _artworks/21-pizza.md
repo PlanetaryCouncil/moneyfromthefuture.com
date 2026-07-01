@@ -2,10 +2,10 @@
 art_id: "21"
 order: 21
 slug: 21-pizza
-title: "Pizza"
+title: "Bitcoin Pizza Day"
 image: "21 Pizza THIS.jpg"
 preview_image: "21-Pizza-WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "No explaination required, does exactly what says on the tin."
 description_ai: |
   **Pizza** turns the Bitcoin symbol into an enormous pepperoni-covered object floating before a cratered moon. Small pizzas and orange planets orbit through the surrounding star field, while slices appear to travel across the rocky foreground like fragments of a playful new cosmos.
 

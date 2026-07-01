@@ -5,7 +5,7 @@ slug: 23-burn-banks
 title: "Burn Banks"
 image: "23 Burn banks THIS.jpg"
 preview_image: "23-Burn-banks-WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "Inspired by a friend."
 description_ai: |
   **Burn Banks** centers a neoclassical financial building engulfed in towering orange flames. Its columns remain visible inside the blaze, while an infinity symbol glows in the pediment and the command “Burn the Banks” repeats across the facade and borders.
 

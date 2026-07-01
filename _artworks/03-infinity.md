@@ -5,7 +5,7 @@ slug: 03-infinity
 title: "Infinity"
 image: "03 Infinity 21 signed v3 UPSCALED THIS.png"
 preview_image: "03 Infinity 21 signed v3 UPSCALED WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "Cycles of life. Cycles of history. Cycles of reality. Everything is a cycle. Where are you in this cycle?"
 description_ai: |
   **Infinity** is organized around a monumental figure eight that fills the face of an imagined banknote. Its left loop glows in oranges, reds and earthen browns, while the right loop turns through silver, cyan and deep blue, creating two distinct worlds joined by a single continuous path.
 

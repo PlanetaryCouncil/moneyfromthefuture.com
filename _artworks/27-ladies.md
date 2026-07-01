@@ -5,7 +5,7 @@ slug: 27-ladies
 title: "Ladies"
 image: "27-ladies-21 UPSCALED THIS.jpeg"
 preview_image: "27-ladies-21-UPSCALED-WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "Attending a touch positive, nudity positive event. Networking. Open for connection."
 description_ai: |
   **Ladies** presents two human figures facing one another across a floating anatomical heart. The figure on the left is rendered in deep blue and the figure on the right in vivid red, each extending an open hand toward the radiant object between them.
 

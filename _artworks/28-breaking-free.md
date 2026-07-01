@@ -2,10 +2,10 @@
 art_id: "28"
 order: 28
 slug: 28-breaking-free
-title: "Breaking Free"
+title: "Breaking Free From Simulation"
 image: "28-breaking-free UPSCALED THIS.png"
 preview_image: "28-breaking-free-UPSCALED-WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "This is just sick. Breaking free from the simulation."
 description_ai: |
   **Breaking Free** grows a human face from the trunk and roots of a fluorescent green tree. Its glowing eyes stare through curtains of falling code, while a dense magenta crown spreads overhead and several equally vivid sheep stand across the digital landscape.
 

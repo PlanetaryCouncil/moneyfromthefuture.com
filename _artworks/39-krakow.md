@@ -5,7 +5,7 @@ slug: 39-krakow
 title: "Krakow"
 image: "39-krakow THIS.png"
 preview_image: "39-krakow-WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "I love Krakow, legendary dragon."
 description_ai: |
   **Krakow** presents Wawel Castle glowing above the Vistula at sunset, its towers and red roofs reflected in the dark water below. Pink, red and blue circuitry overlays the sky, transforming the historic cityscape into the luminous center of a futuristic forty-two-złoty note.
 

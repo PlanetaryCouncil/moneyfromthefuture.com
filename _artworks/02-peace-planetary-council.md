@@ -5,7 +5,7 @@ slug: 02-peace-planetary-council
 title: "Peace Planetary Council"
 image: "02 Peace Planetary Council 21 FRESH THIS.png"
 preview_image: "02 Peace Planetary Council 21 FRESH WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "This design brings global peace. A white dove emerging from a higherdimensional portal."
 description_ai: |
   **Peace Planetary Council** places a white dove at the exact center of a radiant circular gateway. Its wings rise symmetrically around a glowing globe, while an olive branch crosses its body and converging paths lead toward the burst of light beneath it.
 

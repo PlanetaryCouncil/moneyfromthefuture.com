@@ -5,7 +5,10 @@ slug: 15-palestine
 title: "Palestine"
 image: "15 Palestine 21 v6 THIS.png"
 preview_image: "15-Palestine-21-v6-WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: |
+  In memory of the bulldozer operator who can no longer eat meat. 
+
+  CNN: [edition.cnn.com/2024/10/21/middleeast/gaza-war-israeli-soldiers-ptsd-suicide-intl](https://edition.cnn.com/2024/10/21/middleeast/gaza-war-israeli-soldiers-ptsd-suicide-intl)
 description_ai: |
   **Palestine** divides its panoramic field between catastrophe and an image of peace. On the left, soldiers and a bulldozer move through shattered buildings and fallen bodies beneath a sky fractured by red lightning; on the right, the Dome of the Rock stands in clear blue light.
 

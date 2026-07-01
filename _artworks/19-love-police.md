@@ -5,7 +5,7 @@ slug: 19-love-police
 title: "Love Police"
 image: "19 Love police THIS.jpg"
 preview_image: "19-Love-police-WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "Guns are not cool. But this is a cool gun."
 description_ai: |
   **Love Police** merges a realistic anatomical heart with the body of a turquoise handgun. An exposed muscular hand grips the weapon, while the heart replaces its central mechanism and vivid bands of pink, blue, green and cream radiate from the barrel.
 

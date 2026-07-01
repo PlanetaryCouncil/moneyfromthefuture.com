@@ -5,7 +5,7 @@ slug: 40-narrative-control
 title: "Narrative Control"
 image: "40-narrative-control-FRESH-v7 THIS.png"
 preview_image: "40-narrative-control-FRESH-v7-WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "If you control the narrative you do war crimes with impunity."
 description_ai: |
   **Narrative Control** frames a ruined futuristic city inside the design language of a one-hundred-shekel banknote. A hooded figure stands with their back to the viewer beneath an enormous glowing eye, while drones, a tank and shattered buildings create a militarized landscape of surveillance and destruction.
 

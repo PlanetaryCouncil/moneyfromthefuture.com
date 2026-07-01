@@ -48,6 +48,29 @@ For every feature, add:
 
 ## Changelog
 
+### 2026-07-01 - Linked Author Descriptions
+
+Request summary:
+User asked to allow links inside `description_author`, for example a CNN source link in the author/context note.
+
+Decision:
+Render `description_author` through Jekyll `markdownify` on artwork pages, so Markdown links in front matter become clickable links while the source content stays easy to edit.
+
+Files changed:
+- `_layouts/artwork.html`
+- `shop.css`
+- `tests/site-markup.test.mjs`
+- `changelog-promptlog.md`
+
+Acceptance criteria:
+- `description_author` supports Markdown links.
+- Existing plain-text author descriptions still render normally.
+- Links inherit the current visual style and have readable underlines.
+- Tests guard that the artwork layout keeps Markdown rendering enabled for author descriptions.
+
+Verification:
+- Ran `npm test`: 78 Node tests passed.
+
 ### 2026-07-01 - Dual Artwork Descriptions
 
 Request summary:

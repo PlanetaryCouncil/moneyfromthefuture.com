@@ -5,7 +5,7 @@ slug: 32-extra-life
 title: "Extra Life"
 image: "32-extra-life-better-nooro-COOL UPSCALED THIS.png"
 preview_image: "32-extra-life-better-nooro-COOL-UPSCALED-WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "Longevity vibe. Extra life."
 description_ai: |
   **Extra Life** builds an elaborate green banknote around a monumental DNA double helix. The strand rises through a star-filled oval above a networked planet, flanked by glowing infinity and heart symbols that connect biological continuity with cosmic scale.
 

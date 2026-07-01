@@ -2,10 +2,10 @@
 art_id: "25"
 order: 25
 slug: 25-gathering
-title: "Gathering"
+title: "The Gathering"
 image: "25-Gathering THIS.jpg"
 preview_image: "25-Gathering-WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "The Gathering. Postponed till 2027, [link to Insta post with announcement](https://www.instagram.com/p/DaNrZZDCB-r/)"
 description_ai: |
   **Gathering** shows a line of human figures forming a wide arc around a floating Earth. They face inward toward the planet, their individual silhouettes gradually becoming part of a shared circular movement that extends deep into the surrounding space.
 

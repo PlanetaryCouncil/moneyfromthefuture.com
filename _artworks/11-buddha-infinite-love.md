@@ -5,7 +5,7 @@ slug: 11-buddha-infinite-love
 title: "Buddha Infinite Love"
 image: "11 Buddha Infinite Love 2026 v2 21 UPSCALED THIS.png"
 preview_image: "11 Buddha Infinite Love 2026 v2 21 UPSCALED WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "Seasons. Cycles. Everything is changing. All the time."
 description_ai: |
   **Buddha Infinite Love** centers a golden Buddha in meditation, holding a luminous Earth between open hands. Concentric circles of sacred geometry surround the figure, forming a radiant mandala that anchors an otherwise immense field of stars, planets and spiraling galaxies.
 

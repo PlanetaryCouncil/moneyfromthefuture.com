@@ -5,7 +5,7 @@ slug: 08-super-cyber-genius
 title: "Super Cyber Genius"
 image: "08 Super cyber genius 21 THIS.png"
 preview_image: "08 Super cyber genius 21 WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "Inspired by yours truly. Inspiration is everywhere. I'm part of 'everywhere'."
 description_ai: |
   **Super Cyber Genius** imagines a British £100 note issued for an age of augmented intelligence. A suited male portrait dominates the right side, his hair and face merging with circuit-board traces while a rectangular cybernetic visor projects a brilliant horizontal beam of blue light.
 

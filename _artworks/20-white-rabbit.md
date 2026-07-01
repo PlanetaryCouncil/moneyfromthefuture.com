@@ -5,7 +5,7 @@ slug: 20-white-rabbit
 title: "White Rabbit"
 image: "20 White Rabbit THIS.jpg"
 preview_image: "20-White-Rabbit-WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "Follow the white rabbit. Another one inspired by yours truly."
 description_ai: |
   **White Rabbit** places a luminous animal in the middle of Westminster Bridge, facing the viewer beneath cascading columns of green code. The Houses of Parliament and Big Ben glow to the left, while the London Eye and the riverside skyline turn pink and violet on the right.
 

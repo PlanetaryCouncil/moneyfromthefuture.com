@@ -5,7 +5,7 @@ slug: 38-metacrisis
 title: "Metacrisis"
 image: "38-metacrisis UPSCALED THIS.png"
 preview_image: "38-metacrisis-UPSCALED-WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "Metacrisis is a bitch. As simple as that."
 description_ai: |
   **Metacrisis** centers a pale, expressionless face with brilliant blue eyes, encircled by a many-headed serpent. Several snakes strike outward while a radiant all-seeing eye hovers above the forehead inside concentric webs of geometry.
 

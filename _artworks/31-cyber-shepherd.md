@@ -5,7 +5,7 @@ slug: 31-cyber-shepherd
 title: "Cyber Shepherd"
 image: "31-cyber-shepherd-bright-number UPSCALED THIS.png"
 preview_image: "31-cyber-shepherd-bright-number-UPSCALED-WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "This is dude is me. Yet another me. But it's not about me."
 description_ai: |
   **Cyber Shepherd** seats a faceless armored figure on a cube of binary code, holding a staff tipped with a luminous electronic eye. Across the reflective grid stand three dark sheep whose wool, eyes and bodies pulse with violet and cyan circuitry.
 

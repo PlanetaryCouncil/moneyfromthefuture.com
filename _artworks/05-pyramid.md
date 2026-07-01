@@ -5,7 +5,7 @@ slug: 05-pyramid
 title: "Pyramid"
 image: "05 Pyramid THIS.jpg"
 preview_image: "05 Pyramid WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "Pyramid. Higherdimensional portal of energy. Some people vibe with it a lot."
 description_ai: |
   **Pyramid** centers a vast Egyptian monument in a desert scattered with smaller pyramids, obelisks and distant ruins. Warm sunlight divides its two visible faces into shadow and gold, giving the ancient structure a weight and clarity that dominate the horizon.
 

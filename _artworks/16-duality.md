@@ -5,7 +5,7 @@ slug: 16-duality
 title: "Duality"
 image: "16 Duality 21 THIS.png"
 preview_image: "16-Duality-21-WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "Duality. Choose your version of reality."
 description_ai: |
   **Duality** divides the world into two sharply opposed futures that meet at a radiant Earth. On the left, a burning city, military aircraft, cracked ground and immense columns of smoke fill an orange-red landscape; on the right, forests, water, clean towers and abundant vegetation glow in green.
 

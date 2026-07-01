@@ -5,7 +5,7 @@ slug: 12-flotilla
 title: "Flotilla"
 image: "12 Flotilla 21 THIS.jpg"
 preview_image: "12 Flotilla 21 WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "Flotilla 4 Change. COP30. Belem. Brazil."
 description_ai: |
   **Flotilla** gathers dozens of crowded sailboats on a bright blue sea, all moving toward a radiant opening at the center of the horizon. A white dove flies above their shared destination, while a huge pale sun and rolling clouds enlarge the scene beyond ordinary maritime scale.
 

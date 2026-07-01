@@ -5,7 +5,7 @@ slug: 30-polska-better
 title: "Polska"
 image: "30-polska-better-chyba UPSCALED THIS.png"
 preview_image: "30-polska-better-chyba UPSCALED WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "Poland is the bet place to live, objectively."
 description_ai: |
   **Polska** imagines a futuristic Polish capital beneath an immense red-and-white globe. Sleek towers, domed structures and broad transport lines converge on a luminous central plaza, while spacecraft and a satellite move through the planetary sky above.
 

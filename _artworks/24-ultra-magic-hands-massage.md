@@ -5,7 +5,7 @@ slug: 24-ultra-magic-hands-massage
 title: "Ultra Magic Hands Massage"
 image: "24 Ultra magic hands massage 21 THIS.png"
 preview_image: "24-Ultra-magic-hands-massage-21-WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "Personal business card for massage, [Ultra Magic Hands](https://www.ultramagichands.com/)"
 description_ai: |
   **Ultra Magic Hands Massage** replaces the architectural portrait of a hundred-euro note with a monumental open hand. Fine anatomical and circuit-like lines run through its deep blue surface, while golden light radiates from the palm and glows at the fingertips and wrist.
 

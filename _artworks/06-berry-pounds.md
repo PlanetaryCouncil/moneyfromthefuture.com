@@ -5,7 +5,7 @@ slug: 06-berry-pounds
 title: "Berry Pounds"
 image: "06 Berry pounds THIS.jpg"
 preview_image: "06 Berry pounds WEB.jpg"
-description_author: "Lorem Ipsum"
+description_author: "Inspired by the Solarpunk Estates and loads of berries. Something out of nothing, infinite supply."
 description_ai: |
   **Berry Pounds** transforms the familiar structure of a British ten-pound note into an exuberant fruit-themed currency. A violet-tinted portrait of Queen Elizabeth II fills the right side, set beneath a large numeral and surrounded by the fine engraved textures associated with official money.
 
