@@ -795,6 +795,18 @@ input::placeholder, textarea::placeholder { color: rgba(255, 247, 234, 0.52); }
   margin-bottom: 0.3rem;
 }
 .spec-item dd { margin: 0; color: var(--ink); font-weight: 500; }
+.source-file-link {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  margin: 0.85rem 0 0;
+}
+.source-file-link a {
+  color: #0000ee;
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+}
+.source-file-link a:visited { color: #551a8b; }
 
 /* --- buy box --- */
 .buy-box {

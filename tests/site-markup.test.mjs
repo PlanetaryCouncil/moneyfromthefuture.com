@@ -111,6 +111,13 @@ test("artwork page add-to-basket button carries all dataset fields", () => {
   }
 });
 
+test("artwork page keeps the full-resolution source link disabled", () => {
+  assert.match(
+    artworkLayout,
+    /{% comment %}[\s\S]*Full-resolution source link intentionally disabled[\s\S]*{% endcomment %}/,
+  );
+});
+
 test("artwork page renders author description through markdownify for links", () => {
   assert.match(artworkLayout, /page\.description_author \| markdownify/);
 });

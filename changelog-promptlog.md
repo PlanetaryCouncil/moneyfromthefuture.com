@@ -48,6 +48,100 @@ For every feature, add:
 
 ## Changelog
 
+### 2026-07-09 - Disable Full-Resolution Download Link
+
+Request summary:
+User wants product pages focused on purchasing the canvas rather than opening the full-resolution source artwork.
+
+Decision:
+Wrap the source-link block in a Jekyll Liquid comment. This prevents the link and URL from being emitted into public HTML while keeping the implementation easy to restore later.
+
+Files changed:
+- `_layouts/artwork.html`
+- `tests/site-markup.test.mjs`
+- `changelog-promptlog.md`
+
+Acceptance criteria:
+- No full-resolution source link is visible on artwork pages.
+- The disabled link is not emitted into the generated HTML.
+- The 3D viewer can continue using the high-resolution texture internally.
+- A regression test guards the intentionally disabled state.
+
+Verification:
+- Pending `npm run verify`.
+
+### 2026-07-09 - Energy Consultant 42 and Treegens Migration
+
+Request summary:
+User added Energy Consultant as artwork 42 and migrated Treegens from 42 to 43.
+
+Decision:
+Create a new image-grounded product record and `WEB` preview for Modern Energy Consultant. Preserve the Treegens descriptions while moving its artwork identity, full-resolution image, preview image and public slug consistently to 43.
+
+Files changed:
+- `_artworks/42-energy-consultant.md`
+- `_artworks/43-treegens.md`
+- `images/42-energy-consultant-WEB.jpg`
+- `images/43-treegens-WEB.jpg`
+- `changelog-promptlog.md`
+
+Acceptance criteria:
+- Artwork 42 is Modern Energy Consultant and references matching `42` image files.
+- Artwork 43 is Treegens and references matching `43` image files.
+- Artwork ordering remains unique and contiguous from 1 through 43.
+- Both new product URLs build successfully with lightweight previews and full-resolution sources.
+
+Verification:
+- Ran `npm run verify`: 80 Node tests passed, plus the Jekyll production build smoke test passed.
+
+### 2026-07-09 - Artworks 41 and 42
+
+Request summary:
+User supplied two new artwork files and asked for product pages with basic search-friendly descriptions based on the actual images.
+
+Decision:
+Add both artworks directly to the Jekyll collection with concise artist copy and richer three-paragraph descriptions. Create lightweight 2:1 `WEB` previews while preserving the supplied `THIS` files as full-resolution sources.
+
+Files changed:
+- `_artworks/41-magic-people-collective.md`
+- `_artworks/42-treegens.md`
+- `images/41-magic-people-collective-WEB.jpg`
+- `images/42-treegens-WEB.jpg`
+- `changelog-promptlog.md`
+
+Acceptance criteria:
+- The catalog contains 42 artwork families in contiguous order.
+- `/investment-art/41-magic-people-collective.html` and `/investment-art/42-treegens.html` build successfully.
+- Catalog and social previews use the lightweight `WEB` files.
+- Individual product pages use the full-resolution `THIS` files.
+- Both artwork pages contain descriptions grounded in their visible imagery.
+
+Verification:
+- Ran `npm run verify`: 80 Node tests passed, plus the Jekyll production build smoke test passed.
+
+### 2026-07-06 - Full-Resolution Source Links
+
+Request summary:
+User asked whether each artwork page should offer a way to open or download the full-resolution file, while avoiding cannibalizing canvas print sales.
+
+Decision:
+Add a quiet text link below the product specs rather than a prominent CTA. The purchase box remains focused on buying the canvas print, while the full-resolution source image is still available for collectors, transparency, and practical workflows.
+
+Files changed:
+- `_layouts/artwork.html`
+- `shop.css`
+- `tests/site-markup.test.mjs`
+- `changelog-promptlog.md`
+
+Acceptance criteria:
+- Each artwork page links to the full-resolution `image` file.
+- The link opens in a new tab.
+- The link is visually secondary to the basket / purchase actions.
+- Tests guard that the source link remains wired to `texture_url`.
+
+Verification:
+- Ran `npm run verify`: 80 Node tests passed, plus the Jekyll production build smoke test passed.
+
 ### 2026-07-01 - Social Preview Cards
 
 Request summary:
