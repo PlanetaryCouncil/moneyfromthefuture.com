@@ -48,6 +48,29 @@ For every feature, add:
 
 ## Changelog
 
+### 2026-07-10 - Artwork 44 Artizen Season 6 Thank You
+
+Request summary:
+User added a new design and asked for the usual product data, description and web version.
+
+Decision:
+Use the new PNG as the full-resolution artwork source, generate a compressed `WEB` JPG for catalog/social use, and create artwork 44 with image-based descriptions.
+
+Files changed:
+- `_artworks/44-artizen-season-6-thank-you.md`
+- `images/44-artizen-season-6-thank-you.png`
+- `images/44-artizen-season-6-thank-you-WEB.jpg`
+- `changelog-promptlog.md`
+
+Acceptance criteria:
+- Artwork 44 appears in the Jekyll artwork collection.
+- The product page references the full source PNG.
+- The catalog/homepage can use the lighter `WEB` preview image.
+- The descriptions are based on the visible artwork and include investment-art language.
+
+Verification:
+- Ran `npm run verify`: 80 Node tests passed, plus the Jekyll production build smoke test passed.
+
 ### 2026-07-09 - Disable Full-Resolution Download Link
 
 Request summary:
@@ -68,7 +91,8 @@ Acceptance criteria:
 - A regression test guards the intentionally disabled state.
 
 Verification:
-- Pending `npm run verify`.
+- Ran `npm run verify`: 80 Node tests passed, plus the Jekyll production build smoke test passed.
+- Confirmed the generated artwork HTML contains neither the source-link text nor its CSS class.
 
 ### 2026-07-09 - Energy Consultant 42 and Treegens Migration
 
