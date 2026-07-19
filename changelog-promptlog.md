@@ -48,6 +48,29 @@ For every feature, add:
 
 ## Changelog
 
+### 2026-07-19 - Artwork 45 Palestine Auction
+
+Request summary:
+User added a new design numbered 45 and asked to add it to the site.
+
+Decision:
+Use the new PNG as the full-resolution artwork source, generate a compressed `WEB` JPG for catalog/social use, and create artwork 45 with image-based descriptions.
+
+Files changed:
+- `_artworks/45-palestine-auction.md`
+- `images/45-palestine-auction.png`
+- `images/45-palestine-auction-WEB.jpg`
+- `changelog-promptlog.md`
+
+Acceptance criteria:
+- Artwork 45 appears in the Jekyll artwork collection.
+- The product page references the full source PNG.
+- The catalog/homepage can use the lighter `WEB` preview image.
+- The descriptions are based on the visible artwork and include investment-art language.
+
+Verification:
+- Ran `npm run verify`: 80 Node tests passed, plus the Jekyll production build smoke test passed.
+
 ### 2026-07-10 - Artwork 44 Artizen Season 6 Thank You
 
 Request summary:
