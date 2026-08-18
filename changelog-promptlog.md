@@ -48,6 +48,30 @@ For every feature, add:
 
 ## Changelog
 
+### 2026-08-18 - Artwork 46 Iceland Eclipse
+
+Request summary:
+User added artwork 46 with explicit source and preview filenames, title, and author description.
+
+Decision:
+Create a new Jekyll artwork record using the provided final source image and provided `WEB` preview image exactly as named.
+
+Files changed:
+- `_artworks/46-iceland-eclipse.md`
+- `images/46-iceland-eclipse-v3-1000-v2-SUPER-GOOD.png`
+- `images/46-iceland-eclipse-v3-1000-v2-SUPER-GOOD-WEB.png`
+- `changelog-promptlog.md`
+
+Acceptance criteria:
+- Artwork 46 appears in the Jekyll artwork collection.
+- The product page title is `Iceland Eclipse`.
+- The author description is `Limited edition of 1000, that's why the number.`
+- The page references the provided full source image and provided `WEB` preview image.
+- The descriptions are based on the visible artwork and include investment-art language.
+
+Verification:
+- Ran `npm run verify`: 80 Node tests passed, plus the Jekyll production build smoke test passed.
+
 ### 2026-07-19 - Artwork 45 Palestine Auction
 
 Request summary:
