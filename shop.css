@@ -438,7 +438,13 @@ h2 { font-size: clamp(2.6rem, 6vw, 4.8rem); }
 }
 .checkout-grid { display: grid; gap: 1rem; margin-top: 1.2rem; }
 .checkout-actions { display: grid; grid-template-columns: 1fr; }
-.paypal-smart-buttons { min-height: 0; }
+.paypal-smart-buttons {
+  background: rgba(255, 247, 234, 0.96);
+  color: #111111;
+  min-height: 0;
+  padding: 0.9rem;
+}
+.paypal-smart-buttons iframe { color-scheme: light; }
 .paypal-smart-buttons:empty { display: none; }
 .payment-success-screen { display: grid; gap: 1rem; }
 .payment-success-card {

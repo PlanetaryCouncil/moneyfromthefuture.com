@@ -33,9 +33,8 @@ const BASKET_KEY = "moneyFromTheFutureBasket";
 const CURRENCY_KEY = "moneyFromTheFutureCurrency";
 const SUCCESS_PAYLOAD_KEY = "moneyFromTheFutureSuccessPayload";
 const SHORTCUT_TIMEOUT_MS = 900;
+const paypalSdkPromises = new Map();
 
-let paypalSdkPromise = null;
-let paypalSdkCurrency = null;
 let renderedPayPalKey = null;
 let shortcutBuffer = "";
 let shortcutTimer = null;
@@ -322,17 +321,14 @@ function renderPaymentSuccess(snapshot, captureId = "") {
 
 function loadPayPalSdk(clientId, currencyCode) {
   const currency = getCurrencyConfig(currencyCode).code;
-  if (window.paypal && paypalSdkCurrency === currency) return Promise.resolve(window.paypal);
-  if (paypalSdkPromise) return paypalSdkPromise;
+  const namespace = `paypal${currency}`;
+  if (window[namespace]) return Promise.resolve(window[namespace]);
+  if (paypalSdkPromises.has(namespace)) return paypalSdkPromises.get(namespace);
 
-  paypalSdkPromise = new Promise((resolve, reject) => {
-    document.querySelectorAll("script[data-paypal-sdk]").forEach((script) => script.remove());
-    try {
-      window.paypal = undefined;
-    } catch {}
-
+  const sdkPromise = new Promise((resolve, reject) => {
     const script = document.createElement("script");
     script.dataset.paypalSdk = currency;
+    script.setAttribute("data-namespace", namespace);
     const params = new URLSearchParams({
       "client-id": clientId,
       currency,
@@ -342,17 +338,25 @@ function loadPayPalSdk(clientId, currencyCode) {
 
     script.src = `https://www.paypal.com/sdk/js?${params.toString()}`;
     script.onload = () => {
-      paypalSdkCurrency = currency;
-      resolve(window.paypal);
+      const sdk = window[namespace];
+      if (!sdk) {
+        paypalSdkPromises.delete(namespace);
+        script.remove();
+        reject(new Error(`PayPal SDK namespace ${namespace} did not load.`));
+        return;
+      }
+      resolve(sdk);
     };
     script.onerror = (error) => {
-      paypalSdkPromise = null;
+      paypalSdkPromises.delete(namespace);
+      script.remove();
       reject(error);
     };
     document.head.appendChild(script);
   });
 
-  return paypalSdkPromise;
+  paypalSdkPromises.set(namespace, sdkPromise);
+  return sdkPromise;
 }
 
 function renderPayPalButtons(basket) {
@@ -637,13 +641,9 @@ function initNewsletter() {
 }
 
 function resetPayPalSdk() {
-  paypalSdkPromise = null;
-  paypalSdkCurrency = null;
   renderedPayPalKey = null;
-  document.querySelectorAll("script[data-paypal-sdk]").forEach((script) => script.remove());
-  try {
-    window.paypal = undefined;
-  } catch {}
+  // Keep loaded PayPal SDK namespaces cached. Removing and reloading the SDK on
+  // every currency switch can make the second switch fail in real browsers.
 }
 
 function initCurrencySelector() {

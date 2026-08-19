@@ -48,6 +48,54 @@ For every feature, add:
 
 ## Changelog
 
+### 2026-08-19 - PayPal Currency Switch Cache
+
+Request summary:
+User reported that the first currency selection works, but the second currency selection makes the PayPal checkout button show `PayPal button could not load.`
+
+Decision:
+Load the PayPal SDK once per currency with a currency-specific namespace, cache the loaded SDK promise, and reuse it on later currency switches instead of removing scripts and deleting namespaces.
+
+Files changed:
+- `shop.js`
+- `tests/site-markup.test.mjs`
+- `changelog-promptlog.md`
+
+Acceptance criteria:
+- Switching currency can reuse an already-loaded PayPal SDK instance for the selected currency.
+- `USD`, `EUR`, and `GBP` do not fight over the same PayPal global namespace.
+- PayPal scripts and namespaces are not deleted during ordinary currency switching.
+- Basket totals and PayPal order creation continue using the selected currency.
+- A regression test guards the cached currency-specific PayPal SDK namespace behavior.
+
+Verification:
+- Ran `npm run verify`: 82 Node tests passed, plus the Jekyll production build smoke test passed.
+
+Follow-up:
+The first cache implementation left a stray `paypalSdkCurrency` assignment after the variable was removed. Because `shop.js` is a JavaScript module, that undeclared assignment caused a runtime `ReferenceError` and prevented PayPal from rendering. Removed the stray assignment and added a regression assertion for it.
+
+### 2026-08-19 - PayPal Card Form Contrast
+
+Request summary:
+User reported that text near the bottom of the PayPal debit/card checkout form was too dark against the green checkout background.
+
+Decision:
+Give the PayPal smart-button/card container a light paper-colored panel and light color scheme so embedded PayPal card-field text remains readable when the card form expands.
+
+Files changed:
+- `shop.css`
+- `tests/site-markup.test.mjs`
+- `changelog-promptlog.md`
+
+Acceptance criteria:
+- PayPal/card checkout text has readable contrast on the checkout page.
+- The checkout card keeps the existing Money From The Future visual direction.
+- No rounded corners are introduced.
+- A regression test guards the readable PayPal panel styling.
+
+Verification:
+- Ran `npm run verify`: 81 Node tests passed, plus the Jekyll production build smoke test passed.
+
 ### 2026-08-18 - Artwork 46 Iceland Eclipse
 
 Request summary:

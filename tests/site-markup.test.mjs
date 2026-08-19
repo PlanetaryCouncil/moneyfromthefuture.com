@@ -12,6 +12,7 @@ const artworkLayout = read("_layouts/artwork.html");
 const basket = read("investment-art/basket.html");
 const artViewer = read("art-viewer.js");
 const shopScript = read("shop.js");
+const shopCss = read("shop.css");
 
 // ---- header ----
 const header = defaultLayout.match(/<header[\s\S]*?<\/header>/)[0];
@@ -145,6 +146,22 @@ test("basket has the PayPal container and order status hooks", () => {
   assert.match(basket, /id="paypal-button-container"/);
   assert.match(basket, /data-paypal-client-id=/);
   assert.match(basket, /data-order-status/);
+});
+
+test("PayPal SDK uses cached currency-specific namespaces", () => {
+  assert.match(shopScript, /const namespace = `paypal\$\{currency\}`/);
+  assert.match(shopScript, /const paypalSdkPromises = new Map\(\)/);
+  assert.match(shopScript, /paypalSdkPromises\.has\(namespace\)/);
+  assert.match(shopScript, /paypalSdkPromises\.set\(namespace, sdkPromise\)/);
+  assert.match(shopScript, /script\.setAttribute\("data-namespace", namespace\)/);
+  assert.match(shopScript, /Keep loaded PayPal SDK namespaces cached/);
+  assert.doesNotMatch(shopScript, /\bpaypalSdkCurrency\b/);
+});
+
+test("PayPal card checkout sits on a readable light panel", () => {
+  assert.match(shopCss, /\.paypal-smart-buttons\s*{[\s\S]*background:\s*rgba\(255,\s*247,\s*234,\s*0\.96\)/);
+  assert.match(shopCss, /\.paypal-smart-buttons\s*{[\s\S]*color:\s*#111111/);
+  assert.match(shopCss, /\.paypal-smart-buttons iframe\s*{\s*color-scheme:\s*light;\s*}/);
 });
 
 test("success state explains why the visible basket is empty", () => {
