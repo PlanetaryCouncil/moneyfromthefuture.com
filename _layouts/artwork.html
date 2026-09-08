@@ -77,7 +77,7 @@ layout: default
         </div>
         <div class="spec-item">
           <dt>Shipping</dt>
-          <dd>{{ page.shipping | default: 'Manufactured locally, in your country' }}</dd>
+          <dd>{% if page.shipping %}{{ page.shipping }}{% else %}Manufactured locally<a href="{{ texture_url | escape }}" target="_blank" rel="noopener" aria-label="Open full-resolution artwork image" title="Open full-resolution image">,</a> in your country{% endif %}</dd>
         </div>
       </dl>
       {% comment %}
