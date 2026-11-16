@@ -164,8 +164,15 @@ test("PayPal card checkout sits on a readable light panel", () => {
   assert.match(shopCss, /\.paypal-smart-buttons iframe\s*{\s*color-scheme:\s*light;\s*}/);
 });
 
-test("success state explains why the visible basket is empty", () => {
-  assert.match(shopScript, /Basket cleared after payment\./);
+test("success state summarizes the purchased order instead of clearing UI copy", () => {
+  assert.match(shopScript, /Paid: \$\{count\}/);
+  assert.match(shopScript, /\$\{item\.quantity === 1 \? "print" : "prints"\} purchased/);
+  assert.match(shopScript, /clearBasket\.hidden = isShowingPurchasedOrder/);
+  assert.match(shopScript, /setPaymentSuccessVisible\(true\);\s*renderBasket\(\);/);
+  assert.doesNotMatch(basket, /data-success-lines/);
+  assert.doesNotMatch(basket, /data-success-summary/);
+  assert.doesNotMatch(basket, /data-success-total/);
+  assert.doesNotMatch(shopScript, /Basket cleared after payment\./);
 });
 
 // ---- art viewer behaviour ----

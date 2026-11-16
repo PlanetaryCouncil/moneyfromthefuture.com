@@ -206,9 +206,7 @@ function updateEmptyBasketMessage() {
   const emptyMessage = document.querySelector(".basket-empty");
   if (!emptyMessage) return;
 
-  emptyMessage.textContent = currentSuccessSnapshot
-    ? "Basket cleared after payment."
-    : "No canvas prints selected yet.";
+  emptyMessage.textContent = "No canvas prints selected yet.";
 }
 
 function escapeHtml(value) {
@@ -266,7 +264,6 @@ function updateCheckoutData(basket, paymentStatus = "Paid via PayPal") {
 
 function renderPaymentSuccess(snapshot, captureId = "") {
   const normalizedSnapshot = normalizeBasket(snapshot);
-  const currency = readCurrency();
 
   if (!paymentSuccessHost || !paymentSuccessTemplate || !isValidSuccessSnapshot(normalizedSnapshot)) {
     hidePaymentSuccess();
@@ -279,44 +276,9 @@ function renderPaymentSuccess(snapshot, captureId = "") {
   updateCheckoutData(normalizedSnapshot, captureId ? `PayPal captured (${captureId})` : "PayPal captured");
 
   const fragment = paymentSuccessTemplate.content.cloneNode(true);
-  const summaryNode = fragment.querySelector("[data-success-summary]");
-  const linesNode = fragment.querySelector("[data-success-lines]");
-  const totalNode = fragment.querySelector("[data-success-total]");
-
-  if (summaryNode) {
-    summaryNode.textContent = getBasketSummaryText(normalizedSnapshot, currency);
-  }
-
-  if (linesNode) {
-    linesNode.innerHTML = normalizedSnapshot.map((item) => {
-      const unit = getItemDisplayPrice(item, currency);
-      const subtotal = item.quantity * unit;
-      return `
-        <div class="payment-success-line">
-          <span>${escapeHtml(`${item.quantity} x ${item.title} (${item.slug})`)}</span>
-          <strong>${escapeHtml(formatMoney(subtotal, currency))}</strong>
-        </div>
-      `;
-    }).join("");
-  }
-
-  if (totalNode) {
-    totalNode.textContent = formatMoney(getBasketDisplayTotal(normalizedSnapshot, currency), currency);
-  }
-
-  const shipNode = fragment.querySelector("[data-success-ship]");
-  if (shipNode) {
-    const details = getCheckoutDetails();
-    const hasAddress = details.name && !details.name.startsWith("[");
-    if (hasAddress) {
-      shipNode.textContent = `Ships to ${[details.name, details.streetAddress, details.city, details.postcode, details.country].filter((part) => part && !part.startsWith("[")).join(", ")}`;
-      shipNode.hidden = false;
-    }
-  }
-
   paymentSuccessHost.replaceChildren(fragment);
   setPaymentSuccessVisible(true);
-  updateEmptyBasketMessage();
+  renderBasket();
 }
 
 function loadPayPalSdk(clientId, currencyCode) {
@@ -451,46 +413,57 @@ function renderPayPalButtons(basket) {
 
 function renderBasket() {
   const basket = readBasket();
+  const displayBasket = currentSuccessSnapshot ? normalizeBasket(currentSuccessSnapshot) : basket;
+  const isShowingPurchasedOrder = Boolean(currentSuccessSnapshot);
   const basketItems = document.getElementById("basket-items");
   const basketSummary = document.getElementById("basket-summary");
   const basketTotal = document.getElementById("basket-total");
+  const clearBasket = document.getElementById("clear-basket");
   const currency = readCurrency();
-  const count = getBasketCount(basket);
-  const total = getBasketDisplayTotal(basket, currency);
+  const count = getBasketCount(displayBasket);
+  const total = getBasketDisplayTotal(displayBasket, currency);
 
-  updateBasketCount(count);
+  updateBasketCount(getBasketCount(basket));
   updateCurrencyPrices(currency);
   updateCheckoutData(getActiveCheckoutBasket());
   renderPayPalButtons(basket);
 
   if (basketSummary) {
-    basketSummary.textContent = `${count} ${count === 1 ? "print" : "prints"} in basket`;
+    basketSummary.textContent = isShowingPurchasedOrder
+      ? `Paid: ${count} ${count === 1 ? "print" : "prints"}`
+      : `${count} ${count === 1 ? "print" : "prints"} in basket`;
   }
 
   if (basketTotal) {
     basketTotal.textContent = formatMoney(total, currency);
   }
 
+  if (clearBasket) {
+    clearBasket.hidden = isShowingPurchasedOrder;
+  }
+
   if (!basketItems) return;
 
-  if (!basket.length) {
+  if (!displayBasket.length) {
     basketItems.innerHTML = '<p class="basket-empty">No canvas prints selected yet.</p>';
     updateEmptyBasketMessage();
     return;
   }
 
-  basketItems.innerHTML = basket.map((item) => `
+  basketItems.innerHTML = displayBasket.map((item) => `
     <article class="basket-item" data-slug="${escapeHtml(item.slug)}">
       <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}">
       <div class="basket-item-copy">
         <strong>${escapeHtml(item.title)}</strong>
         <span class="basket-item-unit">${escapeHtml(formatMoney(getItemDisplayPrice(item, currency), currency))} each</span>
-        <div class="basket-qty">
-          <button type="button" class="qty-btn" data-basket-dec aria-label="Decrease quantity">&minus;</button>
-          <span class="qty-value" aria-live="polite">${item.quantity}</span>
-          <button type="button" class="qty-btn" data-basket-inc aria-label="Increase quantity">+</button>
-          <button type="button" class="basket-remove" data-basket-remove>Remove</button>
-        </div>
+        ${isShowingPurchasedOrder
+          ? `<span class="basket-item-unit">${item.quantity} ${item.quantity === 1 ? "print" : "prints"} purchased</span>`
+          : `<div class="basket-qty">
+              <button type="button" class="qty-btn" data-basket-dec aria-label="Decrease quantity">&minus;</button>
+              <span class="qty-value" aria-live="polite">${item.quantity}</span>
+              <button type="button" class="qty-btn" data-basket-inc aria-label="Increase quantity">+</button>
+              <button type="button" class="basket-remove" data-basket-remove>Remove</button>
+            </div>`}
       </div>
       <strong class="basket-item-total">${escapeHtml(formatMoney(item.quantity * getItemDisplayPrice(item, currency), currency))}</strong>
     </article>

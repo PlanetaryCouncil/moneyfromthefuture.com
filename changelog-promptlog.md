@@ -48,6 +48,31 @@ For every feature, add:
 
 ## Changelog
 
+### 2026-08-19 - Purchased Order Summary After Payment
+
+Request summary:
+User wanted the post-payment basket area to summarize what was purchased instead of saying `Basket cleared after payment`, and to remove the unnecessary `Clear basket` action after checkout.
+
+Decision:
+When payment success is visible, render the saved success snapshot in the left basket panel as a purchased-order summary while keeping the live basket cleared. Keep the right checkout panel minimal with only the payment-success confirmation and order-status message.
+
+Files changed:
+- `investment-art/basket.html`
+- `shop.js`
+- `tests/site-markup.test.mjs`
+- `changelog-promptlog.md`
+
+Acceptance criteria:
+- After successful checkout, the left basket panel shows the purchased item summary.
+- The paid-order summary label uses `Paid` rather than `Purchased`.
+- The right checkout panel does not duplicate the order lines and total.
+- The post-payment view does not show `Basket cleared after payment`.
+- The post-payment view hides the `Clear basket` button.
+- The live basket count can remain zero because checkout has completed.
+
+Verification:
+- Ran `npm run verify`: 82 Node tests passed, plus the Jekyll production build smoke test passed.
+
 ### 2026-08-19 - PayPal Currency Switch Cache
 
 Request summary:
@@ -890,3 +915,31 @@ Still open:
 - Confirm Twitter handle `@moneyFromThe` resolves; decide whether to delete the unlinked `social.md`.
 - Move newsletter to a dedicated Formspree form (currently shares the order form, tagged `source=newsletter`).
 - Live exchange rates (currently hardcoded USD/EUR/GBP).
+
+
+## 2026-11-16 — Artworks 49–55
+
+- Added Bitfest, Higherdimensional Shapeshifter, Infiltrating Reality, Thames Water, One Ticket To Mars, Unknown Bill, and London Decompression to `_artworks/`.
+- Selected each artwork’s existing `THIS` original for the full-resolution viewer. Created matching progressive `WEB.jpg` previews at 800 × 400 pixels for the catalog, basket, initial texture, and social cards. The seven previews total 0.92 MB versus 22.6 MB of source PNGs (95.9% smaller); originals are unchanged.
+- Added image-based draft descriptions in `description_ai` and `description_ai_v2`. Left `description_author` empty for the artist’s incoming copy. Normalized obvious title typos to Bitfest, Infiltrating Reality, and Unknown Bill; source filenames remain unchanged.
+- Made the initial carousel count reflect `artworks.size` instead of a hardcoded 40.
+- Acceptance: 55 catalog entries and generated product pages; new entries use their paired THIS/WEB files, inherited USD 100 pricing, and sequential navigation wrapping from 55 to 01.
+- Verification: production Jekyll smoke build passes; generated HTML confirms all seven catalog links, viewer textures, basket data, social images, and wraparound navigation. All previews are valid progressive JPEGs below 200 KB with the source aspect ratio. The existing fast suite has three pre-existing failures caused by missing AI descriptions on artworks 47–48; these were reproduced before this work. No deployment performed.
+
+
+## 2026-11-16 — Artist copy and SEO review for artworks 49–55
+
+- Inserted all seven artist descriptions as supplied, preserving wording and paragraph breaks. Converted the three supplied URLs to Markdown autolinks so they render as clickable links.
+- Completed one adversarial editorial pass against the artwork images. Replaced uncertain species and object labels, removed an unsupported distance-readability claim, kept the Unknown Bill probability premise attributed to the artwork, and avoided treating depicted prices, edition labels, or debt figures as current product or financial facts.
+- Retained three reviewed image-description paragraphs per artwork, revised each short overview, and added three further contextual SEO paragraphs per artwork (21 additional paragraphs). Used distinct subjects and natural language rather than keyword lists, unverified affiliations, or claims of financial returns. Source attribution to Maria Kreyn remains the artist’s account; Instagram could not be fetched. Checked the supplied Bitfest and Independent Tribunal links without importing additional financial allegations or statistics.
+- Detected that the Bitfest original was renamed during this work to `49-bitfest-manchester-almost-THIS.png`; updated the product reference and regenerated `49-bitfest-manchester-almost-WEB.jpg` from it.
+- Verification: production Jekyll smoke build and generated-page checks cover author wording, rendered links, seven About paragraphs per artwork, metadata, and referenced assets. The three pre-existing AI-description test failures for artworks 47–48 remain outside this change. No deployment performed.
+
+
+## 2026-11-16 — Resolve content checks and prepare full push
+
+- User requested the remaining test failures be investigated, then asked to regenerate `49-bitfest-manchester-almost-THIS.png` as a WEB preview and push all current changes.
+- Completed missing `description_ai` and `description_ai_v2` content on artworks 47 and 48 from their actual images; artist descriptions are unchanged. Added progressive 800 × 400 WEB previews for both, reducing their catalog and social preview sizes to approximately 119 KB and 132 KB.
+- Regenerated `49-bitfest-manchester-almost-WEB.jpg` from the latest THIS original (800 × 400, approximately 133 KB), retaining the current product filenames. Confirmed the JPEG matches a fresh export from the current source.
+- Verification: `npm run verify` passes all 82 fast tests and the production Jekyll build test. Generated pages 47–55 reference existing source and preview files and render their About sections. `git diff --check` passes. Prior three content failures are resolved without changing their tests.
+- Full push scope includes all current source and image additions plus the existing checkout success-summary changes and their regression assertions, as explicitly requested. GitHub Pages deploys automatically on pushes to main.

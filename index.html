@@ -37,7 +37,7 @@ description: Money From The Future online shop.
         <div class="hero-panel-art hero-carousel-art" style="background-image: url('{{ '/images/' | append: hero_preview | relative_url }}');"></div>
         <div class="hero-carousel-controls" aria-label="Artwork carousel controls">
           <button class="hero-carousel-button" type="button" data-hero-prev aria-label="Previous artwork">&lt;</button>
-          <span class="hero-carousel-counter" data-hero-counter>01 / 40</span>
+          <span class="hero-carousel-counter" data-hero-counter>01 / {{ artworks.size }}</span>
           <button class="hero-carousel-button" type="button" data-hero-next aria-label="Next artwork">&gt;</button>
         </div>
         <div class="hero-carousel-progress" aria-hidden="true">
