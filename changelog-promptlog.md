@@ -943,3 +943,10 @@ Still open:
 - Regenerated `49-bitfest-manchester-almost-WEB.jpg` from the latest THIS original (800 × 400, approximately 133 KB), retaining the current product filenames. Confirmed the JPEG matches a fresh export from the current source.
 - Verification: `npm run verify` passes all 82 fast tests and the production Jekyll build test. Generated pages 47–55 reference existing source and preview files and render their About sections. `git diff --check` passes. Prior three content failures are resolved without changing their tests.
 - Full push scope includes all current source and image additions plus the existing checkout success-summary changes and their regression assertions, as explicitly requested. GitHub Pages deploys automatically on pushes to main.
+
+
+## 2026-11-16 — Pages workflow syntax repair
+
+- After pushing `a8b305f`, the branch-based GitHub Pages build and deployment succeeded. A separate existing custom workflow failed validation before any jobs ran.
+- GitHub reported invalid YAML at `.github/workflows/pages.yml` line 32. The shell command contained a colon followed by a space in a plain YAML scalar. Changed `run` to a literal block, preserving the release-commit command.
+- Verification: Ruby YAML parser accepts the complete workflow and the release command is preserved. This repair does not change the active Pages publishing settings.

@@ -29,7 +29,8 @@ jobs:
           bundler-cache: true
 
       - name: Record release commit
-        run: printf '\nrelease_commit: "%s"\n' "${GITHUB_SHA:0:7}" >> _config.yml
+        run: |
+          printf '\nrelease_commit: "%s"\n' "${GITHUB_SHA:0:7}" >> _config.yml
 
       - name: Build Jekyll Site
         run: bundle exec jekyll build
