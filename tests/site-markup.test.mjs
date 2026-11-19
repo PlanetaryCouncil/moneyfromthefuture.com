@@ -112,6 +112,12 @@ test("artwork page add-to-basket button carries all dataset fields", () => {
   }
 });
 
+test("artwork page supports in-person releases without basket controls", () => {
+  assert.match(artworkLayout, /{% if page\.in_person_sale %}/);
+  assert.match(artworkLayout, /page\.availability_notice/);
+  assert.match(artworkLayout, /{% else %}[\s\S]*data-add-to-basket/);
+});
+
 test("artwork page keeps the full-resolution source link disabled", () => {
   assert.match(
     artworkLayout,

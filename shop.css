@@ -835,6 +835,23 @@ input::placeholder, textarea::placeholder { color: rgba(255, 247, 234, 0.52); }
 .buy-price strong { font-size: 2rem; line-height: 1; }
 .buy-box .product-actions { display: grid; gap: 0.6rem; }
 .buy-box .button { width: 100%; text-align: center; }
+.in-person-note {
+  margin: 0;
+  padding: 0.95rem 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 0.96rem;
+  line-height: 1.55;
+}
+.in-person-note .meta-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
 .buy-cert {
   display: flex;
   align-items: baseline;

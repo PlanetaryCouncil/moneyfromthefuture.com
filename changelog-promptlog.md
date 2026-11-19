@@ -48,6 +48,31 @@ For every feature, add:
 
 ## Changelog
 
+### 2026-11-19 - Bitfest In-Person Limited Series
+
+Request summary:
+User wants Bitfest to be sold in person in Manchester as a limited series of 42, with any remaining pieces offered on the website later. The page must not offer an add-to-basket action.
+
+Decision:
+Mark artwork 49 as an in-person release in its artwork data. The shared product layout replaces basket controls with the availability notice only for flagged releases, leaving checkout unchanged for every other artwork.
+
+Files changed:
+- `_artworks/49-bitfest.md`
+- `_layouts/artwork.html`
+- `shop.css`
+- `tests/content-artworks.test.mjs`
+- `tests/site-markup.test.mjs`
+- `changelog-promptlog.md`
+
+Acceptance criteria:
+- Bitfest says it is a limited series of 42 sold in person in Manchester.
+- Bitfest says remaining pieces will be offered on the website.
+- Bitfest has no add-to-basket or view-basket controls.
+- Other artwork pages retain normal basket controls.
+
+Verification:
+- Ran `npm run verify`: 84 Node tests passed, plus the Jekyll production build smoke test passed.
+
 ### 2026-08-19 - Purchased Order Summary After Payment
 
 Request summary:

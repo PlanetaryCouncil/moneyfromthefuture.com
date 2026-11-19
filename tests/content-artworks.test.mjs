@@ -97,3 +97,13 @@ test("description_ai_v2 has three paragraphs of image-based copy", () => {
     assert.ok(paragraphs.join(" ").includes("investment art"), `${file} description_ai_v2 should mention investment art`);
   }
 });
+
+test("Bitfest is an in-person limited release, not a basket product", () => {
+  const source = fs.readFileSync(path.join(ARTWORKS_DIR, "49-bitfest.md"), "utf8");
+  const fm = frontMatter(source);
+  assert.equal(scalar(fm, "in_person_sale"), "true");
+  assert.equal(
+    scalar(fm, "availability_notice"),
+    "This limited series of 42 will be sold in person in Manchester. Any remaining pieces will be offered on the website.",
+  );
+});

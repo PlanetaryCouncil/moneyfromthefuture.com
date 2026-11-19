@@ -94,6 +94,12 @@ layout: default
         <span class="meta-label">Price</span>
         <strong data-currency-price="{{ page.price }}">USD {{ page.price }}</strong>
       </div>
+      {% if page.in_person_sale %}
+      <p class="in-person-note">
+        <span class="meta-label">In-person release</span>
+        {{ page.availability_notice }}
+      </p>
+      {% else %}
       <div class="product-actions">
         <button
           class="button button-primary"
@@ -107,6 +113,7 @@ layout: default
         >Add To Basket</button>
         <a class="button button-secondary" href="{{ '/investment-art/basket.html' | relative_url }}">View Basket (<span data-basket-count>0</span>)</a>
       </div>
+      {% endif %}
       <p class="buy-cert"><span class="cert-mark" aria-hidden="true">✓</span> Comes with certificate of authenticity</p>
       <p class="buy-status" data-basket-status></p>
     </aside>

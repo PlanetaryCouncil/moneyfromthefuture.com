@@ -5,6 +5,8 @@ slug: 49-bitfest
 title: "Bitfest"
 image: "49-bitfest-manchester-almost-THIS.png"
 preview_image: "49-bitfest-manchester-almost-WEB.jpg"
+in_person_sale: true
+availability_notice: "This limited series of 42 will be sold in person in Manchester. Any remaining pieces will be offered on the website."
 description_author: |
   I'm not water maximalist. I'm not coca-cola maximalist. I like beer / orange jouice / tea as well... I do not consider myself a maximalist in any area, other than freedom and freedom of speech. That's why I love (not just like) the Bitcoin crowd. People with principles. So I'll be there, sharing and selling my craft.
 
