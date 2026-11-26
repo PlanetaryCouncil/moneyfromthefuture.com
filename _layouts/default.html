@@ -126,6 +126,25 @@
           </a>
         </div>
       </div>
+      {% if site.data.experiments and site.data.experiments.size > 0 %}
+      <div class="footer-experiments">
+        <div class="footer-experiments-head">
+          <span class="footer-eyebrow">Explore the experiments</span>
+          <a class="footer-experiments-all" href="{{ '/experiments/' | relative_url }}">All experiments →</a>
+        </div>
+        <div class="footer-experiments-links">
+          {% for experiment in site.data.experiments limit: 3 %}
+          <a href="{{ experiment.url | relative_url }}">
+            <img src="{{ '/images/' | append: experiment.image | relative_url }}" alt="" loading="lazy" width="1200" height="600">
+            <span class="footer-experiments-text">
+              <span class="footer-experiments-title">{{ experiment.title }}</span>
+              <span class="footer-experiments-blurb">{{ experiment.blurb }}</span>
+            </span>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
       <div class="footer-bottom">
         <div class="footer-brand">
           <span class="brand-mark">MFTF</span>
@@ -135,6 +154,7 @@
           <a href="{{ '/about.html' | relative_url }}">About Us</a>
           <a href="{{ '/policies.html' | relative_url }}">Policies</a>
           <a href="{{ '/blog/' | relative_url }}">Blog</a>
+          <a href="{{ '/experiments/' | relative_url }}">Experiments</a>
         </nav>
         <a class="footer-release" href="{{ site.repo_url }}{% if site.release_commit %}/commit/{{ site.release_commit }}{% else %}/commits/main{% endif %}" target="_blank" rel="noopener">
           Initial public release{% if site.release_commit %} &middot; {{ site.release_commit }}{% endif %}

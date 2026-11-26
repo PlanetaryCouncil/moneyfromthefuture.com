@@ -615,6 +615,49 @@ input::placeholder, textarea::placeholder { color: rgba(255, 247, 234, 0.52); }
   white-space: nowrap;
 }
 .footer-release:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+
+/* experiments (footer strip + /experiments/ page) */
+.footer-experiments-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.footer-experiments-all { color: var(--muted); font-size: 0.92rem; }
+.footer-experiments-all:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.footer-experiments-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr));
+  gap: 1rem;
+}
+.footer-experiments-links a {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+  padding: 0.8rem;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.footer-experiments-links img { width: 100%; height: auto; aspect-ratio: 2 / 1; object-fit: cover; }
+.footer-experiments-text { display: grid; gap: 0.25rem; min-width: 0; }
+.footer-experiments-title { font-size: 1.08rem; font-weight: 700; }
+.footer-experiments-blurb { font-size: 0.88rem; line-height: 1.45; color: var(--muted); }
+.footer-experiments-links a:hover { background: var(--ink); color: var(--bg); }
+.footer-experiments-links a:hover .footer-experiments-blurb { color: rgba(255, 247, 234, 0.82); }
+.experiments-hero { grid-template-columns: 1fr; }
+.experiment-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 30rem), 1fr)); gap: 1rem; }
+.experiment-card { display: grid; background: var(--paper); border: 1px solid var(--line); box-shadow: var(--shadow); color: var(--ink); }
+.experiment-card-image { width: 100%; height: auto; aspect-ratio: 2 / 1; object-fit: cover; }
+.experiment-card-text { display: grid; gap: 0.5rem; padding: 1.2rem 1.3rem 1.4rem; }
+.experiment-card-title { font-family: "Bebas Neue", sans-serif; font-size: 2.2rem; line-height: 0.95; letter-spacing: 0.03em; }
+.experiment-card-blurb { color: var(--muted); line-height: 1.6; }
+.experiment-card-more { font-weight: 700; margin-top: 0.3rem; }
+.experiment-card:hover .experiment-card-more { text-decoration: underline; text-underline-offset: 3px; }
+
 @media (max-width: 760px) {
   .footer-social-links { grid-template-columns: 1fr; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }

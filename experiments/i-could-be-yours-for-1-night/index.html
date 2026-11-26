@@ -1,0 +1,244 @@
+---
+layout: default
+title: "I Could Be Yours For 1 Night, The Price Is 1 BTC"
+description: A performative, interactive transmedia artwork. A 60 x 40 cm collage on auction at Pepe.X at Bitfest, with a short film and terms and conditions kept under version control on GitHub.
+permalink: /experiments/i-could-be-yours-for-1-night/
+social_image: "i-could-be-yours-WEB.jpg"
+---
+{% assign base = '/experiments/i-could-be-yours-for-1-night/' | relative_url %}
+{% assign auction_url = 'https://scarce.city/auctions/i-could-be-yours-for-1-night-the-price-is-1-btc' %}
+{% assign terms_url = 'https://github.com/PlanetaryCouncil/terms-and-conditions' %}
+{% assign video_url = 'https://www.youtube.com/watch?v=TgF-JVZIEf8' %}
+<style>
+  /* Same shop shell and palette as the other experiments: cream paper, ink, terracotta and teal accents, square corners. */
+  .icb {
+    --terra: #b84f2e;
+    --terra-soft: rgba(204, 91, 55, 0.14);
+    --teal: #0c7b67;
+    --teal-soft: rgba(12, 123, 103, 0.12);
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    --col: 44rem;
+    padding-bottom: 2rem;
+  }
+  .icb .col { max-width: var(--col); }
+  .icb .plate { max-width: 64rem; }
+  .icb-flow, .icb section, .icb-hero { grid-template-columns: minmax(0, 1fr); }
+  .icb-flow { display: grid; gap: 4.5rem; }
+  .icb section { display: grid; gap: 1.1rem; }
+  .icb h1 { font-size: clamp(3.2rem, 8vw, 6.2rem); }
+  .icb h1 .price { color: var(--terra); }
+  .icb h2 { font-size: clamp(2.2rem, 4.6vw, 3.3rem); }
+  .icb h3 { font-size: 1.15rem; margin: 0; }
+  .icb p, .icb li { line-height: 1.7; font-size: 1.04rem; }
+  .icb .lead { margin: 0; font-size: 1.15rem; max-width: none; }
+  .icb .muted { color: var(--muted); }
+  .icb .label { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .icb a:not(.button):not(.door) { text-decoration: underline; text-underline-offset: 3px; }
+
+  .icb-hero { display: grid; gap: 1.6rem; padding: 3rem 0 0; }
+  .icb figure { margin: 0; display: grid; gap: 0.7rem; }
+  .icb .frame { background: var(--paper); border: 1px solid var(--line); box-shadow: var(--shadow); padding: 1rem; }
+  .icb .frame img { width: 100%; height: auto; display: block; }
+  .icb figcaption { font: 400 0.82rem/1.5 var(--mono); color: var(--muted); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.4rem 1rem; }
+  .icb figcaption a { color: var(--ink); }
+  .icb .hero-art { max-width: 46rem; }
+  .icb .actions { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+
+  .icb .doors { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1rem; }
+  .icb .door {
+    display: grid; gap: 0.45rem; align-content: start; padding: 1.2rem; min-width: 0;
+    background: var(--paper); border: 1px solid var(--line); color: var(--ink);
+    transition: background 160ms ease, color 160ms ease;
+  }
+  .icb .door .n { font: 600 0.7rem/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--terra); }
+  .icb .door b { font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: 1.9rem; line-height: 1; letter-spacing: 0.02em; }
+  .icb .door span:last-child { color: var(--muted); font-size: 0.95rem; line-height: 1.5; }
+  .icb .door:hover, .icb .door:focus-visible { background: var(--ink); color: #fff7ea; }
+  .icb .door:hover span:last-child, .icb .door:focus-visible span:last-child { color: rgba(255, 247, 234, 0.7); }
+  .icb .door:hover .n, .icb .door:focus-visible .n { color: #f08a63; }
+
+  .icb .video { position: relative; aspect-ratio: 16 / 9; background: #111; border: 1px solid #111; }
+  .icb .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+  .icb .statement {
+    font-family: "Bebas Neue", sans-serif; font-size: clamp(2.2rem, 6.4vw, 3.8rem); letter-spacing: 0.03em; line-height: 1.02;
+    text-align: center; padding: 1.4rem 1rem 1.1rem; border-block: 1px solid var(--line);
+  }
+  .icb .statement .a { color: var(--terra); }
+  .icb .statement .b { color: var(--teal); }
+
+  .icb .pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; }
+  .icb .card { background: var(--paper); border: 1px solid var(--line); padding: 1.1rem 1.2rem; display: grid; gap: 0.5rem; align-content: start; min-width: 0; }
+  .icb .card p { font-size: 0.96rem; color: var(--muted); margin: 0; }
+  .icb .tag { font: 600 0.68rem/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .icb .tag.t { color: var(--terra); }
+  .icb .tag.g { color: var(--teal); }
+
+  .icb .files { display: grid; gap: 2px; background: var(--line); border: 1px solid var(--line); }
+  .icb .files > div { display: grid; grid-template-columns: 12rem minmax(0, 1fr); gap: 1rem; padding: 0.7rem 1rem; background: var(--paper); align-items: baseline; }
+  .icb .files code { font: 500 0.84rem/1.4 var(--mono); overflow-wrap: anywhere; }
+  .icb .files span { color: var(--muted); font-size: 0.95rem; }
+
+  .icb .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 1.2rem; align-items: start; }
+  .icb .gallery figure .frame { padding: 0.6rem; box-shadow: none; }
+  .icb .gallery figcaption { display: block; font-family: inherit; font-size: 0.92rem; line-height: 1.55; }
+
+  .icb .materials { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0; list-style: none; }
+  .icb .materials li { font: 400 0.84rem/1 var(--mono); padding: 0.5rem 0.7rem; background: var(--paper); border: 1px solid var(--line); }
+  .icb .materials li.k { border-color: rgba(184, 79, 46, 0.45); color: var(--terra); }
+
+  .icb .listing { display: grid; grid-template-columns: minmax(0, 17rem) minmax(0, 1fr); gap: 1.6rem; align-items: start; }
+  .icb .listing .frame { padding: 0.5rem; background: #14143a; border-color: #14143a; }
+  .icb .rows { display: grid; grid-template-columns: 8rem minmax(0, 1fr); gap: 0.45rem 1rem; font: 400 0.88rem/1.55 var(--mono); }
+  .icb .rows > :nth-child(odd) { color: var(--muted); }
+  .icb .rows > * { min-width: 0; overflow-wrap: anywhere; }
+
+  .icb .note { border-left: 3px solid var(--ink); padding-left: 1rem; color: var(--muted); }
+
+  @media (max-width: 640px) {
+    .icb .listing { grid-template-columns: minmax(0, 1fr); }
+    .icb .listing figure { max-width: 17rem; }
+    .icb .files > div { grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
+  }
+</style>
+
+<main class="icb">
+  <div class="icb-flow">
+    <header class="icb-hero">
+      <div class="shell col" style="display:grid;gap:1.2rem;justify-items:start">
+        <span class="eyebrow reveal">Experiments · Performative meme realism</span>
+        <h1 class="reveal delay-1">I Could Be Yours For 1 Night. <span class="price">The Price Is 1&nbsp;BTC.</span></h1>
+        <p class="lead reveal delay-2">A 60 × 40 cm collage, up for auction at Pepe.X at Bitfest. The title is the medium, and the medium is the message. It could be a meme. It could be for real. The audience doesn't know which, and that uncertainty is the work.</p>
+        <div class="actions reveal delay-2">
+          <a class="button button-primary" href="{{ auction_url }}" target="_blank" rel="noopener">Make an offer on Scarce City</a>
+          <a class="button button-secondary" href="{{ terms_url }}" target="_blank" rel="noopener">Read the terms</a>
+        </div>
+      </div>
+      <figure class="shell hero-art reveal delay-2">
+        <div class="frame">
+          <img src="{{ base }}artwork.jpg" alt="The full collage: a red and yellow chevron strip down the left edge, banknotes, an 'In case of emergency break glass' sign, a Ministry of Truth card, a NeuroSparkly brain sticker, a key, a feather, photographs of the artist, an identity form, and printed AI chat screenshots along the bottom edge." width="1329" height="1600">
+        </div>
+        <figcaption>
+          <span>Physical piece · 60 × 40 × 1 cm · 1 kg · mixed media</span>
+          <a href="{{ auction_url }}" target="_blank" rel="noopener">See the listing</a>
+        </figcaption>
+      </figure>
+    </header>
+
+    <section class="shell col" aria-labelledby="ways">
+      <span class="label">Three ways in</span>
+      <h2 id="ways">A Collage, A Film And A Git Repository.</h2>
+      <p>The artwork isn't only the object on the wall. It is spread across three places, and each one shows you a different side of it.</p>
+      <div class="doors">
+        <a class="door" href="{{ video_url }}" target="_blank" rel="noopener"><span class="n">01 · Watch</span><b>The Film</b><span>A short video of the piece, on YouTube.</span></a>
+        <a class="door" href="{{ auction_url }}" target="_blank" rel="noopener"><span class="n">02 · Bid</span><b>The Auction</b><span>Scarce City, Pepe.X at Bitfest. Offers in sats.</span></a>
+        <a class="door" href="{{ terms_url }}" target="_blank" rel="noopener"><span class="n">03 · Read</span><b>The Terms</b><span>Consent, scope and a tribunal, version-controlled on GitHub.</span></a>
+      </div>
+    </section>
+
+    <section class="shell col" aria-labelledby="film">
+      <span class="label">01 · The film</span>
+      <h2 id="film">Watch It First.</h2>
+      <div class="video">
+        <iframe src="https://www.youtube-nocookie.com/embed/TgF-JVZIEf8" title="I could be yours for 1 night, the price is 1 BTC (short film)" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+      <p class="muted" style="margin:0">Not loading? <a href="{{ video_url }}" target="_blank" rel="noopener">Open it on YouTube</a>.</p>
+    </section>
+
+    <section class="shell col" aria-labelledby="idea">
+      <span class="label">The idea</span>
+      <h2 id="idea">The Title Is The Medium.</h2>
+      <div class="statement" role="img" aria-label="It could be a meme. It could be for real.">
+        It could be <span class="a">a meme</span>.<br>It could be <span class="b">for real</span>.
+      </div>
+      <p>The genre is mindfuck and performative meme realism. The engine is <b>hyperstition</b>, not superstition: a fiction that makes itself real by being believed and acted on. Self-fulfilling prophecies. Memes that turn into facts.</p>
+      <p>The sentence on the label does the work. Read once, it sounds like an offer. Read again, it is a hypothetical: <i>could</i>. Then you see the price is in bitcoin, and you start to wonder whether anyone will actually pay it. Whatever you decide, you've already joined in. Buyers don't just own this piece. They become part of it.</p>
+      <p class="note">This is the second experiment on this site. The <a href="{{ '/experiments/self-signed-artwork/' | relative_url }}">first</a> is a picture that contains the number describing itself. This one contains the conversation that decided whether it was allowed to exist.</p>
+    </section>
+
+    <section aria-labelledby="clearance" style="gap:1.4rem">
+      <div class="shell col" style="display:grid;gap:1.1rem">
+        <span class="label">Look at the bottom edge</span>
+        <h2 id="clearance">The Clearance Is Glued Into The Piece.</h2>
+        <p>Before the title was final, the artist asked an AI model whether a title like this could work. The printed screenshots of that conversation are stuck along the bottom of the canvas, as part of the composition. The question, the answer and the reasoning, "<i>I could</i>… = hypothetical, conditional, artistic", sit next to a 0-pound Money From The Future note, a Polish 50 złoty note, and a hologram sticker that says ORIGINAL, tied on with jute string.</p>
+      </div>
+      <figure class="shell plate">
+        <div class="frame"><img src="{{ base }}detail-chat.jpg" alt="Close-up of the bottom edge: printed chat screenshots discussing the title as a hypothetical, conditional, artistic statement, next to banknotes tied with jute string and an ORIGINAL hologram sticker." width="1400" height="952" loading="lazy"></div>
+        <figcaption><span>Detail · the bottom edge: the AI chat, the 0-pound note, the 50 złoty note, the jute bow</span></figcaption>
+      </figure>
+    </section>
+
+    <section class="shell col" aria-labelledby="terms">
+      <span class="label">03 · The terms</span>
+      <h2 id="terms">Terms And Conditions, With A Commit History.</h2>
+      <p>Most artworks come with a certificate. This one comes with a <a href="{{ terms_url }}" target="_blank" rel="noopener">public Git repository</a>. It is a working draft that changes in the open, and its commit log is part of the piece. What "1 night" actually means is written there, not in the title.</p>
+      <div class="files">
+        <div><code>README.md</code><span>The working draft. "I remain in full control" is the essential term.</span></div>
+        <div><code>ARTIST-CONTROL.md</code><span>A purchase gives nobody authority over anyone's body. Either side can decline, pause or stop.</span></div>
+        <div><code>CONSENT.md</code><span>Consent must be specific, revocable and given fresh. A title, a payment or silence never counts.</span></div>
+        <div><code>SERVICE.md</code><span>The proposed minimum: 24 one-hour Ultra Magic Session massages, or live presence over Zoom.</span></div>
+        <div><code>REGULATIONS.md</code><span>"We will decide later": coin-flip regulation, humidity measurement, trial by combat, the Mecha-Godzilla Clause.</span></div>
+        <div><code>TRIBUNAL.md</code><span>Five layers of appeal, every office held by the artist. Satire, disclosed as such.</span></div>
+        <div><code>CHOICE-OF-LAW.md</code><span>Governing law: not chosen yet.</span></div>
+        <div><code>MINIMAL-DISCLAIMER.md</code><span>"Precise ambiguity. Feature, not a bug."</span></div>
+      </div>
+      <div class="pair">
+        <div class="card"><span class="tag t">What it is</span><p>An interactive, performative artwork. The title sets a mood, and the terms set the deliverable: massage sessions or live presence, scoped before anything happens. The paid deliverable includes no sexual activity.</p></div>
+        <div class="card"><span class="tag g">Why it's on GitHub</span><p>Contracts are usually signed once and then frozen. This one is versioned, diffable and forkable, like code, and every amendment carries a timestamp. Couldism, wouldism and shouldism prevail, and the negotiation is part of the artwork.</p></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="closer" style="gap:1.4rem">
+      <div class="shell col" style="display:grid;gap:1.1rem">
+        <span class="label">Look closer</span>
+        <h2 id="closer">It Rewards A Second Look.</h2>
+        <p>The piece is built like a pinboard of one life at one moment. It holds official paperwork and personal photographs, money from three countries and none, and slogans that argue with each other. It also lights up.</p>
+      </div>
+      <div class="shell plate gallery">
+        <figure>
+          <div class="frame"><img src="{{ base }}detail-emergency.jpg" alt="Top right corner: an 'In case of emergency break glass' sign over a blister pack of two blue pills, a Government Banking Service cheque for 34 pounds, a unicorn and rainbow fabric, a coin, and a white rabbit." width="1207" height="1400" loading="lazy"></div>
+          <figcaption>In case of emergency, break glass. Under the sign: a blister of two blue pills, a 34-pound Government Banking Service cheque from the Paymaster General, and a white rabbit to follow.</figcaption>
+        </figure>
+        <figure>
+          <div class="frame"><img src="{{ base }}detail-ministry.jpg" alt="Upper left: a Ministry of Truth card reading 'We decide what is real', a split 11:11 card contrasting awakening and abundance with genocide and starvation, a four-sided die, and a door key." width="1050" height="1400" loading="lazy"></div>
+          <figcaption>Ministry of Truth: "we decide what is real". Next to it, an 11:11 card split between abundance and catastrophe, a four-sided die, and a key (to my heart).</figcaption>
+        </figure>
+        <figure>
+          <div class="frame"><img src="{{ base }}detail-uv.jpg" alt="The NeuroSparkly holographic brain sticker lit blue by the small LED built into the collage, above photographs of the artist outdoors." width="1050" height="1400" loading="lazy"></div>
+          <figcaption>Switch on the built-in LED and the holographic NeuroSparkly brain lights up blue.</figcaption>
+        </figure>
+      </div>
+      <div class="shell col" style="display:grid;gap:0.8rem">
+        <span class="label">Materials, as listed</span>
+        <ul class="materials">
+          <li>Multidimensional</li><li>Business cards</li><li>Duct tape</li><li>LED light</li><li>Cheque</li><li>Banknotes</li><li>Coins</li><li>Crystals</li><li>Wood, painted pink</li><li>A post stamp</li><li>A feather</li><li>A dice</li><li class="k">A key (to my heart)</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="shell col" aria-labelledby="auction">
+      <span class="label">02 · The auction</span>
+      <h2 id="auction">Priced In Bitcoin, Offered In Sats.</h2>
+      <div class="listing">
+        <figure>
+          <div class="frame"><img src="{{ base }}auction-listing.jpg" alt="Screenshot of the Scarce City listing: the artwork, a Make Offer form in sats, an empty Bids panel, and the description." width="385" height="645" loading="lazy"></div>
+          <figcaption><span>The listing, November 2026</span></figcaption>
+        </figure>
+        <div style="display:grid;gap:1rem;align-content:start">
+          <p style="margin:0">The piece is listed on Scarce City, the Bitcoin-native auction house, in the Pepe.X at Bitfest collection. The title says 1 BTC. The offer box takes any amount in satoshis. The gap between the two is where the performance happens.</p>
+          <div class="rows">
+            <span>title</span><span>I could be yours for 1 night, the price is 1 BTC</span>
+            <span>artist</span><span>Marsita · MoneyFromTheFuture.com</span>
+            <span>collection</span><span>Pepe.X at Bitfest</span>
+            <span>size</span><span>60 × 40 × 1 cm · 1 kg</span>
+            <span>shipping</span><span>free</span>
+          </div>
+          <div class="actions">
+            <a class="button button-primary" href="{{ auction_url }}" target="_blank" rel="noopener">Make an offer</a>
+            <a class="button button-secondary" href="{{ terms_url }}" target="_blank" rel="noopener">Terms on GitHub</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>

@@ -68,4 +68,26 @@ test("jekyll production build compiles and emits the key pages", (t) => {
     .readdirSync(path.join(DEST, "investment-art"))
     .filter((f) => /^\d.*\.html$/.test(f)).length;
   assert.equal(builtPages, artworkCount, `expected ${artworkCount} artwork pages, built ${builtPages}`);
+
+  // Experiments: pages render, and the self-signed PNG is copied byte-for-byte (its hash is the artwork).
+  for (const rel of [
+    "experiments/index.html",
+    "experiments/self-signed-artwork/index.html",
+    "experiments/i-could-be-yours-for-1-night/index.html",
+    "experiments/i-could-be-yours-for-1-night/auction-listing.jpg"
+  ]) {
+    assert.ok(fs.existsSync(path.join(DEST, rel)), `build did not emit ${rel}`);
+  }
+  const png = "experiments/self-signed-artwork/singularity-studio.fdbf223d.png";
+  assert.ok(fs.readFileSync(path.join(DEST, png)).equals(fs.readFileSync(path.join(ROOT, png))), `${png} changed during build`);
+  const ssa = fs.readFileSync(path.join(DEST, "experiments/self-signed-artwork/index.html"), "utf8");
+  assert.match(ssa, /<meta property="og:image" content="https:\/\/moneyfromthefuture\.com\/images\/self-signed-artwork-WEB\.jpg">/);
+  assert.match(ssa, /const K = new Int32Array/, "miner script lost inside raw block");
+  assert.match(indexHtml, /class="footer-experiments"/);
+  const icb = fs.readFileSync(path.join(DEST, "experiments/i-could-be-yours-for-1-night/index.html"), "utf8");
+  assert.match(icb, /<meta property="og:image" content="https:\/\/moneyfromthefuture\.com\/images\/i-could-be-yours-WEB\.jpg">/);
+  for (const href of ["scarce.city/auctions/i-could-be-yours-for-1-night-the-price-is-1-btc", "github.com/PlanetaryCouncil/terms-and-conditions", "youtube-nocookie.com/embed/TgF-JVZIEf8"]) {
+    assert.ok(icb.includes(href), `1 BTC page is missing ${href}`);
+  }
+  assert.match(indexHtml, /i-could-be-yours-for-1-night/, "footer should list the 1 BTC experiment");
 });

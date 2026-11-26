@@ -1,0 +1,32 @@
+---
+layout: default
+title: Experiments
+description: Experiments from Money From The Future. Art that does something when you look closer.
+permalink: /experiments/
+social_image: "self-signed-artwork-WEB.jpg"
+---
+<main>
+  <section class="shell hero experiments-hero">
+    <div>
+      <span class="eyebrow reveal">Experiments</span>
+      <h1 class="reveal delay-1">Art That Does Something When You Look Closer.</h1>
+      <p class="lead reveal delay-2">
+        Side quests from the studio: cryptography, file formats and other rabbit holes, worked into the artwork itself.
+      </p>
+    </div>
+  </section>
+  <section class="shell">
+    <div class="experiment-list">
+      {% for experiment in site.data.experiments %}
+      <a class="experiment-card reveal delay-{{ forloop.index0 | modulo: 3 }}" href="{{ experiment.url | relative_url }}">
+        <img class="experiment-card-image" src="{{ '/images/' | append: experiment.image | relative_url }}" alt="" loading="lazy" width="1200" height="600">
+        <span class="experiment-card-text">
+          <span class="experiment-card-title">{{ experiment.title }}</span>
+          <span class="experiment-card-blurb">{{ experiment.blurb }}</span>
+          <span class="experiment-card-more">Open the experiment →</span>
+        </span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+</main>

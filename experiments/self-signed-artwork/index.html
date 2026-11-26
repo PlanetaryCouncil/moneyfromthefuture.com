@@ -1,0 +1,596 @@
+---
+layout: default
+title: Self-Signed Artwork
+description: A painting whose SHA-256 begins with the number painted on it. Proof of work, embedded into art, with a live verifier and an in-browser miner.
+permalink: /experiments/self-signed-artwork/
+social_image: "self-signed-artwork-WEB.jpg"
+---
+{% assign art_file = '/experiments/self-signed-artwork/singularity-studio.fdbf223d.png' | relative_url %}
+<style>
+  /* Article column inside the shop shell; wider "plates" for the art, the block diagram and the file map.
+     Shop palette (cream paper, ink, muted) plus the two accents from the site background:
+     terracotta for the nonce, teal for "verified". Square corners, like the rest of the shop. */
+  .ssa {
+    --terra: #b84f2e;
+    --terra-soft: rgba(204, 91, 55, 0.14);
+    --teal: #0c7b67;
+    --teal-soft: rgba(12, 123, 103, 0.12);
+    --term-bg: #111111;
+    --term-fg: #fff7ea;
+    --term-dim: rgba(255, 247, 234, 0.55);
+    --term-hit: #5fd3bd;
+    --term-terra: #f08a63;
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    --col: 44rem;
+    padding-bottom: 2rem;
+  }
+  .ssa .col { max-width: var(--col); }
+  .ssa .plate { max-width: 64rem; }
+  .ssa-flow { display: grid; gap: 4.5rem; }
+  .ssa section { display: grid; gap: 1.1rem; }
+  .ssa h1 { font-size: clamp(3.4rem, 8.5vw, 6.6rem); }
+  .ssa h2 { font-size: clamp(2.2rem, 4.6vw, 3.3rem); }
+  .ssa h3 { font-size: 1.15rem; }
+  .ssa p, .ssa li { line-height: 1.7; font-size: 1.04rem; }
+  .ssa .lead { margin: 0; font-size: 1.15rem; max-width: none; }
+  .ssa .muted { color: var(--muted); }
+  .ssa code, .ssa .mono { font-family: var(--mono); font-size: 0.88em; }
+  .ssa :not(pre) > code { background: var(--paper); border: 1px solid var(--line); padding: 0.05em 0.35em; }
+  .ssa .sig { font-family: var(--mono); font-weight: 600; color: var(--terra); letter-spacing: 0.02em; }
+  .ssa .num { font-variant-numeric: tabular-nums; }
+  .ssa .label {
+    font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);
+  }
+
+  .ssa-hero { display: grid; gap: 1.6rem; padding: 3rem 0 0; }
+  .ssa-hero figure { margin: 0; display: grid; gap: 0.7rem; }
+  .ssa-hero .frame { background: var(--paper); border: 1px solid var(--line); box-shadow: var(--shadow); padding: 1rem; }
+  .ssa-hero img { width: 100%; height: auto; }
+  .ssa figcaption { font: 400 0.82rem/1.5 var(--mono); color: var(--muted); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.4rem 1rem; }
+  .ssa figcaption a { text-decoration: underline; text-underline-offset: 3px; color: var(--ink); }
+
+  .ssa pre, .ssa .term {
+    margin: 0; background: var(--term-bg); color: var(--term-fg); border: 1px solid var(--term-bg);
+    font: 400 0.84rem/1.65 var(--mono); padding: 1rem 1.15rem; overflow-x: auto;
+  }
+  .ssa .term .p { color: var(--term-dim); user-select: none; }
+  .ssa .term .o { color: var(--term-dim); }
+  .ssa .term .hit { color: var(--term-hit); }
+  .ssa .term .t { color: var(--term-terra); }
+
+  .ssa .panel { background: var(--paper); border: 1px solid var(--line); box-shadow: 0 14px 44px rgba(42, 24, 8, 0.08); padding: 1.4rem; display: grid; gap: 1rem; }
+  .ssa .rows { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: 0.35rem 1rem; font: 400 0.86rem/1.6 var(--mono); }
+  .ssa .rows > :nth-child(odd) { color: var(--muted); }
+  .ssa .rows > * { min-width: 0; overflow-wrap: anywhere; }
+  .ssa .hit { color: var(--teal); font-weight: 600; }
+  .ssa .status { font-weight: 700; display: flex; align-items: center; gap: 0.6rem; }
+  .ssa .dot { width: 0.65rem; height: 0.65rem; background: var(--muted); flex: none; }
+  .ssa .status.ok { color: var(--teal); }
+  .ssa .status.ok .dot { background: var(--teal); }
+  .ssa .status.bad { color: var(--terra); }
+  .ssa .status.bad .dot { background: var(--terra); }
+  .ssa .drop {
+    position: relative; display: grid; place-items: center; text-align: center; gap: 0.3rem; cursor: pointer;
+    border: 1px dashed rgba(17, 17, 17, 0.3); padding: 1.1rem; color: var(--muted); font-size: 0.93rem;
+  }
+  .ssa .drop.over { border-color: var(--ink); background: rgba(255, 255, 255, 0.5); color: var(--ink); }
+  .ssa .drop input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  .ssa .drop:focus-within { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+  .ssa .equation {
+    font-family: "Bebas Neue", sans-serif; font-size: clamp(2.4rem, 7vw, 4rem); letter-spacing: 0.04em; text-align: center;
+    padding: 1.4rem 1rem 1.1rem; border-block: 1px solid var(--line); line-height: 1;
+  }
+  .ssa .equation .s { color: var(--terra); }
+  .ssa .equation .h { color: var(--teal); }
+
+  .ssa .strip { display: flex; height: 2.4rem; border: 1px solid var(--line); background: var(--paper); }
+  .ssa .strip .fixed {
+    flex: 1; min-width: 0; display: flex; align-items: center; padding-inline: 0.8rem; overflow: hidden; white-space: nowrap;
+    font: 400 0.78rem/1 var(--mono); color: var(--muted);
+    background: repeating-linear-gradient(90deg, transparent 0 3px, rgba(17, 17, 17, 0.08) 3px 4px);
+  }
+  .ssa .strip .last { flex: none; width: 6rem; display: grid; place-items: center; background: var(--ink); color: var(--term-fg); font: 500 0.78rem/1 var(--mono); }
+  .ssa .bytes { display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); gap: 3px; }
+  .ssa .bytes span {
+    aspect-ratio: 1; min-width: 0; display: grid; place-items: center; font: 400 clamp(0.5rem, 1.6vw, 0.78rem)/1 var(--mono);
+    background: var(--paper); border: 1px solid var(--line); color: var(--muted);
+  }
+  .ssa .bytes .n { background: var(--terra-soft); color: var(--terra); border-color: rgba(184, 79, 46, 0.4); font-weight: 600; }
+  .ssa .bytes .pad { color: var(--ink); }
+  .ssa .bytes .len { background: rgba(17, 17, 17, 0.06); color: var(--ink); }
+  .ssa .legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1.6rem; font: 400 0.8rem/1.4 var(--mono); color: var(--muted); }
+  .ssa .legend .t { color: var(--terra); }
+
+  .ssa .tablewrap { overflow-x: auto; border: 1px solid var(--line); background: var(--paper); }
+  .ssa table { border-collapse: collapse; width: 100%; font: 400 0.88rem/1.4 var(--mono); font-variant-numeric: tabular-nums; }
+  .ssa th, .ssa td { padding: 0.65rem 0.9rem; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  .ssa th:first-child, .ssa td:first-child { text-align: left; }
+  .ssa th { font-weight: 500; color: var(--muted); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; }
+  .ssa tr:last-child td { border-bottom: 0; }
+  .ssa tr.this td { color: var(--terra); font-weight: 600; }
+
+  .ssa .anatomy { display: grid; gap: 2px; background: var(--line); border: 1px solid var(--line); }
+  .ssa .seg { display: grid; grid-template-columns: 8rem minmax(0, 1fr) auto; gap: 1rem; align-items: baseline; padding: 0.75rem 1rem; background: var(--paper); font-size: 0.95rem; }
+  .ssa .seg .off { font: 400 0.78rem/1.4 var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+  .ssa .seg .what { min-width: 0; overflow-wrap: anywhere; }
+  .ssa .seg .who { font: 600 0.68rem/1 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; padding: 0.3rem 0.5rem; }
+  .ssa .seg.png .who { background: var(--teal-soft); color: var(--teal); }
+  .ssa .seg.zip .who { background: var(--terra-soft); color: var(--terra); }
+  .ssa .seg.big { padding-block: 1.7rem; }
+  .ssa .seg.nonce { background: #fff7ea; }
+
+  .ssa .pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; }
+  .ssa .card { background: var(--paper); border: 1px solid var(--line); padding: 1.1rem 1.2rem; display: grid; gap: 0.5rem; align-content: start; min-width: 0; }
+  .ssa .card p { font-size: 0.96rem; color: var(--muted); }
+  .ssa .card .mono { overflow-wrap: anywhere; color: var(--ink); }
+  .ssa .tag { font: 600 0.68rem/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+
+  .ssa .controls { display: flex; flex-wrap: wrap; gap: 0.8rem 1rem; align-items: end; }
+  .ssa .field { display: grid; gap: 0.4rem; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); line-height: 1; }
+  .ssa .field input, .ssa .field select {
+    font: 400 1rem/1.2 "Space Grotesk", sans-serif; color: var(--ink); background: #fffdf8; border: 1px solid var(--line);
+    border-radius: 0; padding: 0.7rem 0.8rem; min-height: 3rem; letter-spacing: 0; text-transform: none;
+  }
+  .ssa .field input { width: 15rem; max-width: 100%; }
+  .ssa .button:disabled { opacity: 0.45; cursor: default; transform: none; }
+  .ssa .sentence { font: 400 0.9rem/1.6 var(--mono); background: #fffdf8; border: 1px solid var(--line); padding: 0.9rem 1rem; overflow-wrap: anywhere; min-height: 3.4rem; }
+  .ssa .sentence .t { color: var(--terra); font-weight: 600; }
+  .ssa .stats { display: flex; flex-wrap: wrap; gap: 0.5rem 1.6rem; font: 400 0.82rem/1.4 var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+  .ssa .stats b { color: var(--ink); font-weight: 600; }
+
+  .ssa ul.plain { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.7rem; }
+  .ssa .note { border-left: 3px solid var(--ink); padding-left: 1rem; color: var(--muted); }
+  .ssa a:not(.button) { text-decoration: underline; text-underline-offset: 3px; }
+
+  @media (max-width: 560px) {
+    .ssa .seg { grid-template-columns: minmax(0, 1fr) auto; }
+    .ssa .seg .off { grid-column: 1 / -1; }
+    .ssa .rows { grid-template-columns: minmax(0, 1fr); }
+    .ssa .rows > :nth-child(odd) { margin-top: 0.4rem; }
+  }
+</style>
+
+<main class="ssa">
+  <div class="ssa-flow">
+    <header class="ssa-hero">
+      <div class="shell col" style="display:grid;gap:1.2rem;justify-items:start">
+        <span class="eyebrow reveal">Experiments · Proof of work, embedded into art</span>
+        <h1 class="reveal delay-1">A Painting That Hashes To Itself.</h1>
+        <p class="lead reveal delay-2">The number at the bottom of this picture is <span class="sig">fdbf223d</span>. Run the file through SHA-256 and the result starts with <span class="sig">fdbf223d</span>. Nobody edited the number afterwards. It was painted first, and then the file was searched for until it agreed.</p>
+      </div>
+      <figure class="shell plate reveal delay-2">
+        <div class="frame">
+          <img src="{{ art_file }}" alt="Singularity Studio artwork: three hooded figures drinking tea at a glowing table under a starry sky, with the signature fdbf223d painted at the bottom centre." width="2000" height="1122">
+        </div>
+        <figcaption>
+          <span>singularity-studio.fdbf223d.png · 3,053,520 bytes · the exact file, untouched</span>
+          <a href="{{ art_file }}" download>Download the original file</a>
+        </figcaption>
+      </figure>
+      <div class="shell col">
+<pre class="term"><span class="p">$ </span>shasum -a 256 singularity-studio.fdbf223d.png
+<span class="hit">fdbf223d</span><span class="o">9bab0c00dbbe2f5004cd364f95712e09515493718b0c93743a566f2e</span></pre>
+      </div>
+    </header>
+
+    <section class="shell col" aria-labelledby="live">
+      <span class="label">Check it here</span>
+      <h2 id="live">Your Browser Just Verified It.</h2>
+      <p>Finding the file took billions of attempts. Checking it takes one hash. This page downloaded the picture above and ran SHA-256 over every byte.</p>
+      <div class="panel" aria-live="polite">
+        <div class="status" id="v-status"><span class="dot"></span><span id="v-msg">Hashing the artwork…</span></div>
+        <div class="rows">
+          <span>painted</span><span id="v-sig">reading PNG metadata…</span>
+          <span>sha-256</span><span id="v-hash">…</span>
+          <span>time</span><span id="v-time">…</span>
+          <span>file ends with</span><span id="v-tail">…</span>
+        </div>
+        <label class="drop" id="drop" for="file">
+          <input type="file" id="file" accept=".png,image/png">
+          <span><b style="color:var(--ink)">Drop your own copy here</b> to check it instead</span>
+          <span style="font-size:0.84rem">Hashed on your device. Nothing is uploaded. A screenshot or re-saved copy will fail, which is the point.</span>
+        </label>
+      </div>
+    </section>
+
+    <section class="shell col" aria-labelledby="eq">
+      <span class="label">The idea</span>
+      <h2 id="eq">The Artwork Contains The Number That Describes Itself.</h2>
+      <div class="equation" role="img" aria-label="s equals Prefix of H of I of s and n">
+        <span class="s">s</span> = Prefix(<span class="h">H</span>(I(<span class="s">s</span>, n)))
+      </div>
+      <p><i>I(s, n)</i> is the image file with signature <i>s</i> painted in and some nonce <i>n</i> tucked away somewhere. <i>H</i> is SHA-256. The goal is a file whose hash starts with the very digits drawn on it.</p>
+      <p>You cannot compute this. SHA-256 gives you no way to steer the output, so changing one byte reshuffles the whole hash. The only way in is to guess: try a nonce, hash, compare, repeat. Each hex digit you ask for multiplies the expected number of tries by 16. Eight digits means about <b class="num">4,294,967,296</b> tries on average. That cost is the point. It is proof of work, painted where you can see it.</p>
+    </section>
+
+    <section class="shell col" aria-labelledby="trick1">
+      <span class="label">Trick 1</span>
+      <h2 id="trick1">Paint Once, Search Somewhere Else.</h2>
+      <p>The obvious approach re-renders the image for every guess: draw a candidate, encode a PNG, hash three megabytes, throw it away. At that rate, four billion guesses would take months.</p>
+      <p>Instead the signature is painted exactly once and never touched again. The thing that changes is a 16-character counter at the very end of the file, where image viewers never look. The pixels stay fixed and only the tail of the file changes. It is still the same equation, solved in a cheaper order.</p>
+    </section>
+
+    <section aria-labelledby="trick2" style="gap:1.4rem">
+      <div class="shell col" style="display:grid;gap:1.1rem">
+        <span class="label">Trick 2</span>
+        <h2 id="trick2">Hash 3 MB Once, Then 64 Bytes Per Guess.</h2>
+        <p>SHA-256 eats its input in 64-byte blocks, front to back, carrying a 32-byte internal state from one block to the next. If the first 3,053,504 bytes never change, the state after them never changes either. So the miner hashes those <b class="num">47,711</b> blocks one time, saves the state (the <i>midstate</i>), and from then on every guess costs a single block.</p>
+      </div>
+      <div class="shell plate" style="display:grid;gap:1rem">
+        <div class="strip" role="img" aria-label="47,711 fixed blocks followed by one final block that changes">
+          <div class="fixed">47,711 blocks · PNG pixels, metadata, embedded ZIP · hashed once</div>
+          <div class="last">block 47,712</div>
+        </div>
+        <div class="bytes" id="bytes" role="img" aria-label="The final 64-byte block: 16 nonce characters, the 0x80 padding byte, 39 zero bytes and the 8-byte message length"></div>
+        <div class="legend">
+          <span><span class="t">■</span> 16 nonce characters, the only bytes that change</span>
+          <span>80 · SHA-256 end marker</span>
+          <span>00 · padding</span>
+          <span>last 8 · file length in bits (24,428,160)</span>
+        </div>
+      </div>
+      <div class="shell col">
+        <p>It lines up exactly because the signer pads the trailer with dots until the nonce starts on a block boundary. You can see that padding in the file: <code>::.........&nbsp;nonce=</code>. Those nine dots buy a 47,712× speed-up.</p>
+      </div>
+    </section>
+
+    <section class="shell col" aria-labelledby="trick3">
+      <span class="label">Trick 3</span>
+      <h2 id="trick3">Let The Silicon Do It.</h2>
+      <p>Apple Silicon, like most modern ARM chips, has dedicated SHA-256 instructions. The miner is about 200 lines of C. Its inner loop is four instructions per four rounds, run on all ten cores of an M1 Max:</p>
+<pre><code>for (int i = 0; i &lt; 16; i++) {
+    uint32x4_t wk = vaddq_u32(m[i &amp; 3], vld1q_u32(K + 4 * i));
+    if (i &lt; 12)
+        m[i &amp; 3] = vsha256su1q_u32(vsha256su0q_u32(m[i &amp; 3], m[(i + 1) &amp; 3]),
+                                   m[(i + 2) &amp; 3], m[(i + 3) &amp; 3]);
+    uint32x4_t t = abcd;
+    abcd = vsha256hq_u32(abcd, efgh, wk);
+    efgh = vsha256h2q_u32(efgh, t, wk);
+}</code></pre>
+      <p>That runs at about <b class="num">155 million guesses per second</b>. This signature needed 5,681,174,478 of them: about 37 seconds, and a little unlucky (1.3× the average).</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Digits</th><th>Expected tries</th><th>M1 Max, 155 MH/s</th></tr></thead>
+          <tbody>
+            <tr><td>6</td><td>16,777,216</td><td>0.1 s</td></tr>
+            <tr><td>7</td><td>268,435,456</td><td>1.7 s</td></tr>
+            <tr class="this"><td>8 · this painting</td><td>4,294,967,296</td><td>28 s</td></tr>
+            <tr><td>9</td><td>68,719,476,736</td><td>7.4 min</td></tr>
+            <tr><td>10</td><td>1,099,511,627,776</td><td>2.0 h</td></tr>
+            <tr><td>12</td><td>2.8 × 10<sup>14</sup></td><td>21 days</td></tr>
+            <tr><td>16</td><td>1.8 × 10<sup>19</sup></td><td>3,800 years</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted">The digit count is a dial between a coffee break and a geological era. For scale, the Bitcoin network would find a 16-digit one in well under a second.</p>
+    </section>
+
+    <section class="shell col" aria-labelledby="trick4">
+      <span class="label">Trick 4</span>
+      <h2 id="trick4">The Signature Survives The Act Of Signing.</h2>
+      <p>Which eight digits to paint? Not random ones. <span class="sig">fdbf223d</span> is the start of the hash of the original, unsigned artwork. Signing it changes millions of pixels and appends a whole archive, and the hash still starts the same way.</p>
+      <div class="pair">
+        <div class="card">
+          <span class="tag">Before</span>
+          <h3>singularity-studio.webp</h3>
+          <p class="mono"><span class="sig">fdbf223d</span>525ac774b57bfacd22d9dee29f25cc882fd3c6565e2b22e16f722957</p>
+        </div>
+        <div class="card">
+          <span class="tag">After</span>
+          <h3>singularity-studio.fdbf223d.png</h3>
+          <p class="mono"><span class="sig">fdbf223d</span>9bab0c00dbbe2f5004cd364f95712e09515493718b0c93743a566f2e</p>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="trick5" style="gap:1.4rem">
+      <div class="shell col" style="display:grid;gap:1.1rem">
+        <span class="label">Trick 5</span>
+        <h2 id="trick5">It Is Also A ZIP File That Contains Its Own Source Code.</h2>
+        <p>PNG readers start at the front of a file and stop at the <code>IEND</code> chunk. ZIP readers start at the back and look for the end-of-archive record. So one file can be both, and this one is. Unzip the painting and you get the program that painted it, the miner that searched for it, and a verifier.</p>
+      </div>
+      <div class="shell plate anatomy" role="list">
+        <div class="seg png" role="listitem"><span class="off">0</span><span class="what"><b>PNG header, colour profile</b> and three text chunks: Author, Signature = fdbf223d, and how to check it</span><span class="who">png</span></div>
+        <div class="seg png big" role="listitem"><span class="off">458 – 3,045,104</span><span class="what"><b>47 IDAT chunks</b> · the 2000 × 1122 pixels, signature included</span><span class="who">png</span></div>
+        <div class="seg png" role="listitem"><span class="off">3,045,105</span><span class="what"><b>IEND</b> · image viewers stop reading here</span><span class="who">png</span></div>
+        <div class="seg zip" role="listitem"><span class="off">3,045,117</span><span class="what"><b>README.txt, verify.py, sign.py, miner.c</b> · compressed, 17.8 KB unpacked</span><span class="who">zip</span></div>
+        <div class="seg zip" role="listitem"><span class="off">3,053,188</span><span class="what"><b>Central directory</b> and end-of-archive record · ZIP readers start here</span><span class="who">zip</span></div>
+        <div class="seg zip nonce" role="listitem"><span class="off">3,053,427</span><span class="what mono">fdbf223d :: Singularity Studio :: s = Prefix(SHA256(self)) ::......... nonce=<span class="sig">00000001529fd7ce</span></span><span class="who">trailer</span></div>
+      </div>
+      <div class="shell col" style="display:grid;gap:1.1rem">
+<pre class="term"><span class="p">$ </span>unzip -l singularity-studio.fdbf223d.png
+<span class="o">  Length      Date    Time    Name
+---------  ---------- -----   ----
+      879  10-16-2026 00:00   README.txt
+     1440  10-16-2026 00:00   verify.py
+     7777  10-16-2026 00:00   sign.py
+     7710  10-16-2026 00:00   miner.c</span>
+<span class="p">$ </span>tail -c 93 singularity-studio.fdbf223d.png
+<span class="o">fdbf223d :: Singularity Studio :: s = Prefix(SHA256(self)) ::......... nonce=</span><span class="t">00000001529fd7ce</span></pre>
+        <p>The ZIP is part of the hashed bytes too. Change one character of the README and the painting stops matching its own number.</p>
+      </div>
+    </section>
+
+    <section class="shell col" aria-labelledby="mine">
+      <span class="label">Try it</span>
+      <h2 id="mine">Mine A Sentence That Knows Its Own Hash.</h2>
+      <p>Same idea, same midstate trick, in plain JavaScript on every core of your device. Type a name, and the page writes a sentence claiming its own SHA-256 starts with a few hex digits taken from your name's hash. Then it searches for the nonce that makes the claim true.</p>
+      <div class="panel">
+        <div class="controls">
+          <label class="field" for="m-name">Your name<input id="m-name" maxlength="24" value="Ada Lovelace" autocomplete="off" spellcheck="false"></label>
+          <label class="field" for="m-k">Digits
+            <select id="m-k"><option>4</option><option selected>5</option><option>6</option><option>7</option></select>
+          </label>
+          <button id="m-go" type="button" class="button button-primary">Mine</button>
+          <button id="m-stop" type="button" class="button button-secondary" disabled>Stop</button>
+        </div>
+        <div class="sentence" id="m-sentence" aria-live="polite">Press Mine. Five digits usually takes a second or two.</div>
+        <div class="stats"><span>tries <b id="m-tries">0</b></span><span>speed <b id="m-rate">–</b></span><span>time <b id="m-time">–</b></span><span>workers <b id="m-workers">–</b></span></div>
+        <div class="status" id="m-status" hidden><span class="dot"></span><span id="m-msg"></span></div>
+        <pre class="term" id="m-cmd" hidden></pre>
+      </div>
+    </section>
+
+    <section class="shell col" aria-labelledby="proves">
+      <span class="label">Limits</span>
+      <h2 id="proves">What It Proves, And What It Doesn't.</h2>
+      <div class="pair">
+        <div class="card">
+          <h3>Proves</h3>
+          <p>Someone spent about 2<sup>32</sup> SHA-256 computations on exactly these bytes. The picture, the metadata and the embedded code are sealed together: change any byte and the claim breaks.</p>
+        </div>
+        <div class="card">
+          <h3>Doesn't prove</h3>
+          <p>Who made it. Anyone can take the image, put their own name in, and spend the same 30 seconds. Authorship needs a real signature (Ed25519) or a public timestamp on top.</p>
+        </div>
+      </div>
+      <p class="note">The proof lives in the exact bytes. Instagram, X and most messengers re-encode images on upload, which strips the archive and breaks the hash. To share the real thing, send the file itself, or a link that serves it untouched, like this page.</p>
+    </section>
+
+    <section class="shell col" aria-labelledby="deeper">
+      <span class="label">Further down</span>
+      <h2 id="deeper">Where The Rabbit Hole Goes Next.</h2>
+      <p class="muted">None of these are built yet. They are the sketches on the studio wall.</p>
+      <ul class="plain">
+        <li><b>Paint the block it will land in.</b> Put a future Bitcoin block height on the canvas, then record the file's hash in that exact block. Bitcoin's <code>nLockTime</code> rule guarantees the transaction can't be mined any earlier, and a high fee sent the moment the previous block appears lands it there most of the time.</li>
+        <li><b>Add an authorship signature.</b> An Ed25519 signature in the metadata, with the public key published elsewhere, closes the gap above.</li>
+        <li><b>A binary that runs everywhere, inside the painting.</b> Cosmopolitan's "actually portable executables" are single files that run natively on Linux, macOS and Windows. Put the verifier in the ZIP as one, and the picture carries a program any computer can run.</li>
+        <li><b>A gallery over SSH.</b> <code>ssh</code> ships with macOS, Linux and Windows. One identical command on every machine could open the art, the story and the verifier in a terminal.</li>
+      </ul>
+    </section>
+
+    <section class="shell col" aria-labelledby="yourself">
+      <span class="label">Verify without this page</span>
+      <h2 id="yourself">Check It With The Tools You Already Have.</h2>
+<pre class="term"><span class="o"># macOS / Linux</span>
+<span class="p">$ </span>shasum -a 256 singularity-studio.fdbf223d.png
+<span class="p">$ </span>unzip singularity-studio.fdbf223d.png &amp;&amp; python3 verify.py singularity-studio.fdbf223d.png
+
+<span class="o"># Windows</span>
+<span class="p">&gt; </span>certutil -hashfile singularity-studio.fdbf223d.png SHA256
+<span class="p">&gt; </span>tar -xf singularity-studio.fdbf223d.png</pre>
+      <p>Then look at the bottom of the picture and compare. Hard to find, easy to verify.</p>
+    </section>
+  </div>
+</main>
+
+<script type="text/plain" id="miner-src">{% raw %}
+const K = new Int32Array([
+  0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+  0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+  0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+  0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+  0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+  0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+  0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+  0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2]);
+const IV = [0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+const W = new Int32Array(64);
+
+// One SHA-256 compression of a 64-byte block (Uint8Array, offset o) into state s (Int32Array of 8).
+function compress(s, b, o, out) {
+  for (let i = 0; i < 16; i++) { const j = o + 4 * i; W[i] = (b[j] << 24) | (b[j + 1] << 16) | (b[j + 2] << 8) | b[j + 3]; }
+  for (let i = 16; i < 64; i++) {
+    const x = W[i - 15], y = W[i - 2];
+    const s0 = ((x >>> 7) | (x << 25)) ^ ((x >>> 18) | (x << 14)) ^ (x >>> 3);
+    const s1 = ((y >>> 17) | (y << 15)) ^ ((y >>> 19) | (y << 13)) ^ (y >>> 10);
+    W[i] = (W[i - 16] + s0 + W[i - 7] + s1) | 0;
+  }
+  let a = s[0], bb = s[1], c = s[2], d = s[3], e = s[4], f = s[5], g = s[6], h = s[7];
+  for (let i = 0; i < 64; i++) {
+    const S1 = ((e >>> 6) | (e << 26)) ^ ((e >>> 11) | (e << 21)) ^ ((e >>> 25) | (e << 7));
+    const t1 = (h + S1 + ((e & f) ^ (~e & g)) + K[i] + W[i]) | 0;
+    const S0 = ((a >>> 2) | (a << 30)) ^ ((a >>> 13) | (a << 19)) ^ ((a >>> 22) | (a << 10));
+    const t2 = (S0 + ((a & bb) ^ (a & c) ^ (bb & c))) | 0;
+    h = g; g = f; f = e; e = (d + t1) | 0; d = c; c = bb; bb = a; a = (t1 + t2) | 0;
+  }
+  out[0] = (s[0] + a) | 0; out[1] = (s[1] + bb) | 0; out[2] = (s[2] + c) | 0; out[3] = (s[3] + d) | 0;
+  out[4] = (s[4] + e) | 0; out[5] = (s[5] + f) | 0; out[6] = (s[6] + g) | 0; out[7] = (s[7] + h) | 0;
+}
+
+// Search nonces "WWWWWWcccccccccc" (worker id + counter) so that SHA-256(prefix || nonce) starts with target.
+function mine({ prefix, target, worker }) {
+  const NL = 16, L = prefix.length, full = L - (L % 64), tail = L - full;
+  const mid = new Int32Array(IV);
+  for (let o = 0; o < full; o += 64) compress(mid, prefix, o, mid);
+  const blk = new Uint8Array(64);
+  blk.set(prefix.subarray(full), 0);
+  blk[tail + NL] = 0x80;
+  const bits = (L + NL) * 8;
+  blk[60] = (bits >>> 24) & 255; blk[61] = (bits >>> 16) & 255; blk[62] = (bits >>> 8) & 255; blk[63] = bits & 255;
+  const head = worker.toString(16).padStart(6, "0");
+  for (let i = 0; i < 6; i++) blk[tail + i] = head.charCodeAt(i);
+  for (let i = 6; i < NL; i++) blk[tail + i] = 48;
+  const shift = 32 - 4 * target.length, want = parseInt(target, 16), out = new Int32Array(8);
+  let n = 0;
+  for (;;) {
+    compress(mid, blk, 0, out);
+    n++;
+    if ((out[0] >>> shift) === want) {
+      postMessage({ found: String.fromCharCode(...blk.subarray(tail, tail + NL)), n });
+      return;
+    }
+    for (let i = tail + NL - 1; ; i--) {
+      const ch = blk[i];
+      if (ch === 57) { blk[i] = 97; break; }
+      if (ch !== 102) { blk[i] = ch + 1; break; }
+      blk[i] = 48;
+    }
+    if ((n & 0x3ffff) === 0) postMessage({ n: 0x40000 });
+  }
+}
+onmessage = (e) => mine(e.data);
+{% endraw %}</script>
+
+<script data-art="{{ art_file }}" id="ssa-script">{% raw %}
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const ART = $("ssa-script").dataset.art;
+  const hex = (buf) => Array.from(new Uint8Array(buf), (b) => b.toString(16).padStart(2, "0")).join("");
+  const sha = async (data) => hex(await crypto.subtle.digest("SHA-256", data));
+  const fmt = (n) => n.toLocaleString("en-US");
+  const esc = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+
+  // Final-block diagram: nonce, 0x80, zero padding, 64-bit length.
+  const cells = [];
+  for (const ch of "00000001529fd7ce") cells.push(`<span class="n">${ch}</span>`);
+  cells.push(`<span class="pad">80</span>`);
+  for (let i = 0; i < 39; i++) cells.push(`<span>00</span>`);
+  for (const b of ["00", "00", "00", "00", "01", "74", "be", "80"]) cells.push(`<span class="len">${b}</span>`);
+  $("bytes").innerHTML = cells.join("");
+
+  function pngText(u8) {
+    const out = {};
+    const dv = new DataView(u8.buffer, u8.byteOffset, u8.byteLength);
+    const sig = [137, 80, 78, 71, 13, 10, 26, 10];
+    if (u8.length < 8 || sig.some((v, i) => u8[i] !== v)) return null;
+    let i = 8;
+    while (i + 8 <= u8.length) {
+      const n = dv.getUint32(i);
+      const kind = String.fromCharCode(...u8.subarray(i + 4, i + 8));
+      if (kind === "tEXt") {
+        const body = u8.subarray(i + 8, i + 8 + n);
+        const z = body.indexOf(0);
+        out[String.fromCharCode(...body.subarray(0, z))] = String.fromCharCode(...body.subarray(z + 1));
+      }
+      if (kind === "IEND") break;
+      i += 12 + n;
+    }
+    return out;
+  }
+
+  function zipTrailer(u8) {
+    for (let i = u8.length - 22; i >= Math.max(0, u8.length - 65557); i--) {
+      if (u8[i] === 0x50 && u8[i + 1] === 0x4b && u8[i + 2] === 5 && u8[i + 3] === 6) {
+        const len = u8[i + 20] | (u8[i + 21] << 8);
+        return new TextDecoder().decode(u8.subarray(i + 22, i + 22 + len));
+      }
+    }
+    return null;
+  }
+
+  async function verify(buf, label) {
+    const u8 = new Uint8Array(buf);
+    const t0 = performance.now();
+    const digest = await sha(u8);
+    const ms = performance.now() - t0;
+    const text = pngText(u8);
+    const s = (text && text.Signature) || "";
+    const ok = !!s && /^[0-9a-f]+$/.test(s) && digest.startsWith(s);
+    $("v-sig").innerHTML = s ? `<span class="sig">${esc(s)}</span>` : `<span class="muted">${text ? "no signature in this PNG" : "not a PNG"}</span>`;
+    $("v-hash").innerHTML = ok ? `<span class="hit">${digest.slice(0, s.length)}</span>${digest.slice(s.length)}` : digest;
+    $("v-time").textContent = `${ms.toFixed(ms < 10 ? 1 : 0)} ms for ${fmt(u8.length)} bytes`;
+    $("v-tail").textContent = zipTrailer(u8) || "no ZIP trailer";
+    $("v-status").className = "status " + (ok ? "ok" : "bad");
+    $("v-msg").textContent = ok
+      ? `${label}: valid. Its SHA-256 starts with the ${s.length} digits painted on it (about ${fmt(16 ** s.length)} expected tries to find).`
+      : `${label}: the hash does not start with the painted signature.`;
+  }
+
+  if (!window.crypto || !crypto.subtle) {
+    $("v-status").className = "status bad";
+    $("v-msg").textContent = "This browser can't run SHA-256 here. Use the commands at the bottom of the page instead.";
+  } else {
+    fetch(ART)
+      .then((r) => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
+      .then((b) => verify(b, "The artwork on this page"))
+      .catch(() => { $("v-status").className = "status bad"; $("v-msg").textContent = "Couldn't download the artwork to check it. Drop a copy below instead."; });
+  }
+
+  const drop = $("drop"), input = $("file");
+  const take = (f) => f && f.arrayBuffer().then((b) => verify(b, f.name));
+  input.addEventListener("change", () => take(input.files[0]));
+  drop.addEventListener("dragover", (e) => { e.preventDefault(); drop.classList.add("over"); });
+  drop.addEventListener("dragleave", () => drop.classList.remove("over"));
+  drop.addEventListener("drop", (e) => { e.preventDefault(); drop.classList.remove("over"); take(e.dataTransfer.files[0]); });
+
+  // Mini miner.
+  let workers = [], timer = null;
+  const src = URL.createObjectURL(new Blob([$("miner-src").textContent], { type: "text/javascript" }));
+  const enc = new TextEncoder();
+
+  function stop() {
+    workers.forEach((w) => w.terminate());
+    workers = [];
+    clearInterval(timer);
+    $("m-go").disabled = false;
+    $("m-stop").disabled = true;
+  }
+
+  async function go() {
+    stop();
+    const name = ($("m-name").value.replace(/[^A-Za-z0-9 ._-]/g, "").trim() || "anonymous").slice(0, 24);
+    const k = +$("m-k").value;
+    const s = (await sha(enc.encode(name))).slice(0, k);
+    let head = `The SHA-256 of this line starts with ${s}. Signed: ${name}.`;
+    // Pad with dots so the 16-char nonce fits in one final block.
+    while ((head.length + 7) % 64 > 39) head += ".";
+    head += " nonce=";
+    const prefix = enc.encode(head);
+    $("m-sentence").innerHTML = `${esc(head)}<span class="muted">????????????????</span>`;
+    $("m-status").hidden = true;
+    $("m-cmd").hidden = true;
+    $("m-go").disabled = true;
+    $("m-stop").disabled = false;
+
+    const n = Math.max(1, Math.min(16, navigator.hardwareConcurrency || 4));
+    $("m-workers").textContent = n;
+    let tries = 0;
+    const t0 = performance.now();
+    const tick = () => {
+      const dt = (performance.now() - t0) / 1000;
+      $("m-tries").textContent = fmt(tries);
+      $("m-time").textContent = dt.toFixed(1) + " s";
+      if (dt > 0.05) $("m-rate").textContent = (tries / dt / 1e6).toFixed(1) + " MH/s";
+    };
+    timer = setInterval(tick, 200);
+    for (let i = 0; i < n; i++) {
+      const w = new Worker(src);
+      w.onmessage = async (e) => {
+        if (!e.data.found) { tries += e.data.n; return; }
+        // Workers run in lockstep, so the winner's count times the worker count is the honest total.
+        tries = Math.max(tries, e.data.n * n);
+        const line = head + e.data.found;
+        stop();
+        tick();
+        const digest = await sha(enc.encode(line));
+        const ok = digest.startsWith(s);
+        $("m-sentence").innerHTML = `${esc(head)}<span class="t">${e.data.found}</span>`;
+        $("m-status").hidden = false;
+        $("m-status").className = "status " + (ok ? "ok" : "bad");
+        $("m-msg").innerHTML = ok
+          ? `Found. SHA-256 = <span class="mono"><span class="hit">${digest.slice(0, k)}</span>${digest.slice(k, 24)}…</span>`
+          : `Mismatch: ${digest}`;
+        $("m-cmd").hidden = false;
+        $("m-cmd").innerHTML = `<span class="p">$ </span>printf '%s' '${esc(line)}' | shasum -a 256`;
+      };
+      w.postMessage({ prefix, target: s, worker: i });
+      workers.push(w);
+    }
+  }
+
+  $("m-go").addEventListener("click", go);
+  $("m-stop").addEventListener("click", stop);
+})();
+{% endraw %}</script>

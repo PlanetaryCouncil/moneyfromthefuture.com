@@ -48,6 +48,69 @@ For every feature, add:
 
 ## Changelog
 
+### 2026-11-26 - Experiments: I Could Be Yours For 1 Night, The Price Is 1 BTC
+
+Request summary:
+Add the performative artwork "I could be yours for 1 night, the price is 1 BTC" as the second experiment. Link the short film (YouTube), the Scarce City auction (Pepe.X at Bitfest) and the terms repo (`PlanetaryCouncil/terms-and-conditions`). Use the auction page screenshot, trimmed to the listing only, as a JPG.
+
+Decision:
+Standalone page at `/experiments/i-could-be-yours-for-1-night/` in the same palette as the first experiment, with styles scoped under `.icb`. The page is built around three doors (film, auction, terms). The YouTube embed uses `youtube-nocookie.com` with a plain fallback link. The terms are summarised file by file from the repo's v0.11 draft, and the page links to the repo rather than restating it. The photos were converted from WebP to JPG (max 1400–1600px). The auction screenshot was cropped above "More from Pepe.X at Bitfest" and kept at its native 385px width. The social/thumbnail image is a 1200x630 crop in `images/`.
+
+Files changed:
+- `experiments/i-could-be-yours-for-1-night/index.html`
+- `experiments/i-could-be-yours-for-1-night/*.jpg` (artwork, three details, bottom-edge detail, auction listing)
+- `images/i-could-be-yours-WEB.jpg`
+- `_data/experiments.yml`
+- `tests/experiments.test.mjs`
+- `tests/smoke/build.test.mjs`
+- `changelog-promptlog.md`
+
+Acceptance criteria:
+- The footer and `/experiments/` list both experiments, newest first.
+- The page links the auction, the terms repo and the video, and embeds the video.
+- Every local image referenced by an experiment page exists.
+
+Verification:
+- `npm run verify` and a local preview (see the session notes for this change).
+
+Known limits / next work:
+- The auction screenshot is a point-in-time capture (November 2026) and will drift from the live listing.
+- The terms summary reflects draft v0.11. Update it if the repo changes materially.
+
+### 2026-11-24 - Experiments: Self-Signed Artwork
+
+Request summary:
+Publish the self-signed artwork write-up (a painting whose SHA-256 starts with the hex number painted on it, and which is also a ZIP of its own source) on Money From The Future at `/experiments/self-signed-artwork/`, in the shop's palette, and add an "Explore the experiments" section near the bottom of every page.
+
+Decision:
+Experiments are listed in `_data/experiments.yml` (newest first). The shared footer shows up to three of them between the social links and the footer bar, and the footer nav links to a new `/experiments/` index. The write-up is a standalone page with its styles scoped under `.ssa`; its scripts sit in `{% raw %}` blocks so Liquid leaves them alone. The signed PNG is served from the page's folder as a static file. Its bytes are the artwork, so it must never be re-encoded, resized or optimised; the social/thumbnail image is a separate JPEG in `images/`.
+
+Files changed:
+- `experiments/index.html`
+- `experiments/self-signed-artwork/index.html`
+- `experiments/self-signed-artwork/singularity-studio.fdbf223d.png`
+- `images/self-signed-artwork-WEB.jpg`
+- `_data/experiments.yml`
+- `_layouts/default.html`
+- `shop.css`
+- `tests/experiments.test.mjs`
+- `tests/smoke/build.test.mjs`
+- `changelog-promptlog.md`
+
+Acceptance criteria:
+- `/experiments/self-signed-artwork/` renders in the shop palette with square corners.
+- The page downloads the PNG, hashes it in the browser and reports it valid (SHA-256 starts with `fdbf223d`).
+- The in-page miner finds a self-describing sentence and the shown digest matches.
+- Every page's footer shows "Explore the experiments" and the footer nav links to `/experiments/`.
+- The built PNG is byte-identical to the source.
+
+Verification:
+- `npm run verify`: unit tests and Jekyll build smoke pass, including the new checks (PNG hash still starts with its Signature chunk, built PNG byte-identical, experiment pages emitted, og:image set).
+- Local preview at `http://localhost:4000/experiments/self-signed-artwork/`: verifier reported valid; miner found a 5-digit match at about 13 MH/s; no horizontal scroll at 1024px or 375px; footer strip and `/experiments/` page checked visually.
+
+Known limits / next work:
+- The proof only holds for the exact bytes; a CDN or tool that recompresses PNGs would break it (the smoke test guards the Jekyll step only).
+
 ### 2026-11-19 - Bitfest In-Person Limited Series
 
 Request summary:

@@ -1,0 +1,12 @@
+# Experiments listed in the footer and on /experiments/. Newest first.
+# url: page permalink · image: file in /images/ (2:1 crop is applied) · blurb: one line.
+- title: I Could Be Yours For 1 Night, The Price Is 1 BTC
+  url: /experiments/i-could-be-yours-for-1-night/
+  image: i-could-be-yours-WEB.jpg
+  blurb: A collage on auction for 1 BTC. A meme, or for real? The terms and conditions live on GitHub.
+  date: 2026-11-26
+- title: Self-Signed Artwork
+  url: /experiments/self-signed-artwork/
+  image: self-signed-artwork-WEB.jpg
+  blurb: A painting whose SHA-256 begins with the number painted on it. It is also a ZIP of its own source code.
+  date: 2026-11-24
